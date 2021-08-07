@@ -7,16 +7,21 @@ Enable USB Host of CM4.
 The CM4 datasheet says:
 
 > The USB interface is disabled to save power by default on the CM4 . To enable it you need to add
-> `dtoverlay=dwc2,dr_mode=host` to the `config.txt` file
+> `dtoverlay=dwc2,dr_mode=host` to the `/boot/config.txt` file
 
 For more information, read [Raspberry Compute Module 4 Datasheet][1].
 
 
 ## Enable PCM5102 DAC
 
-Add the following line to the `config.txt` file.
+Add the following line to the `/boot/config.txt` file.
 ```
 dtoverlay=hifiberry-dac
+```
+
+Disable the default HDMI audio output (this is critical for Bluetooth A2DP Sink setup) by commenting the following line
+```
+#dtparam=audio=on
 ```
 
 For more information, read [How to make various DACs work][2].
@@ -24,7 +29,7 @@ For more information, read [How to make various DACs work][2].
 
 ## Enable DS1307 RTC
 
-Add the following line to the `config.txt` file.
+Add the following line to the `/boot/config.txt` file.
 ```
 dtoverlay=i2c-rtc,ds1307
 ```
@@ -77,7 +82,7 @@ Create Systemd service file on `/etc/systemd/system/aplay.service`
 Description=BlueALSA aplay service
 After=bluetooth.service
 Requires=bluetooth.service
- 
+
 [Service]
 ExecStart=/usr/bin/bluealsa-aplay 00:00:00:00:00:00
 
@@ -92,11 +97,15 @@ sudo systemctl enable aplay
 
 After rebooting, set the Bluetooth as *discoverable* on the system tray icon.
 Now the CM4 is recognized as a valid Bluetooth audio device from any phone.
-But the sound will only be outputed via HDMI.
+
+But the sound will only be outputed via default HDMI audio if it is not disabled correctly on `/boot/config.txt`.
+If the sound only comes out from HDMI display, check if PCM5102 (hifiberry) is set as the default audio output.
+It should show only one audio device like `card 0: sndrpihifiberry [snd_rpi_hifiberry_dac], ...`
+```sh
+aplay -l
+```
 
 For more information, read [Raspberry Pi 3 Bluetooth A2DP Sink/Reciever Setup Problem][4]
-
-> TODO: need to fix Bluetooth audio autput to PCM5102 DAC.
 
 
 ## Reference
