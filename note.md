@@ -1,4 +1,5 @@
-# Setting Up Pi as an A2DP Sink Device
+# Setting Up CM4 on Eastec K9 Board
+
 
 ## Enable USB Host
 
@@ -8,6 +9,9 @@ The CM4 datasheet says:
 > The USB interface is disabled to save power by default on the CM4 . To enable it you need to add
 > `dtoverlay=dwc2,dr_mode=host` to the `config.txt` file
 
+For more information, read [Raspberry Compute Module 4 Datasheet][1].
+
+
 ## Enable PCM5102 DAC
 
 Add the following line to the `config.txt` file.
@@ -15,6 +19,9 @@ Add the following line to the `config.txt` file.
 ```
 dtoverlay=hifiberry-dac
 ```
+
+For more information, read [How to make various DACs work][2].
+
 
 ## Enable DS1307 RTC
 
@@ -60,10 +67,12 @@ sudo hwclock -r
 sudo hwclock -w
 ```
 
+For more information, read [Adding a Real-Time Clock to Raspberry Pi][3].
+
 
 ## Reference
 
-* [Raspberry Pi Compute Module 4 Datasheet](https://datasheets.raspberrypi.org/cm4/cm4-datasheet.pdf)
-* [How to make various DACs work](https://github.com/guussie/PiDS/wiki/09.-How-to-make-various-DACs-work)
-* [Adding a Real-Time Clock to Raspberry Pi](https://learn.adafruit.com/adding-a-real-time-clock-to-raspberry-pi)
-* [Raspberry Pi Audio Receiver](https://github.com/nicokaiser/rpi-audio-receiver)
+* [1]: <https://datasheets.raspberrypi.org/cm4/cm4-datasheet.pdf> "Raspberry CM4 Datasheet"
+* [2]: <https://github.com/guussie/PiDS/wiki/09.-How-to-make-various-DACs-work> "How to make various DACs work"
+* [3]: <https://learn.adafruit.com/adding-a-real-time-clock-to-raspberry-pi> "Adding a Real-Time Clock to Raspberry Pi"
+<!-- * [4]: <https://github.com/nicokaiser/rpi-audio-receiver> "Raspberry Pi Audio Receiver" -->
