@@ -18,7 +18,47 @@ dtoverlay=hifiberry-dac
 
 ## Enable DS1307 RTC
 
-https://learn.adafruit.com/adding-a-real-time-clock-to-raspberry-pi/set-rtc-time
+Add the following line to the `config.txt` file.
+
+```
+dtoverlay=i2c-rtc,ds1307
+```
+
+Reboot and see `UU` is showed up by `i2cdetect` command
+
+```sh
+sudo i2cdetect -y 1
+```
+
+Remove and disable *fake hwclock*
+
+```sh
+sudo apt-get -y remove fake-hwclock
+sudo update-rc.d -f fake-hwclock remove
+sudo systemctl disable fake-hwclock
+```
+
+Edit `/lib/udev/hwclock-set` and comment these 5 lines
+
+```
+...
+#if [ -e /run/systemd/system ] ; then
+# exit 0
+#fi
+...
+#/sbin/hwclock --rtc=$dev --systz --badyear
+...
+#/sbin/hwclock --rtc=$dev --systz
+...
+```
+
+Sync time from Pi to RTC
+
+```sh
+sudo hwclock -r
+# if time is not correct, set it manually before writing
+sudo hwclock -w
+```
 
 
 ## Reference
