@@ -2,5 +2,5 @@
 
 ## Hardware
 
-<img src="https://raw.githubusercontent.com/hotteshen/eastec.k9/develop/hardware/overview-v1.jpeg" width=300>
-<img src="https://raw.githubusercontent.com/hotteshen/eastec.k9/develop/hardware/overview-v2.jpeg" width=538>
+<img src="https://github.com/hotteshen/eastec.k9/blob/develop/hardware/overview-v1.jpeg?raw=true" width=300>
+<img src="https://github.com/hotteshen/eastec.k9/blob/develop/hardware/overview-v2.jpeg?raw=true" width=538>
