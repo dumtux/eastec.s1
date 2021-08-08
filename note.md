@@ -9,7 +9,7 @@ The CM4 datasheet says:
 > The USB interface is disabled to save power by default on the CM4 . To enable it you need to add
 > `dtoverlay=dwc2,dr_mode=host` to the `/boot/config.txt` file
 
-For more information, read [Raspberry Compute Module 4 Datasheet][1].
+For more information, read the datasheet ([1]).
 
 
 ## Enable PCM5102 DAC
@@ -24,7 +24,7 @@ Disable the default HDMI audio output (this is critical for Bluetooth A2DP Sink 
 #dtparam=audio=on
 ```
 
-For more information, read [How to make various DACs work][2].
+For more information, read the article ([2]).
 
 
 ## Enable DS1307 RTC
@@ -66,7 +66,7 @@ sudo hwclock -r
 sudo hwclock -w
 ```
 
-For more information, read [Adding a Real-Time Clock to Raspberry Pi][3].
+For more information, read the article ([3]).
 
 
 ## Bluetooth A2DP Sink Setup
@@ -105,12 +105,17 @@ It should show only one audio device like `card 0: sndrpihifiberry [snd_rpi_hifi
 aplay -l
 ```
 
-For more information, read [Raspberry Pi 3 Bluetooth A2DP Sink/Reciever Setup Problem][4]
+For more information, read the article ([4]).
 
 
 ## Reference
 
-* [1]: <https://datasheets.raspberrypi.org/cm4/cm4-datasheet.pdf> "Raspberry CM4 Datasheet"
-* [2]: <https://github.com/guussie/PiDS/wiki/09.-How-to-make-various-DACs-work> "How to make various DACs work"
-* [3]: <https://learn.adafruit.com/adding-a-real-time-clock-to-raspberry-pi> "Adding a Real-Time Clock to Raspberry Pi"
-* [4]: <https://www.raspberrypi.org/forums/viewtopic.php?t=161770> "Raspberry Pi 3 Bluetooth A2DP Sink/Reciever Setup Problem"
+* (1) [Raspberry Compute Module 4 Datasheet][1]
+* (2) [How to make various DACs work][2]
+* (3) [Adding a Real-Time Clock to Raspberry Pi][3]
+* (4) [Raspberry Pi 3 Bluetooth A2DP Sink/Reciever Setup Problem][4]
+
+[1]: <https://datasheets.raspberrypi.org/cm4/cm4-datasheet.pdf> "Raspberry CM4 Datasheet"
+[2]: <https://github.com/guussie/PiDS/wiki/09.-How-to-make-various-DACs-work> "How to make various DACs work"
+[3]: <https://learn.adafruit.com/adding-a-real-time-clock-to-raspberry-pi> "Adding a Real-Time Clock to Raspberry Pi"
+[4]: <https://www.raspberrypi.org/forums/viewtopic.php?t=161770> "Raspberry Pi 3 Bluetooth A2DP Sink/Reciever Setup Problem"
