@@ -71,6 +71,12 @@ For more information, read the article ([3]).
 
 ## Bluetooth A2DP Sink Setup
 
+Install [Bluealsa](https://github.com/raspberrypi-ui/bluealsa)
+```sh
+sudo apt install bluealsa
+```
+
+
 Edit `/lib/systemd/system/bluealsa.service` file, the last line as
 ```
 ExecStart=/usr/bin/bluealsa --profile=a2dp-sink
