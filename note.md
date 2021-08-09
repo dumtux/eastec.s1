@@ -114,14 +114,37 @@ aplay -l
 For more information, read the article ([4]).
 
 
+## Bluetooth GPIO Control Alongside A2DP
+
+While the K9 is connected as an A2DP Sink device and being streamed audio,
+it is possible to receive control data.
+
+Install [BlueDot](https://github.com/martinohanlon/BlueDot)
+```
+sudo pip3 install bluedot
+```
+
+Install BlueDot Android app and do testing.
+```python
+from bluedot import BlueDot
+bd = BlueDot()
+while(bd.wait_for_press()):
+    print("You pressed the blue dot!")
+```
+
+For more information, read the doc ([5]).
+
+
 ## Reference
 
 * (1) [Raspberry Compute Module 4 Datasheet][1]
 * (2) [How to make various DACs work][2]
 * (3) [Adding a Real-Time Clock to Raspberry Pi][3]
 * (4) [Raspberry Pi 3 Bluetooth A2DP Sink/Reciever Setup Problem][4]
+* (5) [Blue Dot Documentation][5]
 
 [1]: <https://datasheets.raspberrypi.org/cm4/cm4-datasheet.pdf> "Raspberry CM4 Datasheet"
 [2]: <https://github.com/guussie/PiDS/wiki/09.-How-to-make-various-DACs-work> "How to make various DACs work"
 [3]: <https://learn.adafruit.com/adding-a-real-time-clock-to-raspberry-pi> "Adding a Real-Time Clock to Raspberry Pi"
 [4]: <https://www.raspberrypi.org/forums/viewtopic.php?t=161770> "Raspberry Pi 3 Bluetooth A2DP Sink/Reciever Setup Problem"
+[5]: <https://bluedot.readthedocs.io/en/latest/> "Raspberry Pi 3 BlueDot Documentation"
