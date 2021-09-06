@@ -135,6 +135,17 @@ while(bd.wait_for_press()):
 For more information, read the doc ([5]).
 
 
+## Hide Mouse Cursor
+
+Add the following line to `[Seat*]` section of `/etc/lightdm/lightdm.conf` file.
+
+```
+xserver-command = X -nocursor
+```
+
+For more information, read the QA ([6]).
+
+
 ## Reference
 
 * (1) [Raspberry Compute Module 4 Datasheet][1]
@@ -148,3 +159,4 @@ For more information, read the doc ([5]).
 [3]: <https://learn.adafruit.com/adding-a-real-time-clock-to-raspberry-pi> "Adding a Real-Time Clock to Raspberry Pi"
 [4]: <https://www.raspberrypi.org/forums/viewtopic.php?t=161770> "Raspberry Pi 3 Bluetooth A2DP Sink/Reciever Setup Problem"
 [5]: <https://bluedot.readthedocs.io/en/latest/> "Raspberry Pi 3 BlueDot Documentation"
+[6]: <https://raspberrypi.stackexchange.com/questions/53127/how-to-permanently-hide-mouse-pointer-or-cursor-on-raspberry-pi> "How to permanently hide mouse pointer or cursor on Raspberry PI?"
