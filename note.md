@@ -146,6 +146,21 @@ xserver-command = X -nocursor
 For more information, read the QA ([6]).
 
 
+## Change Bluetooth Device Name
+
+Create file `/etc/machine-info` with,
+
+```
+PRETTY+HOSTNAME=Eastec-SOne
+```
+
+To apply this, need to restart the system, or restart the Bluetooth service.
+
+```sh
+sudo service bluetooth restart
+```
+
+
 ## Reference
 
 * (1) [Raspberry Compute Module 4 Datasheet][1]
