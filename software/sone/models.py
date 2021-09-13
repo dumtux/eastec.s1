@@ -22,7 +22,8 @@ class Light(BaseModel):
     brightness: int
 
     def serialize(self) -> dict:
-        return self.dict()
+        data = self.dict()
+        data["color"] = data["color"].serialize()
 
     @staticmethod
     def deserialize(data: dict):
