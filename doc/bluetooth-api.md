@@ -58,3 +58,9 @@ uvicorn sone.bt_app:app
 ```
 
 Open <http://localhost:8000/docs> and test the API.
+
+
+---
+
+* Created on 15 Sep 2021
+* Last modified on 15 Sep 2021
