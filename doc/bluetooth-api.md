@@ -34,7 +34,7 @@ We assume that the Bluetooth RFCOMM client instance of the mobile application wi
 {
     "method": "GET",
     "endpoint": "/sauna/{sauna_id}/status",
-    "parameters": {"sauna_id": sauna_id},
+    "parameters": {"sauna_id": "sauna_id"},
     "description": "get status",
     "body": null
 }
@@ -48,7 +48,7 @@ The Bluetooth RFCOMM server instance running on the SOne device will return the 
 As a reference for the mobile app developers, we built a small example application.
 It has a Bluetooth RFCOMM client and REST API facade interface.
 
-After cloning this repository,
+After cloning this repository, install Python dependencies and run the facade server.
 
 ```sh
 cd software
@@ -57,4 +57,4 @@ pip install fastapi uvicorn
 uvicorn sone.bt_app:app
 ```
 
-, then visit <http://localhost:8000/docs>.
+Open <http://localhost:8000/docs> and test the API.
