@@ -1,5 +1,7 @@
 # Bluetooth API for the SOne device status control
 
+**The contents of this document are provisional. It may be changed during the integration of BT API and GUI Application.**
+
 
 ## Protocol
 
