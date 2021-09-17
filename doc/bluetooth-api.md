@@ -62,7 +62,89 @@ uvicorn sone.bt_app:app
 Open <http://localhost:8000/docs> and test the API.
 
 
+## API Reference (by examples)
+
+### Get Sauna Status
+
+* Get the Sauna status of the given `sauna_id`.
+* Return data wrapping the response of `/sauna/{sauna_id}/status` GET endpoint.
+
+```json
+{
+    "method": "GET",
+    "endpoint": "/sauna/{sauna_id}/status",
+    "parameters": {"sauna_id": "foo_sauna"},
+    "description": "Get Sauna Status",
+    "body": null
+}
+```
+
+### Update Sauna Status
+
+* Update a Sauna state of the given `sauna_id`.
+* Return data wrapping the response of `/sauna/{sauna_id}/status` PUT endpoint.
+
+```json
+{
+    "method": "PUT",
+    "endpoint": "/sauna/{sauna_id}/status",
+    "parameters": {"sauna_id": "sauna_id"},
+    "description": "Update Sauna Status",
+    "body": {
+        "state": "string"
+    }
+}
+```
+
+### Get Sauna Schedules
+
+* Get the Sauna schedules list of the given `sauna_id`.
+* Return data wrapping the response of `/sauna/{sauna_id}/schedules` GET endpoint.
+
+```json
+{
+    "method": "GET",
+    "endpoint": "/sauna/{sauna_id}/schedules",
+    "parameters": {"sauna_id": "sauna_id"},
+    "description": "Get Sauna Schedules",
+    "body": null
+}
+```
+
+### Add Sauna Schedules
+
+* Add multiple Sauna schedules to the schedule list of the given `sauna_id`.
+* Return data wrapping the response of `/sauna/{sauna_id}/schedules` POST endpoint.
+
+```json
+{
+    "method": "POST",
+    "endpoint": "/sauna/{sauna_id}/schedules",
+    "parameters": {"sauna_id": "sauna_id"},
+    "description": "Add Sauna Schedules",
+    "body": [
+        // enumerate of schedules here
+    ]
+}
+```
+
+### Delete Sauna Schedule
+
+* Delete a schedule of the given `schedule_id` from the schedule list of the given `sauna_id`.
+* Return data wrapping the response of `/sauna/{sauna_id}/schedules/{schedule_id}` DELETE endpoint.
+
+```json
+{
+    "method": "DELETE",
+    "endpoint": "/sauna/{sauna_id}/schedules",
+    "parameters": {"sauna_id": "sauna_id"},
+    "description": "Delete Sauna Schedule",
+    "body": null
+}
+```
+
+
 ---
 
 * Created on 15 Sep 2021
-* Last modified on 15 Sep 2021
+* Last modified on 18 Sep 2021

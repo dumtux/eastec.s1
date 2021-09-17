@@ -6,7 +6,7 @@ from .models import Schedule, Status, StatusUpdates
 from .bt_facade import HTTPError, BluetoothFacade
 
 
-bt_facade = BluetoothFacade()
+# bt_facade = BluetoothFacade()
 sauna_router = APIRouter(
     prefix="/sauna",
 )
@@ -44,7 +44,7 @@ async def add_sauna_schedules(sauna_id: str, schedules: List[Schedule]):
 
 
 @schedules_router.delete("/{sauna_id}/schedules/{schedule_id}", response_model=List[Schedule], responses={404: {"description": "Sauna ID or Schedule ID not found", "model": HTTPError}})
-async def add_sauna_schedules(sauna_id: str, schedule_id: str):
+async def delete_sauna_schedule(sauna_id: str, schedule_id: str):
     await bt_facade.delete_schedule(sauna_id, schedule_id)
     return await bt_facade.get_schedules(sauna_id)
 
