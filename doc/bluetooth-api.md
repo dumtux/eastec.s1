@@ -69,6 +69,8 @@ Open <http://localhost:8000/docs> and test the API.
 * Get the Sauna status of the given `sauna_id`.
 * Return data wrapping the response of `/sauna/{sauna_id}/status` GET endpoint.
 
+#### Example request
+
 ```json
 {
     "method": "GET",
@@ -79,10 +81,35 @@ Open <http://localhost:8000/docs> and test the API.
 }
 ```
 
+#### Example response
+
+```json
+{
+    "response_code": "200",
+    "body": {
+        "state": "string",
+        "sauna_id": "string",
+        "firmware_version": 0,
+        // ...
+    }
+}
+```
+
+```json
+{
+    "response_code": "404",
+    "body": {
+        "detail": "Sauna ID does nto exist."
+    }
+}
+```
+
 ### Update Sauna Status
 
 * Update a Sauna state of the given `sauna_id`.
 * Return data wrapping the response of `/sauna/{sauna_id}/status` PUT endpoint.
+
+#### Example request
 
 ```json
 {
@@ -96,10 +123,16 @@ Open <http://localhost:8000/docs> and test the API.
 }
 ```
 
+#### Example response
+
+(same format as of *Get Sauna Status*, with the state updated)
+
 ### Get Sauna Schedules
 
 * Get the Sauna schedules list of the given `sauna_id`.
 * Return data wrapping the response of `/sauna/{sauna_id}/schedules` GET endpoint.
+
+#### Example request
 
 ```json
 {
@@ -111,10 +144,39 @@ Open <http://localhost:8000/docs> and test the API.
 }
 ```
 
+#### Example response
+
+```json
+{
+    "response_code": "200",
+    "body": [
+        {
+            "id": "string",
+            "user": "string",
+            "sauna": "string",
+            "frequency": "string",
+            // ...
+        },
+        //...
+    ]
+}
+```
+
+```json
+{
+    "response_code": "404",
+    "body": {
+        "detail": "Sauna ID does nto exist."
+    }
+}
+```
+
 ### Add Sauna Schedules
 
 * Add multiple Sauna schedules to the schedule list of the given `sauna_id`.
 * Return data wrapping the response of `/sauna/{sauna_id}/schedules` POST endpoint.
+
+#### Example request
 
 ```json
 {
@@ -128,10 +190,16 @@ Open <http://localhost:8000/docs> and test the API.
 }
 ```
 
+#### Example response
+
+(same format as of *Get Sauna Schedules*, with the new schedules added)
+
 ### Delete Sauna Schedule
 
 * Delete a schedule of the given `schedule_id` from the schedule list of the given `sauna_id`.
 * Return data wrapping the response of `/sauna/{sauna_id}/schedules/{schedule_id}` DELETE endpoint.
+
+#### Example request
 
 ```json
 {
@@ -142,6 +210,9 @@ Open <http://localhost:8000/docs> and test the API.
     "body": null
 }
 ```
+#### Example response
+
+(same format as of *Get Sauna Schedules*, with the given schedule deleted)
 
 
 ---
