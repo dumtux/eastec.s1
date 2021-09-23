@@ -26,9 +26,11 @@ class BluetoothFacade:
 
     bt_client: BluetoothClient
     sauna_db: Dict[str, Sauna]
+    client_mode: bool
 
-    def __init__(self) -> None:
-        while True:
+    def __init__(self, client_mode=False) -> None:
+        self.client_mode = client_mode
+        while client_mode:
             try:
                 self.bt_client = BluetoothClient(BT_DEVICE_NAME, self.callback)
                 break
@@ -37,8 +39,14 @@ class BluetoothFacade:
                 time.sleep(3)
                 pass
         self.sauna_db = {
-            "foo_sauna": Sauna(status=Status.deserialize(DEFAULT_STATUS), schedules=[], programs=[]),
-            "bar_sauna": Sauna(status=Status.deserialize(DEFAULT_STATUS), schedules=[], programs=[]),
+            "foo_sauna": Sauna(
+                status=Status.deserialize(DEFAULT_STATUS),
+                schedules=[Schedule.deserialize(DEFAULT_SCHEDULE)],
+                programs=[]),
+            "bar_sauna": Sauna(
+                status=Status.deserialize(DEFAULT_STATUS),
+                schedules=[Schedule.deserialize(DEFAULT_SCHEDULE)],
+                programs=[]),
         }
 
     def callback(self, data: str):
@@ -49,7 +57,8 @@ class BluetoothFacade:
             raise HTTPException(status_code=404, detail="Sauna ID not found")
 
         data = {"method": "GET", "parameters": {"sauna_id": sauna_id}, "description": "get status"}
-        self.bt_client.send(json.dumps(data))
+        if self.client_mode:
+            self.bt_client.send(json.dumps(data))
 
         return self.sauna_db[sauna_id].status
 
@@ -58,7 +67,8 @@ class BluetoothFacade:
             raise HTTPException(status_code=404, detail="Sauna ID not found")
 
         data = {"method": "GET", "parameters": {"sauna_id": sauna_id}, "description": "get schedules"}
-        self.bt_client.send(json.dumps(data))
+        if self.client_mode:
+            self.bt_client.send(json.dumps(data))
 
         return self.sauna_db[sauna_id].schedules
 
@@ -70,7 +80,8 @@ class BluetoothFacade:
             raise HTTPException(status_code=409, detail="Schedule ID already exists")
 
         data = {"method": "POST", "parameters": {"sauna_id": sauna_id}, "description": "add schedules", "body": schedule.serialize()}
-        self.bt_client.send(json.dumps(data))
+        if self.client_mode:
+            self.bt_client.send(json.dumps(data))
 
         self.sauna_db[sauna_id].schedules.append(schedule)
 
@@ -86,6 +97,7 @@ class BluetoothFacade:
                 break
 
         data = {"method": "DELETE", "parameters": {"sauna_id": sauna_id, "schedule_id": schedule_id}, "description": "delete schedules"}
-        self.bt_client.send(json.dumps(data))
+        if self.client_mode:
+            self.bt_client.send(json.dumps(data))
 
         raise Exception("And internal error occured")
