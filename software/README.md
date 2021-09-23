@@ -4,10 +4,13 @@
 ## Quickstart
 
 ```sh
+# create a virtual env and install dependencies
 python3 -m venv env
 source env/bin/activate
 pip install -r requirements.txt
-uvicorn sone.bt_app:app
+
+# run
+python -m sone --help
 ```
 
 

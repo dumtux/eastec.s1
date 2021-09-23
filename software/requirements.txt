@@ -1,3 +1,4 @@
 bluedot
 fastapi
+typer
 uvicorn

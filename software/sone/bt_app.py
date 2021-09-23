@@ -6,7 +6,7 @@ from .models import Schedule, Status, StatusUpdates
 from .bt_facade import HTTPError, BluetoothFacade
 
 
-def create_app(client_mode: bool) -> FastAPI:
+def create_app(client_mode: bool=False) -> FastAPI:
     bt_facade = BluetoothFacade(client_mode=client_mode)
     sauna_router = APIRouter(
         prefix="/sauna",
@@ -59,6 +59,3 @@ def create_app(client_mode: bool) -> FastAPI:
     app.include_router(sauna_router)
 
     return app
-
-
-app = create_app(False)
