@@ -8,6 +8,7 @@ from pydantic import BaseModel
 
 from .defaults import DEFAULT_STATUS, DEFAULT_SCHEDULE
 from .models import Sauna, Status, Schedule
+from .utils import randomize
 
 
 BT_DEVICE_NAME = "Eastec-SOne"
@@ -60,7 +61,7 @@ class BluetoothFacade:
         if self.client_mode:
             self.bt_client.send(json.dumps(data))
 
-        return self.sauna_db[sauna_id].status
+        return randomize(self.sauna_db[sauna_id].status)  # randomize params for UI testing
 
     async def get_schedules(self, sauna_id: str) -> List[Schedule]:
         if sauna_id not in self.sauna_db:
