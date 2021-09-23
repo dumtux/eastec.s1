@@ -14,3 +14,12 @@
 
 * 4 inductors of power amplifier are too hot on idle status
 * **Active** and **Power** indicator LEDs are in wrong color. Need to use green for **Power** and yellow for **Active** led.
+
+
+## SOne v3
+
+* Board renamed to `SOne` due to the project name change
+* Fix the known issues of K9 v2
+* Modify the UART port pinout, caused by the irregular pin numbering of the reverse engineering
+* Add more LED control outputs for RGB color LEDs
+* Add power output for display
