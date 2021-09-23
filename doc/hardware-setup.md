@@ -175,3 +175,8 @@ sudo service bluetooth restart
 [4]: <https://www.raspberrypi.org/forums/viewtopic.php?t=161770> "Raspberry Pi 3 Bluetooth A2DP Sink/Reciever Setup Problem"
 [5]: <https://bluedot.readthedocs.io/en/latest/> "Raspberry Pi 3 BlueDot Documentation"
 [6]: <https://raspberrypi.stackexchange.com/questions/53127/how-to-permanently-hide-mouse-pointer-or-cursor-on-raspberry-pi> "How to permanently hide mouse pointer or cursor on Raspberry PI?"
+
+
+---
+
+* Last modified on 23 Sep 2021

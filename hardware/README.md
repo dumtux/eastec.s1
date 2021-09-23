@@ -23,3 +23,8 @@
 * Modify the UART port pinout, caused by the irregular pin numbering of the reverse engineering
 * Add more LED control outputs for RGB color LEDs
 * Add power output for display
+
+---
+
+* Created on 8 Aug 2021
+* Last modified on 24 Sep 2021
