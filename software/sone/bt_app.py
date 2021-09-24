@@ -28,8 +28,7 @@ def create_app(client_mode: bool=False) -> FastAPI:
 
     @status_router.put("/{sauna_id}/status", response_model=Status)
     async def update_sauna_status(sauna_id: str, status: StatusUpdates):
-        print(status.dict())
-        return await bt_facade.get_status(sauna_id)
+        return await bt_facade.update_status(sauna_id, status)
 
 
     @schedules_router.get("/{sauna_id}/schedules", response_model=List[Schedule])

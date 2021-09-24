@@ -7,7 +7,7 @@ from fastapi import HTTPException
 from pydantic import BaseModel
 
 from .defaults import DEFAULT_STATUS, DEFAULT_SCHEDULE
-from .models import Sauna, Status, Schedule
+from .models import Sauna, Status, Schedule, StatusUpdates
 from .utils import randomize
 
 
@@ -57,18 +57,31 @@ class BluetoothFacade:
         if sauna_id not in self.sauna_db:
             raise HTTPException(status_code=404, detail="Sauna ID not found")
 
-        data = {"method": "GET", "parameters": {"sauna_id": sauna_id}, "description": "get status"}
         if self.client_mode:
+            data = {"method": "GET", "parameters": {"sauna_id": sauna_id}, "description": "get status"}
             self.bt_client.send(json.dumps(data))
 
+        return randomize(self.sauna_db[sauna_id].status)  # randomize params for UI testing
+
+    async def update_status(self, sauna_id: str, status: StatusUpdates) -> Status:
+        if sauna_id not in self.sauna_db:
+            raise HTTPException(status_code=404, detail="Sauna ID not found")
+        if status.state not in ['standby', 'pause', 'heat']:
+            raise HTTPException(status_code=422, detail="Sauna State should be one of 'standby', 'pause', 'heat'")
+
+        if self.client_mode:
+            data = {"method": "PUT", "parameters": {"sauna_id": sauna_id, "status": status.serialize()}, "description": "update status"}
+            self.bt_client.send(json.dumps(data))
+
+        self.sauna_db[sauna_id].status.state = status.state
         return randomize(self.sauna_db[sauna_id].status)  # randomize params for UI testing
 
     async def get_schedules(self, sauna_id: str) -> List[Schedule]:
         if sauna_id not in self.sauna_db:
             raise HTTPException(status_code=404, detail="Sauna ID not found")
 
-        data = {"method": "GET", "parameters": {"sauna_id": sauna_id}, "description": "get schedules"}
         if self.client_mode:
+            data = {"method": "GET", "parameters": {"sauna_id": sauna_id}, "description": "get schedules"}
             self.bt_client.send(json.dumps(data))
 
         return self.sauna_db[sauna_id].schedules
@@ -80,8 +93,8 @@ class BluetoothFacade:
         if schedule.id in schedule_ids:
             raise HTTPException(status_code=409, detail="Schedule ID already exists")
 
-        data = {"method": "POST", "parameters": {"sauna_id": sauna_id}, "description": "add schedules", "body": schedule.serialize()}
         if self.client_mode:
+            data = {"method": "POST", "parameters": {"sauna_id": sauna_id}, "description": "add schedules", "body": schedule.serialize()}
             self.bt_client.send(json.dumps(data))
 
         self.sauna_db[sauna_id].schedules.append(schedule)
@@ -97,8 +110,8 @@ class BluetoothFacade:
                 self.sauna_db[sauna_id].schedules.pop(i)
                 break
 
-        data = {"method": "DELETE", "parameters": {"sauna_id": sauna_id, "schedule_id": schedule_id}, "description": "delete schedules"}
         if self.client_mode:
+            data = {"method": "DELETE", "parameters": {"sauna_id": sauna_id, "schedule_id": schedule_id}, "description": "delete schedules"}
             self.bt_client.send(json.dumps(data))
 
         raise Exception("And internal error occured")
