@@ -1,6 +1,7 @@
 from typing import List
 
 from fastapi import FastAPI, APIRouter
+from fastapi.middleware.cors import CORSMiddleware
 
 from .models import Schedule, Status, StatusUpdates
 from .bt_facade import HTTPError, BluetoothFacade
@@ -56,5 +57,11 @@ def create_app(client_mode: bool=False) -> FastAPI:
     sauna_router.include_router(status_router)
     sauna_router.include_router(schedules_router)
     app.include_router(sauna_router)
-
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
     return app
