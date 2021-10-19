@@ -3,7 +3,7 @@ from typing import List
 from fastapi import FastAPI, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 
-from .models import Schedule, Status, StatusUpdates, HTTPError, Sauna
+from .models import Schedule, Status, StatusUpdates, HTTPError, Sauna, SaunaID
 from .defaults import DEFAULT_SCHEDULE, DEFAULT_STATUS
 
 
@@ -16,6 +16,7 @@ sauna = Sauna(
 sauna_router = APIRouter(
     prefix="/sauna",
 )
+ping_router = APIRouter(tags=["Sauna Discovery"])
 status_router = APIRouter(
     tags=["Status"],
     responses={404: {"description": "Sauna ID not found", "model": HTTPError}},
@@ -24,6 +25,11 @@ schedules_router = APIRouter(
     tags=["Schedules"],
     responses={404: {"description": "Sauna ID not found", "model": HTTPError}},
 )
+
+
+@ping_router.get("/ping", response_model=SaunaID)
+async def get_sauna_id():
+    return SaunaID(sauna_identifier="sauna_identifier", model="model")
 
 
 @status_router.get("/{sauna_id}/status", response_model=Status)
@@ -55,6 +61,7 @@ app = FastAPI(
     title="SOne API",
     version="0.1.0",
     description="REST API for sauna status fetching and control")
+sauna_router.include_router(ping_router)
 sauna_router.include_router(status_router)
 sauna_router.include_router(schedules_router)
 app.include_router(sauna_router)

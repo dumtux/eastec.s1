@@ -122,3 +122,6 @@ class HTTPError(BaseModel):
             "example": {"detail": "description about the HTTPException"},
         }
 
+class SaunaID(BaseModel):
+    sauna_identifier: str
+    model: str
