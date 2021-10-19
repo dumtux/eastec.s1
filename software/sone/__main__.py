@@ -1,7 +1,7 @@
 import typer
 import uvicorn
 
-from .app import create_app
+from .app import app as api_app
 
 
 typer_app = typer.Typer()
@@ -10,7 +10,6 @@ typer_app = typer.Typer()
 @typer_app.command()
 def server():
     'run API server'
-    api_app = create_app()
     uvicorn.run(api_app)
 
 
