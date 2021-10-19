@@ -10,7 +10,7 @@ typer_app = typer.Typer()
 @typer_app.command()
 def server():
     'run API server'
-    api_app = create_app(client_mode=False)
+    api_app = create_app()
     uvicorn.run(api_app)
 
 

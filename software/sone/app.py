@@ -3,12 +3,17 @@ from typing import List
 from fastapi import FastAPI, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 
-from .models import Schedule, Status, StatusUpdates
-from .core import HTTPError, STone
+from .models import Schedule, Status, StatusUpdates, HTTPError, Sauna
+from .defaults import DEFAULT_SCHEDULE, DEFAULT_STATUS
 
 
-def create_app(client_mode: bool=False) -> FastAPI:
-    stone = STone(client_mode=client_mode)
+sauna = Sauna(
+        status=Status.deserialize(DEFAULT_STATUS),
+        schedules=[Schedule.deserialize(DEFAULT_SCHEDULE)],
+        programs=[])
+
+
+def create_app() -> FastAPI:
     sauna_router = APIRouter(
         prefix="/sauna",
     )
@@ -24,30 +29,27 @@ def create_app(client_mode: bool=False) -> FastAPI:
 
     @status_router.get("/{sauna_id}/status", response_model=Status)
     async def get_sauna_status(sauna_id: str):
-        return await stone.get_status(sauna_id)
+        return sauna.status
 
 
     @status_router.put("/{sauna_id}/status", response_model=Status)
     async def update_sauna_status(sauna_id: str, status: StatusUpdates):
-        return await stone.update_status(sauna_id, status)
+        raise Exception("Not implemented yet")
 
 
     @schedules_router.get("/{sauna_id}/schedules", response_model=List[Schedule])
     async def get_sauna_schedules(sauna_id: str):
-        return await stone.get_schedules(sauna_id)
+        return sauna.schedules
 
 
     @schedules_router.post("/{sauna_id}/schedules", response_model=List[Schedule], responses={409: {"description": "Schedule ID already exists", "model": HTTPError}})
     async def add_sauna_schedules(sauna_id: str, schedules: List[Schedule]):
-        for sch in schedules:
-            await stone.add_schedule(sauna_id, sch)
-        return await stone.get_schedules(sauna_id)
+        raise Exception("Not implemented yet")
 
 
     @schedules_router.delete("/{sauna_id}/schedules/{schedule_id}", response_model=List[Schedule], responses={404: {"description": "Sauna ID or Schedule ID not found", "model": HTTPError}})
     async def delete_sauna_schedule(sauna_id: str, schedule_id: str):
-        await stone.delete_schedule(sauna_id, schedule_id)
-        return await stone.get_schedules(sauna_id)
+        raise Exception("Not implemented yet")
 
 
     app = FastAPI(

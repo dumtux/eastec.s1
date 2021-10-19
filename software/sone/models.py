@@ -112,3 +112,13 @@ class Sauna(BaseModel):
     status: Status
     schedules: List[Schedule]
     programs: List[Program]
+
+
+class HTTPError(BaseModel):
+    detail: str
+
+    class Config:
+        schema_extra = {
+            "example": {"detail": "description about the HTTPException"},
+        }
+
