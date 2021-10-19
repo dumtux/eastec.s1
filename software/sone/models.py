@@ -109,6 +109,8 @@ class StatusUpdates(BaseModel):
 
 
 class Sauna(BaseModel):
+    sauna_id: str
+    model_name: str
     status: Status
     schedules: List[Schedule]
     programs: List[Program]
@@ -123,5 +125,5 @@ class HTTPError(BaseModel):
         }
 
 class SaunaID(BaseModel):
-    sauna_identifier: str
-    model: str
+    sauna_id: str
+    model_name: str
