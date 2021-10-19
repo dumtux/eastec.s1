@@ -1,5 +1,3 @@
-bluedot
-dbus-python
 fastapi
 typer
 uvicorn

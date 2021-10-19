@@ -1,24 +1,17 @@
 import typer
 import uvicorn
 
-from .bt_app import create_app
+from .app import create_app
 
 
-app = typer.Typer()
+typer_app = typer.Typer()
 
 
-@app.command()
+@typer_app.command()
 def server():
-    'with BlueDot server running'
-    bt_app = create_app(client_mode=False)
-    uvicorn.run(bt_app)
+    'run API server'
+    api_app = create_app(client_mode=False)
+    uvicorn.run(api_app)
 
 
-@app.command()
-def client():
-    'with BlueDot client running, to be used by develoepr debugging'
-    bt_app = create_app(client_mode=True)
-    uvicorn.run(bt_app)
-
-
-app()
+typer_app()
