@@ -8,12 +8,15 @@ from .models import Schedule, Status, StatusUpdates, HTTPError, Sauna, SaunaID
 from .defaults import DEFAULT_SCHEDULE, DEFAULT_STATUS
 
 
+__version__ = 1
+
+
 def get_sauna_id() -> str:
     return uuid.uuid4().hex
 
 
 def get_model_name() -> str:
-    return "SOne v1.0"
+    return "SOne v%d" % __version__
 
 
 sauna = Sauna(
@@ -22,7 +25,8 @@ sauna = Sauna(
         status=Status.deserialize(DEFAULT_STATUS),
         schedules=[Schedule.deserialize(DEFAULT_SCHEDULE)],
         programs=[])
-
+sauna.status.sauna_id = sauna.sauna_id
+sauna.status.firmware_version = __version__
 
 sauna_router = APIRouter(
     prefix="/sauna",
