@@ -13,11 +13,11 @@ app = FastAPI(
     description="REST API for sauna status fetching and control")
 
 root_router = APIRouter(prefix="/sauna")
-ping_router = APIRouter(tags=["Sauna Discovery"])
+ping_router = APIRouter(
+    tags=["Sauna Discovery"])
 status_router = APIRouter(
-    tags=["Status"],
-    responses={404: {"description": "Sauna ID not found", "model": HTTPError}},
-)
+    tags=["Sauna Status"],
+    responses={404: {"description": "Sauna ID not found", "model": HTTPError}})
 
 
 @ping_router.get("/ping", response_model=SaunaID)
