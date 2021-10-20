@@ -27,10 +27,10 @@ class SOne(Singleton):
         return self.status
 
     def set_timer(self, timer: int) -> Status:
-        if timer > 70 or timer < 20:
+        if timer > 90 or timer < 0:
             raise HTTPException(
                 status_code=422,
-                detail="Sauna timer value should be between 20 and 70")
+                detail="Sauna timer value should be between 0 and 90")
         self.status.timer = timer
         self.kfive_update(self.status)
         return self.status
