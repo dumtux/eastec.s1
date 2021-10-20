@@ -5,7 +5,6 @@ DEFAULT_STATUS = {
     "target_temperature": 100,
     "current_temperature": 0,
     "target_timer": 60,
-    "remaining_timer": 0,
     "lights": [
         {
         "identifier": "string",

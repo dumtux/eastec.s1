@@ -45,7 +45,7 @@ class KFive(Singleton):
         ba = bytearray.fromhex(t)
         return bytes(ba)
 
-    def update(status: Status) -> Status:
+    def update(self, status: Status) -> Status:
         self.target_temperature = status.target_temperature
         self.time = status.target_timer
         self.ht1 = status.heaters[0].level
@@ -71,7 +71,7 @@ class KFive(Singleton):
                 self.heater = False
                 self.endbyte = 0x42
 
-        # self.uart.write(self.to_bytes())
-        print(self.to_bytes())
-
         return status
+
+    def sync_hardware(self):
+        self.uart.write(self.to_bytes())
