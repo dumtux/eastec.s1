@@ -1,2 +1,2 @@
-__name__ = "SOne"
+__title__ = "SOne"
 __version__ = "1.0"
