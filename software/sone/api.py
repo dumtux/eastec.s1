@@ -2,11 +2,15 @@ from fastapi import FastAPI, APIRouter, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 from . import __title__, __version__
+from .kfive import KFive
 from .sone import SOne
 from .models import Status, SaunaID, HTTPError
 
 
 sone = SOne.instance()
+kfive = KFive.instance()
+# TODO: bind event handlers
+
 app = FastAPI(
     title=__title__,
     version=__version__,

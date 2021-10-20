@@ -84,9 +84,9 @@ class Status(BaseModel):
     state: str
     sauna_id: str
     firmware_version: int
-    set_temperature: float
+    target_temperature: float
     current_temperature: float
-    set_timer: int
+    target_timer: int
     remaining_timer: int
     lights: List[Light]
     heaters: List[Heater]

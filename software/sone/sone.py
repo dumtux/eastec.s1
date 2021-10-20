@@ -1,4 +1,4 @@
-from typing import List
+from typing import Callable, List
 
 from .models import Status, Schedule, Program
 from .singletone import Singleton
@@ -12,3 +12,9 @@ class SOne(Singleton):
     status: Status = get_default_status()
     schedules: List[Schedule] = []
     programs: List[Program] = []
+
+    kfive_send: Callable = lambda x: x
+
+    def set_state(self, state: str):
+        self.status.state = state
+        self.kfive_send(self)

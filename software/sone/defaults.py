@@ -2,9 +2,9 @@ DEFAULT_STATUS = {
     "state": "standby",
     "sauna_id": "string",
     "firmware_version": 0,
-    "set_temperature": 100,
+    "target_temperature": 100,
     "current_temperature": 0,
-    "set_timer": 60,
+    "target_timer": 60,
     "remaining_timer": 0,
     "lights": [
         {
