@@ -34,3 +34,15 @@ def test_set_timer(mocker):
 
     with raises(HTTPException):
         so.set_timer(100)
+
+def test_set_target_temperature(mocker):
+    so = SOne.instance()
+    assert so.status.target_temperature == 30
+
+    spy = mocker.spy(so, 'kfive_update')
+    so.set_target_temperature(60)
+    assert so.status.target_temperature == 60
+    spy.assert_called_once()
+
+    with raises(HTTPException):
+        so.set_target_temperature(100)
