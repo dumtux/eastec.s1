@@ -9,7 +9,7 @@ from .models import Status, SaunaID, HTTPError
 
 sone = SOne.instance()
 kfive = KFive.instance()
-# TODO: bind event handlers
+sone.kfive_update = kfive.update
 
 app = FastAPI(
     title=__title__,
