@@ -85,7 +85,7 @@ class Status(BaseModel):
     firmware_version: int
     target_temperature: int
     current_temperature: int
-    target_timer: int
+    timer: int
     lights: List[Light]
     heaters: List[Heater]
     program: Program

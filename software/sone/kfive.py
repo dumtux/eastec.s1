@@ -47,7 +47,7 @@ class KFive(Singleton):
 
     def update(self, status: Status) -> Status:
         self.target_temperature = status.target_temperature
-        self.time = status.target_timer
+        self.time = status.timer
         self.ht1 = status.heaters[0].level
         self.ht2 = status.heaters[1].level
         self.ht3 = status.heaters[2].level

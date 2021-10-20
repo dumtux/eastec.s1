@@ -4,7 +4,7 @@ DEFAULT_STATUS = {
     "firmware_version": 0,
     "target_temperature": 100,
     "current_temperature": 0,
-    "target_timer": 60,
+    "timer": 60,
     "lights": [
         {
         "identifier": "string",

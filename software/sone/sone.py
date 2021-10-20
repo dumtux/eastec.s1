@@ -26,8 +26,14 @@ class SOne(Singleton):
         self.kfive_update(self.status)
         return self.status
 
-    def set_target_timer(self) -> Status:
-        pass
+    def set_timer(self, timer: int) -> Status:
+        if timer > 70 or timer < 20:
+            raise HTTPException(
+                status_code=422,
+                detail="Sauna timer value should be between 20 and 70")
+        self.status.timer = timer
+        self.kfive_update(self.status)
+        return self.status
 
     def set_target_temperature(self) -> Status:
         pass
