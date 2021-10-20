@@ -33,9 +33,8 @@ class Light(BaseModel):
 
 
 class Heater(BaseModel):
-    identifier: str
-    state: str
-    mode: str
+    name: str
+    level: int
 
     def serialize(self) -> dict:
         return self.dict()
