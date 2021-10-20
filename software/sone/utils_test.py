@@ -5,12 +5,14 @@ from .utils import get_sauna_id, get_sauna_name, get_default_status
 def test_get_sauna_id():
     id_a = get_sauna_id()
     id_b = get_sauna_id()
+    assert type(id_a) == str
     assert id_a == id_b
 
 
 def test_get_sauna_name():
     name_a = get_sauna_name()
     name_b = get_sauna_name()
+    assert type(name_a) == str
     assert name_a == name_b
 
 
