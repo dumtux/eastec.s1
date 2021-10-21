@@ -24,3 +24,21 @@ def test_get_status():
     response = client.get("/sauna/%s/status" % sauna_id)
     assert response.status_code == 200
     assert response.json() == SOne.instance().status.serialize()
+
+
+def test_update_state():
+    response = client.get("/sauna/ping")
+    sauna_id = response.json().get("sauna_id")
+
+    response = client.put("/sauna/%s/state" % sauna_id, data={"state": "playing"})
+    assert response.status_code == 200
+    assert response.json() == SOne.instance().status.serialize()
+
+
+def test_update_target_temperature():
+    response = client.get("/sauna/ping")
+    sauna_id = response.json().get("sauna_id")
+
+    response = client.put("/sauna/%s/temperature" % sauna_id, data={"termperature": 50})
+    assert response.status_code == 200
+    assert response.json() == SOne.instance().status.serialize()

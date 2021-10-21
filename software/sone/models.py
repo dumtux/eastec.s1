@@ -102,8 +102,16 @@ class Status(BaseModel):
         return Status(**data)
 
 
-class StatusUpdates(BaseModel):
+class StateUpdate(BaseModel):
     state: str
+
+
+class TemperatureUpdate(BaseModel):
+    temperature: int
+
+
+class TimerUpdate(BaseModel):
+    timer: int
 
 
 class Sauna(BaseModel):
