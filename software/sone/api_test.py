@@ -51,3 +51,12 @@ def test_update_timer():
     response = client.put("/sauna/%s/timer" % sauna_id, data={"timer": 30})
     assert response.status_code == 200
     assert response.json() == SOne.instance().status.serialize()
+
+
+def test_get_schedules():
+    response = client.get("/sauna/ping")
+    sauna_id = response.json().get("sauna_id")
+
+    response = client.get("/sauna/%s/schedules" % sauna_id)
+    assert response.status_code == 200
+    assert response.json() == [s.serialize() for s in SOne.instance().schedules]

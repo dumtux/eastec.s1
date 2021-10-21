@@ -1,10 +1,12 @@
+from typing import List
+
 from fastapi import FastAPI, APIRouter, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 from . import __title__, __version__
 from .kfive import KFive
 from .sone import SOne
-from .models import Status, SaunaID, HTTPError, StateUpdate, TemperatureUpdate, TimerUpdate
+from .models import Schedule, Status, SaunaID, HTTPError, StateUpdate, TemperatureUpdate, TimerUpdate
 
 
 sone = SOne.instance()
@@ -24,6 +26,9 @@ status_router = APIRouter(
     responses={404: {"description": "Sauna ID not found", "model": HTTPError}})
 control_router = APIRouter(
     tags=["Sauna Control"],
+    responses={404: {"description": "Sauna ID not found", "model": HTTPError}})
+scheduling_router = APIRouter(
+    tags=["Sauna Scheduling"],
     responses={404: {"description": "Sauna ID not found", "model": HTTPError}})
 
 
@@ -60,9 +65,17 @@ async def update_timer(sauna_id: str, update: TimerUpdate):
     return sone.set_timer(update.timer)
 
 
+@scheduling_router.get("/{sauna_id}/schedules", response_model=List[Schedule])
+async def get_status(sauna_id: str):
+    if sauna_id != sone.sauna_id:
+        raise HTTPException(status_code=404, detail="Sauna ID does not exist")
+    return sone.schedules
+
+
 root_router.include_router(ping_router)
 root_router.include_router(status_router)
 root_router.include_router(control_router)
+root_router.include_router(scheduling_router)
 app.include_router(root_router)
 app.add_middleware(
     CORSMiddleware,
