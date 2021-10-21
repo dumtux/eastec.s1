@@ -27,9 +27,7 @@ status_router = APIRouter(
 control_router = APIRouter(
     tags=["Sauna Control"],
     responses={404: {"description": "Sauna ID not found", "model": HTTPError}})
-scheduling_router = APIRouter(
-    tags=["Sauna Scheduling"],
-    responses={404: {"description": "Sauna ID not found", "model": HTTPError}})
+scheduling_router = APIRouter(tags=["Sauna Scheduling"])
 
 
 @ping_router.get("/ping", response_model=SaunaID)
@@ -40,36 +38,77 @@ async def get_id():
 @status_router.get("/{sauna_id}/status", response_model=Status)
 async def get_status(sauna_id: str):
     if sauna_id != sone.sauna_id:
-        raise HTTPException(status_code=404, detail="Sauna ID does not exist")
+        raise HTTPException(status_code=404, detail="Sauna ID not found")
     return sone.status
 
 
 @control_router.put("/{sauna_id}/state", response_model=Status)
 async def update_state(sauna_id: str, update: StateUpdate):
     if sauna_id != sone.sauna_id:
-        raise HTTPException(status_code=404, detail="Sauna ID does not exist")
+        raise HTTPException(status_code=404, detail="Sauna ID not found")
     return sone.set_state(update.state)
 
 
 @control_router.put("/{sauna_id}/temperature", response_model=Status)
 async def update_target_temperature(sauna_id: str, update: TemperatureUpdate):
     if sauna_id != sone.sauna_id:
-        raise HTTPException(status_code=404, detail="Sauna ID does not exist")
+        raise HTTPException(status_code=404, detail="Sauna ID not found")
     return sone.set_target_temperature(update.temperature)
 
 
 @control_router.put("/{sauna_id}/timer", response_model=Status)
 async def update_timer(sauna_id: str, update: TimerUpdate):
     if sauna_id != sone.sauna_id:
-        raise HTTPException(status_code=404, detail="Sauna ID does not exist")
+        raise HTTPException(status_code=404, detail="Sauna ID not found")
     return sone.set_timer(update.timer)
 
 
-@scheduling_router.get("/{sauna_id}/schedules", response_model=List[Schedule])
-async def get_status(sauna_id: str):
+@scheduling_router.get(
+    "/{sauna_id}/schedules",
+    response_model=List[Schedule],
+    responses={
+        404: {"description": "Sauna ID not found", "model": HTTPError},
+    },
+)
+async def get_schedules(sauna_id: str):
     if sauna_id != sone.sauna_id:
-        raise HTTPException(status_code=404, detail="Sauna ID does not exist")
+        raise HTTPException(status_code=404, detail="Sauna ID not found")
     return sone.schedules
+
+
+@scheduling_router.post(
+    "/{sauna_id}/schedules",
+    response_model=List[Schedule],
+    responses={
+        404: {"description": "Sauna ID or Schedule ID not found", "model": HTTPError},
+        409: {"description": "Schedule ID conflicts", "model": HTTPError},
+    },
+)
+async def add_schedule(sauna_id: str, schedule: Schedule):
+    if sauna_id != sone.sauna_id:
+        raise HTTPException(status_code=404, detail="Sauna ID not found")
+    for s in sone.schedules:
+        if schedule.id == s.id:
+            raise HTTPException(status_code=409, detail="Schedule ID conflicts")
+    sone.schedules.append(schedule)
+    return sone.schedules
+
+
+@scheduling_router.delete(
+    "/{sauna_id}/schedules/{schedule_id}",
+    response_model=List[Schedule],
+    responses={
+        404: {"description": "Sauna ID or Schedule ID not found", "model": HTTPError},
+    },
+)
+async def delete_schedule(sauna_id: str, schedule_id: str):
+    if sauna_id != sone.sauna_id:
+        raise HTTPException(status_code=404, detail="Sauna ID not found")
+    for i in range(len(sone.schedules)):
+        if sone.schedules[i].id == schedule_id:
+            sone.schedules.pop(i)
+            return sone.schedules
+    raise HTTPException(status_code=404, detail="Schedule ID not found")
 
 
 root_router.include_router(ping_router)
