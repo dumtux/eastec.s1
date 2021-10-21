@@ -11,8 +11,8 @@ from .models import Schedule, Status, SaunaID, HTTPError, StateUpdate, Temperatu
 
 sone = SOne.instance()
 kfive = KFive.instance()
-sone.kfive_update = kfive.update  # bind
-sone.kfive_update(sone.status)    # sync SOne and KFive
+kfive.update(sone.status)         # update KFive with the default Status of SOne
+sone.kfive_update = kfive.update  # sync SOne with KFive
 
 app = FastAPI(
     title=__title__,
