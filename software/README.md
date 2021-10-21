@@ -14,7 +14,15 @@ python -m sone --help
 ```
 
 
+## Testing
+
+(from virtual environment with all the dependencies installed)
+
+```sh
+pytest
+```
+
 ---
 
 * Created on 6 Aug 2021
-* Last modified on 24 Sep 2021
+* Last modified on 21 Oct 2021
