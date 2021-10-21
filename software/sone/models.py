@@ -66,6 +66,7 @@ class Schedule(BaseModel):
     id: str
     user: str
     sauna: str
+    first_fire_time: str
     frequency: str
     program: Program
 

@@ -11,7 +11,8 @@ from .models import Schedule, Status, SaunaID, HTTPError, StateUpdate, Temperatu
 
 sone = SOne.instance()
 kfive = KFive.instance()
-sone.kfive_update = kfive.update
+sone.kfive_update = kfive.update  # bind
+sone.kfive_update(sone.status)    # sync SOne and KFive
 
 app = FastAPI(
     title=__title__,
@@ -53,7 +54,7 @@ async def update_state(sauna_id: str, update: StateUpdate):
 async def update_target_temperature(sauna_id: str, update: TemperatureUpdate):
     if sauna_id != sone.sauna_id:
         raise HTTPException(status_code=404, detail="Sauna ID not found")
-    return sone.set_target_temperature(update.temperature)
+    return sone.set_target_temperature(update.target_temperature)
 
 
 @control_router.put("/{sauna_id}/timer", response_model=Status)
@@ -78,6 +79,7 @@ async def get_schedules(sauna_id: str):
 
 @scheduling_router.post(
     "/{sauna_id}/schedules",
+    status_code=201,
     response_model=List[Schedule],
     responses={
         404: {"description": "Sauna ID or Schedule ID not found", "model": HTTPError},

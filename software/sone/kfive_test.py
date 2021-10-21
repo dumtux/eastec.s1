@@ -10,7 +10,12 @@ def test_kfive():
 
 def test_to_bytes():
     kf = KFive.instance()
-    assert kf.to_bytes() == b'\xcc\x09\x00\x00\x00\x00\x20\x00\x00\x00\x00\x00\x00\x00\x42\xe1'
+
+    # # the KFive's initial value
+    # assert kf.to_bytes() == b'\xcc\x09\x00\x00\x00\x00\x20\x00\x00\x00\x00\x00\x00\x00\x42\xe1'
+
+    # after KFive is synced with SOne, the values are set as DEFAULT_STATUS
+    assert kf.to_bytes() == b'\xcc\x09\x3c\x00\x00\x1e\x56\x00\x00\x00\x00\x00\x00\x00\x42\x71'
 
 
 def test_update():
