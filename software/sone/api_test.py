@@ -65,6 +65,19 @@ def test_update_timer():
     assert SOne.instance().status.timer == DEFAULT_STATUS["timer"]
 
 
+def test_set_program():
+    response = client.get("/sauna/ping")
+    sauna_id = response.json().get("sauna_id")
+
+    response = client.post("/sauna/%s/program" % sauna_id, json=DEFAULT_SCHEDULE["program"])
+    assert response.status_code == 200
+    assert response.json() == SOne.instance().status.serialize()
+
+    # recover to the default value
+    response = client.put("/sauna/%s/temperature" % sauna_id, json={"target_temperature": DEFAULT_STATUS["target_temperature"]})
+    response = client.put("/sauna/%s/timer" % sauna_id, json={"timer": DEFAULT_STATUS["timer"]})
+
+
 def test_get_schedules():
     response = client.get("/sauna/ping")
     sauna_id = response.json().get("sauna_id")

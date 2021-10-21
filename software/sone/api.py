@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from . import __title__, __version__
 from .kfive import KFive
 from .sone import SOne
-from .models import Schedule, Status, SaunaID, HTTPError, StateUpdate, TemperatureUpdate, TimerUpdate
+from .models import Schedule, Status, SaunaID, HTTPError, StateUpdate, TemperatureUpdate, TimerUpdate, Program
 
 
 sone = SOne.instance()
@@ -62,6 +62,13 @@ async def update_timer(sauna_id: str, update: TimerUpdate):
     if sauna_id != sone.sauna_id:
         raise HTTPException(status_code=404, detail="Sauna ID not found")
     return sone.set_timer(update.timer)
+
+
+@control_router.post("/{sauna_id}/program", response_model=Status)
+async def update_timer(sauna_id: str, program: Program):
+    if sauna_id != sone.sauna_id:
+        raise HTTPException(status_code=404, detail="Sauna ID not found")
+    return sone.set_program(program)
 
 
 @scheduling_router.get(

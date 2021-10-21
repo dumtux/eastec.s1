@@ -13,7 +13,7 @@ class SOne(Singleton):
     model_name: str = get_sauna_name()
     status: Status = get_default_status()
     schedules: List[Schedule] = []
-    programs: List[Program] = []
+    program: Program = None
 
     kfive_update: Callable = lambda x: x
 
@@ -49,3 +49,11 @@ class SOne(Singleton):
 
     def set_lights(self) -> Status:
         raise Exception("Not implemented yet")
+
+    def set_program(self, program: Program) -> Status:
+        self.program = program
+        self.set_timer(program.timer_duration)
+        self.set_target_temperature(program.target_temperature)
+        # self.set_lights(program.lights)
+        # self.set_heaters(program.heaters)
+        return self.status

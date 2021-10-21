@@ -46,7 +46,7 @@ class Heater(BaseModel):
 
 class Program(BaseModel):
     name: str
-    target_temperature: float
+    target_temperature: int
     timer_duration: int
     lights: List[Light]
     heaters: List[Heater]
