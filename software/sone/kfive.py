@@ -41,7 +41,7 @@ class KFive(Singleton):
         a.append(self.endbyte)
         a.append((sum(a) - 0xcc - 138) % 256)
         t = ' '.join([format(x, '02x') for x in a])
-        print(t)
+        # print(t)
         ba = bytearray.fromhex(t)
         return bytes(ba)
 
@@ -71,7 +71,9 @@ class KFive(Singleton):
                 self.heater = False
                 self.endbyte = 0x42
 
+        self.sync_hardware()
         return status
 
     def sync_hardware(self):
-        self.uart.write(self.to_bytes())
+        print("SOne -> KFive: " + ' '.join([format(x, '02x') for x in self.to_bytes()]))
+        # self.uart.write(self.to_bytes())
