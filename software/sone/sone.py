@@ -45,4 +45,7 @@ class SOne(Singleton):
         return self.status
 
     def set_heaters(self) -> Status:
-        pass
+        raise Exception("Not implemented yet")
+
+    def set_lights(self) -> Status:
+        raise Exception("Not implemented yet")
