@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from . import __title__, __version__
 from .kfive import KFive
 from .sone import SOne
-from .models import Status, SaunaID, HTTPError, StateUpdate, TemperatureUpdate
+from .models import Status, SaunaID, HTTPError, StateUpdate, TemperatureUpdate, TimerUpdate
 
 
 sone = SOne.instance()
@@ -51,6 +51,13 @@ async def update_target_temperature(sauna_id: str, update: TemperatureUpdate):
     if sauna_id != sone.sauna_id:
         raise HTTPException(status_code=404, detail="Sauna ID does not exist")
     return sone.set_target_temperature(update.temperature)
+
+
+@control_router.put("/{sauna_id}/timer", response_model=Status)
+async def update_timer(sauna_id: str, update: TimerUpdate):
+    if sauna_id != sone.sauna_id:
+        raise HTTPException(status_code=404, detail="Sauna ID does not exist")
+    return sone.set_timer(update.timer)
 
 
 root_router.include_router(ping_router)

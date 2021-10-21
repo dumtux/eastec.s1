@@ -107,7 +107,7 @@ class StateUpdate(BaseModel):
 
 
 class TemperatureUpdate(BaseModel):
-    temperature: int
+    target_temperature: int
 
 
 class TimerUpdate(BaseModel):

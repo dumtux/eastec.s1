@@ -39,6 +39,15 @@ def test_update_target_temperature():
     response = client.get("/sauna/ping")
     sauna_id = response.json().get("sauna_id")
 
-    response = client.put("/sauna/%s/temperature" % sauna_id, data={"termperature": 50})
+    response = client.put("/sauna/%s/temperature" % sauna_id, data={"target_termperature": 50})
+    assert response.status_code == 200
+    assert response.json() == SOne.instance().status.serialize()
+
+
+def test_update_timer():
+    response = client.get("/sauna/ping")
+    sauna_id = response.json().get("sauna_id")
+
+    response = client.put("/sauna/%s/timer" % sauna_id, data={"timer": 30})
     assert response.status_code == 200
     assert response.json() == SOne.instance().status.serialize()
