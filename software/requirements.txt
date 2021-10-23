@@ -7,3 +7,4 @@ qrcode[pil]
 requests
 typer
 uvicorn
+websockets

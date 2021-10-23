@@ -43,7 +43,7 @@ app = FastAPI(
 
 
 @app.websocket("/ws/{sauna_id}")
-async def websocket_endpoint(ws: WebSocket, sauna_id: int):
+async def websocket_endpoint(ws: WebSocket, sauna_id: str):
     await store.connect(sauna_id, ws)
     try:
         while True:

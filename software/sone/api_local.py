@@ -3,6 +3,7 @@ from typing import List
 from fastapi import FastAPI, APIRouter, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
+import websockets
 
 from . import __title__, __version__
 from .kfive import KFive
@@ -14,6 +15,15 @@ sone = SOne.instance()
 kfive = KFive.instance()
 kfive.update(sone.status)         # update KFive with the default Status of SOne
 sone.kfive_update = kfive.update  # sync SOne with KFive
+
+
+async def loop_ws_client(url):
+    async with websockets.connect(url) as ws:
+        await ws.send('hello sone server')
+        while True:
+            resp = await ws.recv()
+            print(resp)
+
 
 app = FastAPI(
     title=__title__,
