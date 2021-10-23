@@ -1,6 +1,6 @@
 from fastapi.testclient import TestClient
 
-from .api import app
+from .ksix import app
 from .defaults import DEFAULT_SCHEDULE, DEFAULT_STATUS
 from .models import Schedule
 from .sone import SOne
