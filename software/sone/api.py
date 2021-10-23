@@ -28,7 +28,7 @@ class ConnectionStore(Singleton):
         for sauna_id, ws in self.connections:
             await connection.send_text(message)
 
-    def get_device_ids(self) -> List[str]:
+    def get_sauna_list(self) -> List[str]:
         return list(self.connections.keys())
 
     def exists(self, sauna_id: str) -> bool:
@@ -65,8 +65,8 @@ scheduling_router = APIRouter(tags=["Sauna Scheduling"])
 
 
 @meta_router.get("/list", response_model=List[str])
-async def get_status():
-    return store.get_device_ids()
+async def get_sauna_list():
+    return store.get_sauna_list()
 
 
 @status_router.get("/{sauna_id}/status", response_model=Status)
