@@ -1,4 +1,5 @@
 fastapi
+gunicorn
 pyserial
 pytest
 pytest-mock
