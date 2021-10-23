@@ -2,6 +2,7 @@ from typing import List
 
 from fastapi import FastAPI, APIRouter, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
 
 from . import __title__, __version__
 from .kfive import KFive
@@ -20,8 +21,8 @@ app = FastAPI(
     description="REST API for sauna status fetching and control")
 
 root_router = APIRouter(prefix="/sauna")
-ping_router = APIRouter(
-    tags=["Sauna Discovery"])
+meta_router = APIRouter(
+    tags=["Sauna Meta"])
 status_router = APIRouter(
     tags=["Sauna Status"],
     responses={404: {"description": "Sauna ID not found", "model": HTTPError}})
@@ -30,10 +31,19 @@ control_router = APIRouter(
     responses={404: {"description": "Sauna ID not found", "model": HTTPError}})
 scheduling_router = APIRouter(tags=["Sauna Scheduling"])
 
+@app.get("/")
+async def home():
+    return HTMLResponse('<img src="%s">' % sone.sauna_id_qr)
 
-@ping_router.get("/ping", response_model=SaunaID)
+
+@meta_router.get("/ping", response_model=SaunaID)
 async def get_id():
     return SaunaID(sauna_id=sone.sauna_id, model_name=sone.model_name)
+
+
+@meta_router.get("/qrcode")
+async def get_id_qrcode():
+    return sone.sauna_id_qr
 
 
 @status_router.get("/{sauna_id}/status", response_model=Status)
@@ -120,7 +130,7 @@ async def delete_schedule(sauna_id: str, schedule_id: str):
     raise HTTPException(status_code=404, detail="Schedule ID not found")
 
 
-root_router.include_router(ping_router)
+root_router.include_router(meta_router)
 root_router.include_router(status_router)
 root_router.include_router(control_router)
 root_router.include_router(scheduling_router)

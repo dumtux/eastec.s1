@@ -16,6 +16,12 @@ def test_ping():
     assert 'model_name' in response.json().keys()
 
 
+def test_get_qrcode():
+    response = client.get("/sauna/qrcode")
+    assert response.status_code == 200
+    assert SOne.instance().sauna_id_qr == response.json()
+
+
 def test_get_status():
     response = client.get("/sauna/fake_sauna_id/status")
     assert response.status_code == 404

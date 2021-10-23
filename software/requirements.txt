@@ -3,6 +3,7 @@ gunicorn
 pyserial
 pytest
 pytest-mock
+qrcode[pil]
 requests
 typer
 uvicorn
