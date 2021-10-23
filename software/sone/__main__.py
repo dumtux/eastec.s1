@@ -16,7 +16,7 @@ def device():
         uvicorn.run(api_local.app, host='0.0.0.0', port=8000)
 
     def run_ws():
-        asyncio.run(api_local.loop_ws_client("ws://localhost:8001/ws/0000"))
+        asyncio.run(api_local.loop_ws_client('0.0.0.0', 8001))
 
     ws_app = Process(target = run_app)
     ws_proc = Process(target = run_ws)
