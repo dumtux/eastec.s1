@@ -11,7 +11,7 @@ from .utils import get_sauna_id
 
 
 LOCAL_HOST = '0.0.0.0'
-LOCAL_PORT = 8000
+LOCAL_PORT = 8002
 CLOUD_HOST = '0.0.0.0'
 CLOUD_PORT = 8001
 
@@ -23,10 +23,13 @@ async def loop_ws_client(cloud_url: str):
     if cloud_url is None:
         url = "ws://%s:%d/ws/%s" % (CLOUD_HOST, CLOUD_PORT, sauna_id)
     else:
+        if cloud_url.endswith('/'):
+            cloud_url = cloud_url[:-1]
         url = f"ws{cloud_url[4:]}/ws/{sauna_id}"
-        print(url)
+        print(f"Connecting to {url}")
     async with httpx.AsyncClient() as client:
         async with websockets.connect(url) as ws:
+            print("websocket connected")
             while True:
                 req = await ws.recv()
                 req = json.loads(req)
