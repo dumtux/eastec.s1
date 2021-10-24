@@ -18,9 +18,13 @@ CLOUD_PORT = 8001
 typer_app = typer.Typer()
 
 
-async def loop_ws_client(host: str, port: int):
+async def loop_ws_client(cloud_url: str):
     sauna_id = get_sauna_id()
-    url = "ws://%s:%d/ws/%s" % (host, port, sauna_id)
+    if cloud_url is None:
+        url = "ws://%s:%d/ws/%s" % (CLOUD_HOST, CLOUD_PORT, sauna_id)
+    else:
+        url = f"ws{cloud_url[4:]}/ws/{sauna_id}"
+        print(url)
     async with httpx.AsyncClient() as client:
         async with websockets.connect(url) as ws:
             while True:
@@ -36,7 +40,7 @@ async def loop_ws_client(host: str, port: int):
 
 
 @typer_app.command()
-def device():
+def device(cloud_url=None):
     'run local API server'
     from . import api_local
 
@@ -44,7 +48,7 @@ def device():
         uvicorn.run(api_local.app, host=LOCAL_HOST, port=LOCAL_PORT)
 
     def run_ws():
-        asyncio.run(loop_ws_client(CLOUD_HOST, CLOUD_PORT))
+        asyncio.run(loop_ws_client(cloud_url))
 
     ws_app = Process(target = run_app)
     ws_proc = Process(target = run_ws)
