@@ -16,7 +16,7 @@ app = FastAPI(
     version=__version__,
     description="Cloud REST API for sauna status fetching and control")
 connections: Dict[str, WebSocket] = dict()
-responses: Dict[str, Any] = dict()
+response_status: Dict[str, Any] = dict()
 
 
 @app.websocket_route("/ws/{sauna_id}", name="ws")
@@ -28,18 +28,18 @@ class DeviceCoManager(WebSocketEndpoint):
         await ws.accept()
         sauna_id = DeviceCoManager.get_id_from_ws(ws)
         connections[sauna_id] = ws
-        responses[sauna_id] = None
+        response_status[sauna_id] = None
         print(f"Sauna {sauna_id} connected.")
 
     async def on_disconnect(self, ws, close_code: int):
         sauna_id = DeviceCoManager.get_id_from_ws(ws)
         connections.pop(sauna_id)
-        responses.pop(sauna_id)
+        response_status.pop(sauna_id)
         print(f"Sauna {sauna_id} disconnected.")
 
     async def on_receive(self, ws, msg: Any):
         sauna_id = DeviceCoManager.get_id_from_ws(ws)
-        responses[sauna_id] = json.loads(msg)
+        response_status[sauna_id] = json.loads(msg)
 
     @classmethod
     def get_id_from_ws(cls, ws: WebSocket) -> str:
@@ -54,10 +54,10 @@ root_router = APIRouter(prefix="/sauna")
 meta_router = APIRouter(tags=["Sauna Meta"])
 status_router = APIRouter(
     tags=["Sauna Status"],
-    responses={404: {"description": "Sauna ID not found", "model": HTTPError}})
+    response_status={404: {"description": "Sauna ID not found", "model": HTTPError}})
 control_router = APIRouter(
     tags=["Sauna Control"],
-    responses={404: {"description": "Sauna ID not found", "model": HTTPError}})
+    response_status={404: {"description": "Sauna ID not found", "model": HTTPError}})
 scheduling_router = APIRouter(tags=["Sauna Scheduling"])
 
 
@@ -71,10 +71,10 @@ async def get_status(sauna_id: str):
     if sauna_id not in connections:
         raise HTTPException(status_code=404, detail="Sauna ID not found")
     await connections[sauna_id].send_json({"message": "is this working?"})
-    while responses[sauna_id] is None:
+    while response_status[sauna_id] is None:
         await asyncio.sleep(0.8)
-    r = dict(responses[sauna_id])
-    responses[sauna_id] = None
+    r = dict(response_status[sauna_id])
+    response_status[sauna_id] = None
     return r
 
 
@@ -101,7 +101,7 @@ async def update_timer(sauna_id: str, program: Program):
 @scheduling_router.get(
     "/{sauna_id}/schedules",
     response_model=List[Schedule],
-    responses={
+    response_status={
         404: {"description": "Sauna ID not found", "model": HTTPError},
     },
 )
@@ -113,7 +113,7 @@ async def get_schedules(sauna_id: str):
     "/{sauna_id}/schedules",
     status_code=201,
     response_model=List[Schedule],
-    responses={
+    response_status={
         404: {"description": "Sauna ID or Schedule ID not found", "model": HTTPError},
         409: {"description": "Schedule ID conflicts", "model": HTTPError},
     },
@@ -125,7 +125,7 @@ async def add_schedule(sauna_id: str, schedule: Schedule):
 @scheduling_router.delete(
     "/{sauna_id}/schedules/{schedule_id}",
     response_model=List[Schedule],
-    responses={
+    response_status={
         404: {"description": "Sauna ID or Schedule ID not found", "model": HTTPError},
     },
 )
