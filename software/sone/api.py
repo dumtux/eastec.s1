@@ -2,7 +2,7 @@ import asyncio
 import json
 from typing import Any, Dict, List
 
-from fastapi import APIRouter, FastAPI, WebSocket, WebSocketDisconnect, HTTPException
+from fastapi import APIRouter, FastAPI, WebSocket, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.endpoints import WebSocketEndpoint
 
@@ -50,7 +50,18 @@ class DeviceCoManager(WebSocketEndpoint):
         return sauna_id
 
 
-async def tick_ws(sauna_id: str, data: Any) -> Any:
+async def tick_ws(sauna_id: str, request: Request) -> Any:
+    if sauna_id not in connections:
+        raise HTTPException(status_code=404, detail="Sauna ID not found")
+    if request.method =='POST' or request.method == 'PUT':
+        body = await request.json()
+    else:
+        body = None
+    data = {
+        "path": request.url.path,
+        "method": request.method,
+        "body": body,
+    }
     await connections[sauna_id].send_json(data)
     while responses[sauna_id] is None:
         await asyncio.sleep(0.8)
@@ -72,10 +83,8 @@ async def get_sauna_list():
 
 
 @status_router.get("/{sauna_id}/status", response_model=Status)
-async def get_status(sauna_id: str):
-    if sauna_id not in connections:
-        raise HTTPException(status_code=404, detail="Sauna ID not found")
-    return await tick_ws(sauna_id, {"message": "Hey"})
+async def get_status(sauna_id: str, request: Request):
+    return await tick_ws(sauna_id, request)
 
 
 root_router.include_router(meta_router)

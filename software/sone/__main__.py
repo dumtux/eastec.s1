@@ -25,7 +25,13 @@ async def loop_ws_client(host: str, port: int):
         async with websockets.connect(url) as ws:
             while True:
                 req = await ws.recv()
-                res = await client.get(f"http://{LOCAL_HOST}:{LOCAL_PORT}/sauna/{sauna_id}/status")
+                req = json.loads(req)
+                print(req)
+                req = client.build_request(
+                    req['method'],
+                    f"http://{LOCAL_HOST}:{LOCAL_PORT}{req['path']}",
+                    json=req['body'])
+                res = await client.send(req)
                 await ws.send(json.dumps(res.json()))
 
 
