@@ -1,9 +1,11 @@
 import json
+import pathlib
 from typing import List
 
 from fastapi import FastAPI, APIRouter, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 import websockets
 
 from . import __title__, __version__
@@ -11,6 +13,30 @@ from .kfive import KFive
 from .sone import SOne
 from .models import Schedule, Status, SaunaID, HTTPError, StateUpdate, TemperatureUpdate, TimerUpdate, Program
 
+
+HOME_HTML = '''
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="/static/device.css">
+</head>
+<body>
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+            <!-- Numeric ID -->
+            <h2 class="active">__ID__</h2>
+            <!-- <h2 class="inactive underlineHover">SOne Device ID</h2> -->
+
+            <!-- QR Code -->
+            <div class="fadeIn first">
+            <img src="__ID_QR__" id="icon" alt="User Icon" />
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
+'''
 
 sone = SOne.instance()
 kfive = KFive.instance()
@@ -32,6 +58,14 @@ app = FastAPI(
     version=__version__,
     description="Device REST API for sauna status fetching and control")
 
+static_dir = pathlib.Path(__file__).parent / 'static'
+app.mount("/static", StaticFiles(directory=static_dir), name="static")
+
+
+@app.get("/")
+async def home():
+    return HTMLResponse(HOME_HTML.replace("__ID__", sone.sauna_id).replace("__ID_QR__", sone.sauna_id_qr))
+
 root_router = APIRouter(prefix="/sauna")
 meta_router = APIRouter(
     tags=["Sauna Meta"])
@@ -42,10 +76,6 @@ control_router = APIRouter(
     tags=["Sauna Control"],
     responses={404: {"description": "Sauna ID not found", "model": HTTPError}})
 scheduling_router = APIRouter(tags=["Sauna Scheduling"])
-
-@app.get("/")
-async def home():
-    return HTMLResponse('<img src="%s">' % sone.sauna_id_qr)
 
 
 @meta_router.get("/ping", response_model=SaunaID)
