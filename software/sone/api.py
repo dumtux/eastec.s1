@@ -12,9 +12,9 @@ from .singletone import Singleton
 
 
 app = FastAPI(
-    title=__title__,
+    title=f"{__title__} Cloud",
     version=__version__,
-    description="REST API for sauna status fetching and control")
+    description="Cloud REST API for sauna status fetching and control")
 connections: Dict[str, WebSocket] = dict()
 responses: Dict[str, Any] = dict()
 

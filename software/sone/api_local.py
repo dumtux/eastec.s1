@@ -28,9 +28,9 @@ async def loop_ws_client(host: str, port: int):
 
 
 app = FastAPI(
-    title=__title__,
+    title=f"{__title__} Device",
     version=__version__,
-    description="REST API for sauna status fetching and control")
+    description="Device REST API for sauna status fetching and control")
 
 root_router = APIRouter(prefix="/sauna")
 meta_router = APIRouter(
