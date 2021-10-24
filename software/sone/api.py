@@ -50,6 +50,15 @@ class DeviceCoManager(WebSocketEndpoint):
         return sauna_id
 
 
+async def tick_ws(sauna_id: str, data: Any) -> Any:
+    await connections[sauna_id].send_json(data)
+    while responses[sauna_id] is None:
+        await asyncio.sleep(0.8)
+    r = dict(responses[sauna_id])
+    responses[sauna_id] = None
+    return r
+
+
 root_router = APIRouter(prefix="/sauna")
 meta_router = APIRouter(tags=["Sauna Meta"])
 status_router = APIRouter(
@@ -66,13 +75,8 @@ async def get_sauna_list():
 async def get_status(sauna_id: str):
     if sauna_id not in connections:
         raise HTTPException(status_code=404, detail="Sauna ID not found")
-    await connections[sauna_id].send_json({"message": "is this working?"})
-    while responses[sauna_id] is None:
-        await asyncio.sleep(0.8)
-    print(responses)
-    r = dict(responses[sauna_id])
-    responses[sauna_id] = None
-    return r
+    return await tick_ws(sauna_id, {"message": "Hey"})
+
 
 root_router.include_router(meta_router)
 root_router.include_router(status_router)
