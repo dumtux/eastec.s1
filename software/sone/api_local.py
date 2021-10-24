@@ -1,4 +1,3 @@
-import json
 import pathlib
 from typing import List
 
@@ -6,7 +5,6 @@ from fastapi import FastAPI, APIRouter, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
-import websockets
 
 from . import __title__, __version__
 from .kfive import KFive
@@ -44,14 +42,6 @@ kfive.update(sone.status)         # update KFive with the default Status of SOne
 sone.kfive_update = kfive.update  # sync SOne with KFive
 
 
-async def loop_ws_client(host: str, port: int):
-    url = "ws://%s:%d/ws/%s" % (host, port, sone.sauna_id)
-    async with websockets.connect(url) as ws:
-        while True:
-            req = await ws.recv()
-            print(req)
-            await ws.send(json.dumps(sone.status.serialize()))
-
 
 app = FastAPI(
     title=f"{__title__} Device",
@@ -65,6 +55,7 @@ app.mount("/static", StaticFiles(directory=static_dir), name="static")
 @app.get("/")
 async def home():
     return HTMLResponse(HOME_HTML.replace("__ID__", sone.sauna_id).replace("__ID_QR__", sone.sauna_id_qr))
+
 
 root_router = APIRouter(prefix="/sauna")
 meta_router = APIRouter(

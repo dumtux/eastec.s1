@@ -69,6 +69,7 @@ async def get_status(sauna_id: str):
     await connections[sauna_id].send_json({"message": "is this working?"})
     while responses[sauna_id] is None:
         await asyncio.sleep(0.8)
+    print(responses)
     r = dict(responses[sauna_id])
     responses[sauna_id] = None
     return r
