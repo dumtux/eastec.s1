@@ -1,3 +1,4 @@
+import json
 from typing import List
 
 from fastapi import FastAPI, APIRouter, HTTPException
@@ -20,10 +21,10 @@ sone.kfive_update = kfive.update  # sync SOne with KFive
 async def loop_ws_client(host: str, port: int):
     url = "ws://%s:%d/ws/%s" % (host, port, sone.sauna_id)
     async with websockets.connect(url) as ws:
-        await ws.send('hello sone server')
         while True:
-            resp = await ws.recv()
-            print(resp)
+            req = await ws.recv()
+            print(req)
+            await ws.send(json.dumps(sone.status.serialize()))
 
 
 app = FastAPI(

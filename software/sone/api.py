@@ -1,56 +1,53 @@
-from typing import Dict, List
+import asyncio
+import json
+from typing import Any, Dict, List
 
 from fastapi import APIRouter, FastAPI, WebSocket, WebSocketDisconnect, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.endpoints import WebSocketEndpoint
 
 from . import __title__, __version__
 from .models import Schedule, Status, SaunaID, HTTPError, StateUpdate, TemperatureUpdate, TimerUpdate, Program
 from .singletone import Singleton
 
 
-class ConnectionStore(Singleton):
-
-    connections: Dict[str, WebSocket] = dict()
-
-    async def connect(self, sauna_id: str, ws: WebSocket) -> None:
-        await ws.accept()
-        if sauna_id in self.connections:
-            raise Exception("Device ID already exists")
-        self.connections[sauna_id] = ws
-
-    def disconnect(self, sauna_id: str) -> None:
-        self.connections.pop(sauna_id)
-
-    async def send_to(self, message: str, sauna_id: str) -> None:
-        await self.connections[sauna_id].send_text(message)
-
-    async def send_to_all(self, message: str) -> None:
-        for sauna_id, ws in self.connections:
-            await connection.send_text(message)
-
-    def get_sauna_list(self) -> List[str]:
-        return list(self.connections.keys())
-
-    def exists(self, sauna_id: str) -> bool:
-        return sauna_id in self.connections
-
-
-store = ConnectionStore.instance()
 app = FastAPI(
     title=__title__,
     version=__version__,
     description="REST API for sauna status fetching and control")
+connections: Dict[str, WebSocket] = dict()
+responses: Dict[str, Any] = dict()
 
 
-@app.websocket("/ws/{sauna_id}")
-async def websocket_endpoint(ws: WebSocket, sauna_id: str):
-    await store.connect(sauna_id, ws)
-    try:
-        while True:
-            data = await ws.receive_text()
-            await store.send_to(f"Got this from SOne: {data}", sauna_id)
-    except WebSocketDisconnect:
-        store.disconnect(sauna_id)
+@app.websocket_route("/ws/{sauna_id}", name="ws")
+class DeviceCoManager(WebSocketEndpoint):
+
+    encoding: str = "text"
+
+    async def on_connect(self, ws):
+        await ws.accept()
+        sauna_id = DeviceCoManager.get_id_from_ws(ws)
+        connections[sauna_id] = ws
+        responses[sauna_id] = None
+        print(f"Sauna {sauna_id} connected.")
+
+    async def on_disconnect(self, ws, close_code: int):
+        sauna_id = DeviceCoManager.get_id_from_ws(ws)
+        connections.pop(sauna_id)
+        responses.pop(sauna_id)
+        print(f"Sauna {sauna_id} disconnected.")
+
+    async def on_receive(self, ws, msg: Any):
+        sauna_id = DeviceCoManager.get_id_from_ws(ws)
+        responses[sauna_id] = json.loads(msg)
+
+    @classmethod
+    def get_id_from_ws(cls, ws: WebSocket) -> str:
+        p = str(ws.url.path)
+        if not p.startswith("/ws/"):
+            raise Exception("Invalid WebSocket URL")
+        sauna_id = p[4:]
+        return sauna_id
 
 
 root_router = APIRouter(prefix="/sauna")
@@ -66,14 +63,19 @@ scheduling_router = APIRouter(tags=["Sauna Scheduling"])
 
 @meta_router.get("/list", response_model=List[str])
 async def get_sauna_list():
-    return store.get_sauna_list()
+    return list(connections.keys())
 
 
 @status_router.get("/{sauna_id}/status", response_model=Status)
 async def get_status(sauna_id: str):
-    if not store.exists(sauna_id):
+    if sauna_id not in connections:
         raise HTTPException(status_code=404, detail="Sauna ID not found")
-    raise Exception("Not implemented yet")
+    await connections[sauna_id].send_json({"message": "is this working?"})
+    while responses[sauna_id] is None:
+        await asyncio.sleep(0.8)
+    r = dict(responses[sauna_id])
+    responses[sauna_id] = None
+    return r
 
 
 @control_router.put("/{sauna_id}/state", response_model=Status)
