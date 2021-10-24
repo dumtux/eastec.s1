@@ -9,6 +9,11 @@ from .sone import SOne
 client = TestClient(app)
 
 
+def test_home():
+    response = client.get("/")
+    assert response.status_code == 200
+
+
 def test_ping():
     response = client.get("/sauna/ping")
     assert response.status_code == 200
