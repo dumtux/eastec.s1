@@ -67,7 +67,10 @@ async def tick_ws(sauna_id: str, request: Request) -> Any:
         await asyncio.sleep(0.8)
     r = dict(responses[sauna_id])
     responses[sauna_id] = None
-    return r
+
+    if r['status_code'] not in [200, 201]:
+        raise HTTPException(status_code = r['status_code'], detail=r['body']['detail'])
+    return r['body']
 
 
 root_router = APIRouter(prefix="/sauna")
@@ -75,6 +78,10 @@ meta_router = APIRouter(tags=["Sauna Meta"])
 status_router = APIRouter(
     tags=["Sauna Status"],
     responses={404: {"description": "Sauna ID not found", "model": HTTPError}})
+control_router = APIRouter(
+    tags=["Sauna Control"],
+    responses={404: {"description": "Sauna ID not found", "model": HTTPError}})
+scheduling_router = APIRouter(tags=["Sauna Scheduling"])
 
 
 @meta_router.get("/list", response_model=List[str])
@@ -86,9 +93,65 @@ async def get_sauna_list():
 async def get_status(sauna_id: str, request: Request):
     return await tick_ws(sauna_id, request)
 
+@control_router.put("/{sauna_id}/state", response_model=Status)
+async def update_state(sauna_id: str, update: StateUpdate, request: Request):
+    return await tick_ws(sauna_id, request)
+
+
+@control_router.put("/{sauna_id}/temperature", response_model=Status)
+async def update_target_temperature(sauna_id: str, update: TemperatureUpdate, request: Request):
+    return await tick_ws(sauna_id, request)
+
+
+@control_router.put("/{sauna_id}/timer", response_model=Status)
+async def update_timer(sauna_id: str, update: TimerUpdate, request: Request):
+    return await tick_ws(sauna_id, request)
+
+
+@scheduling_router.get(
+    "/{sauna_id}/schedules",
+    response_model=List[Schedule],
+    responses={
+        404: {"description": "Sauna ID not found", "model": HTTPError},
+    },
+)
+async def get_schedules(sauna_id: str, request: Request):
+    return await tick_ws(sauna_id, request)
+
+
+@control_router.post("/{sauna_id}/program", response_model=Status)
+async def update_timer(sauna_id: str, program: Program, request: Request):
+    return await tick_ws(sauna_id, request)
+
+
+@scheduling_router.post(
+    "/{sauna_id}/schedules",
+    status_code=201,
+    response_model=List[Schedule],
+    responses={
+        404: {"description": "Sauna ID or Schedule ID not found", "model": HTTPError},
+        409: {"description": "Schedule ID conflicts", "model": HTTPError},
+    },
+)
+async def add_schedule(sauna_id: str, schedule: Schedule, request: Request):
+    return await tick_ws(sauna_id, request)
+
+
+@scheduling_router.delete(
+    "/{sauna_id}/schedules/{schedule_id}",
+    response_model=List[Schedule],
+    responses={
+        404: {"description": "Sauna ID or Schedule ID not found", "model": HTTPError},
+    },
+)
+async def delete_schedule(sauna_id: str, schedule_id: str, request: Request):
+    return await tick_ws(sauna_id, request)
+
 
 root_router.include_router(meta_router)
 root_router.include_router(status_router)
+root_router.include_router(control_router)
+root_router.include_router(scheduling_router)
 app.include_router(root_router)
 
 app.add_middleware(

@@ -32,7 +32,7 @@ async def loop_ws_client(host: str, port: int):
                     f"http://{LOCAL_HOST}:{LOCAL_PORT}{req['path']}",
                     json=req['body'])
                 res = await client.send(req)
-                await ws.send(json.dumps(res.json()))
+                await ws.send(json.dumps({"status_code": res.status_code, "body": res.json()}))
 
 
 @typer_app.command()
