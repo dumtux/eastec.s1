@@ -89,6 +89,27 @@ async def get_sauna_list():
     return list(connections.keys())
 
 
+@meta_router.get("/list_sauna", response_model=List[Any])
+async def get_sauna_list_sauna():
+    return [
+        {
+            "sauna_id": "35023221449471",
+            "sauna_name": "Arnold's sauna",
+            "is_online": True,
+        },
+        {
+            "sauna_id": "12345678901234",
+            "sauna_name": "Kemal's sauna",
+            "is_online": False,
+        },
+        {
+            "sauna_id": "12345678905678",
+            "sauna_name": "Hotte's sauna",
+            "is_online": False,
+        },
+    ]
+
+
 @status_router.get("/{sauna_id}/status", response_model=Status)
 async def get_status(sauna_id: str, request: Request):
     return await tick_ws(sauna_id, request)
