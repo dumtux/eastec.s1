@@ -1,6 +1,6 @@
 body {
-  background-color: #5f514f;
-  overflow-y: scroll;
+  /* background-color: #5f514f; */
+  background-image: url("/static/image/background.jpg");
   overflow-x: hidden;
 }
 

@@ -2,7 +2,6 @@ body {
     padding: 0;
     margin: 0;
     font-family: 'Roboto ', sans-serif;
-    background-color: #F9F9F9;
   }
   .container {
     margin: 0 auto;
@@ -16,7 +15,7 @@ body {
     margin-bottom: 20px;
     width: 100%;
     height: auto;
-    background-color: #3b1e1a;
+    /* background-color: #3b1e1a; */
   }
 
   .logo,
