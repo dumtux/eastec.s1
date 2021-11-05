@@ -3,3 +3,5 @@ env: flex
 runtime_config:
   python_version: 3
 entrypoint: gunicorn -w 1 -k uvicorn.workers.UvicornWorker sone.api:app
+network:
+  session_affinity: true
