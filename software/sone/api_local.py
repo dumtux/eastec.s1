@@ -16,7 +16,7 @@ HOME_HTML = '''
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="/static/device.css">
+    <link rel="stylesheet" href="/static/css/device.css">
 </head>
 <body>
     <div class="wrapper fadeInDown">
