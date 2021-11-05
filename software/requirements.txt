@@ -2,6 +2,7 @@ cryptography
 fastapi
 gunicorn
 httpx
+jinja2
 pyjwt
 pyserial
 pytest

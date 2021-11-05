@@ -5,13 +5,17 @@ from typing import Any, Dict, List
 
 from fastapi import APIRouter, FastAPI, WebSocket, HTTPException, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 from starlette.endpoints import WebSocketEndpoint
 
 from . import __title__, __version__
 from .models import Schedule, Status, SaunaID, HTTPError, StateUpdate, TemperatureUpdate, TimerUpdate, Program
 from .auth import verify_token
 
+
+STATIC_DIR = pathlib.Path(__file__).parent / "static"
 
 connections: Dict[str, WebSocket] = dict()
 responses: Dict[str, Any] = dict()
@@ -20,7 +24,13 @@ app = FastAPI(
     title=f"{__title__} Cloud",
     version=__version__,
     description="Cloud REST API for sauna status fetching and control")
-app.mount("/static", StaticFiles(directory=pathlib.Path(__file__).parent / "static"), name="static")
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+templates = Jinja2Templates(directory=STATIC_DIR / "template")
+
+
+@app.get("/", response_class=HTMLResponse)
+async def home(request: Request):
+    return templates.TemplateResponse("index_cloud.html", {"request": request})
 
 
 @app.websocket_route("/ws/{sauna_id}", name="ws")
