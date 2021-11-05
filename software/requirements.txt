@@ -1,6 +1,7 @@
 fastapi
 gunicorn
 httpx
+pyjwt
 pyserial
 pytest
 pytest-mock
