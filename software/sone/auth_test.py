@@ -1,5 +1,5 @@
-from .auth import check_token
+from .auth import _verify_token
 
 
-def test_check_token():
-    assert check_token('invalid-token-string') is False
+def test__verify_token():
+    assert _verify_token('invalid-token-string') is False

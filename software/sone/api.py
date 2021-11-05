@@ -2,13 +2,13 @@ import asyncio
 import json
 from typing import Any, Dict, List
 
-from fastapi import APIRouter, FastAPI, WebSocket, HTTPException, Request
+from fastapi import APIRouter, FastAPI, WebSocket, HTTPException, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.endpoints import WebSocketEndpoint
 
 from . import __title__, __version__
 from .models import Schedule, Status, SaunaID, HTTPError, StateUpdate, TemperatureUpdate, TimerUpdate, Program
-from .singletone import Singleton
+from .auth import verify_token
 
 
 app = FastAPI(
@@ -108,6 +108,11 @@ async def get_sauna_list_sauna():
             "is_online": False,
         },
     ]
+
+
+@meta_router.get("/protected", dependencies=[Depends(verify_token)])
+async def get_protected():
+    return "You've got the protected data successfully!"
 
 
 @status_router.get("/{sauna_id}/status", response_model=Status)

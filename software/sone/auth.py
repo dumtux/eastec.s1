@@ -2,9 +2,15 @@ import jwt
 import httpx
 from cryptography.hazmat.backends import default_backend
 from cryptography import x509
+from fastapi import HTTPException, Header
 
 
-def check_token(token: str) -> bool:
+async def verify_token(token: str = Header("Authorization")):
+    if not _verify_token(token):
+        raise HTTPException(status_code=401, detail="Unauthorized token.")
+
+
+def _verify_token(token: str) -> bool:
     try:
         n_decoded = jwt.get_unverified_header(token)
         kid_claim = n_decoded["kid"]
@@ -18,3 +24,5 @@ def check_token(token: str) -> bool:
         return False
     except jwt.exceptions.DecodeError:
         return False
+
+
