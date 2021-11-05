@@ -30,7 +30,7 @@ templates = Jinja2Templates(directory=STATIC_DIR / "template")
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
-    return templates.TemplateResponse("index_cloud.html", {"request": request})
+    return templates.TemplateResponse("index_cloud.html", {"request": request, "device_ids": list(connections.keys())})
 
 
 @app.websocket_route("/ws/{sauna_id}", name="ws")

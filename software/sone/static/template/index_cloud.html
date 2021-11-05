@@ -12,20 +12,19 @@
     <link rel="stylesheet" href="/static/css/devices.css">
 </head>
 <body>
-
     <nav class="navbar">
         <div class="container">
-          <h1 class="logo"><a href="https://ihealthsaunas.com.au/" target="_blank"><img src="/static/image/logo.png"></a></h1>
+            <h1 class="logo"><a href="https://ihealthsaunas.com.au/" target="_blank"><img src="/static/image/logo.png"></a></h1>
           <ul class="nav nav-right">
-            <li><a class="active" href="#">Devices</a></li>
-            <li><a href="#">Firmware</a></li>
-            <li><a href="/docs" target="_blank">API Doc</a></li>
-          </ul>
+              <li><a class="active" href="#">Devices</a></li>
+              <li><a href="#">Firmware</a></li>
+              <li><a href="/docs" target="_blank">API Doc</a></li>
+            </ul>
         </div><!--/.container-->
-
     </nav><!--/.navbar-->
 
     <div class="container">
+        {% for device_id in device_ids %}
         <div id="device-content">
             <div class="device-tab ">
                 <input id="item-18" type="checkbox" class="device-input" name="device">
@@ -39,7 +38,7 @@
                                 <div class="second-fill" style="transform: rotate(249deg)"></div>
                             </div>
                         </div>
-                        <span class="device-name">SOne &lt;235082144888315&gt;</span>
+                        <span class="device-name">SOne &lt;{{device_id}}&gt;</span>
                     </div>
                     <div class="device-stat">
                         <div>
@@ -86,7 +85,8 @@
                 </div>
             </div>
         </div>
+{% endfor %}
     </div><!--/.container-->
-  
+
 </body>
 </html>
