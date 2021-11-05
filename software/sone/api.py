@@ -1,9 +1,11 @@
 import asyncio
 import json
+import pathlib
 from typing import Any, Dict, List
 
 from fastapi import APIRouter, FastAPI, WebSocket, HTTPException, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from starlette.endpoints import WebSocketEndpoint
 
 from . import __title__, __version__
@@ -11,12 +13,14 @@ from .models import Schedule, Status, SaunaID, HTTPError, StateUpdate, Temperatu
 from .auth import verify_token
 
 
+connections: Dict[str, WebSocket] = dict()
+responses: Dict[str, Any] = dict()
+
 app = FastAPI(
     title=f"{__title__} Cloud",
     version=__version__,
     description="Cloud REST API for sauna status fetching and control")
-connections: Dict[str, WebSocket] = dict()
-responses: Dict[str, Any] = dict()
+app.mount("/static", StaticFiles(directory=pathlib.Path(__file__).parent / "static"), name="static")
 
 
 @app.websocket_route("/ws/{sauna_id}", name="ws")
