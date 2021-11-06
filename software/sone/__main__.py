@@ -2,6 +2,11 @@ import asyncio
 import json
 from multiprocessing import Process
 import socket
+try:
+    from asyncio.exceptions import TimeoutError
+except:
+    # for Python 3.7 of Raspberry OS
+    from concurrent.futures._base import TimeoutError
 
 import httpx
 import typer
@@ -51,7 +56,7 @@ async def loop_ws_client(cloud_url: str):
                 logger.warn("Name or service not known, check Cloud URL and networking. Retrying in 5 seconds.")
             except ConnectionRefusedError:
                 logger.warn("Connect call failed, check Cloud URL and networking. Retrying in 5 seconds.")
-            except asyncio.exceptions.TimeoutError:
+            except TimeoutError:
                 logger.error("Timeout error, check Cloud URL and networking. Retrying in 5 seconds.")
             except websockets.exceptions.ConnectionClosedError:
                 logger.error("Connection closed, check Cloud URL and networking. Retrying in 5 seconds.")
