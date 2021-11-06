@@ -25,77 +25,77 @@
 
     <div class="container">
 
-        <div id="device-content">
 {% if device_ids == [] %}
-            <div class="device-tab ">
+        <div class="device-tab ">
+            <div id="device-content">
                 <div class="device-content message">
                     <div class="device-info">
                         <span class="device-name">No SOne device connected. Reload the page for refreshing.</span>
                     </div>
                 </div>
             </div>
+        </div>
 {% endif %}
 {% for device_id in device_ids %}
-            <div class="device-tab ">
-                <input id="item-18" type="checkbox" class="device-input" name="device">
-                <label for="item-18" class="device-label"></label>
-                <div class="device-content">
-                    <div class="device-info">
-                        <div class="chart-pie high-temp over50">
-                            <span class="chart-pie-count">69</span>
-                            <div>
-                                <div class="first-fill"></div>
-                                <div class="second-fill" style="transform: rotate(249deg)"></div>
-                            </div>
-                        </div>
-                        <span class="device-name">SOne &lt;{{device_id}}&gt;</span>
-                    </div>
-                    <div class="device-stat">
+        <div class="device-tab ">
+            <input id="device-{{device_id}}" type="checkbox" class="device-input" name="device">
+            <label for="device-{{device_id}}" class="device-label"></label>
+            <div class="device-content">
+                <div class="device-info">
+                    <div class="chart-pie high-temp over50">
+                        <span class="chart-pie-count">69</span>
                         <div>
-                            <span class="status-playing">Playing</span>
+                            <div class="first-fill"></div>
+                            <div class="second-fill" style="transform: rotate(249deg)"></div>
                         </div>
+                    </div>
+                    <span class="device-name">SOne &lt;{{device_id}}&gt;</span>
+                </div>
+                <div class="device-stat">
+                    <div>
+                        <span class="status-playing">Playing</span>
                     </div>
                 </div>
-                <div class="device-tab-content">
-                    <div class="sentiment-wrapper">
+            </div>
+            <div class="device-tab-content">
+                <div class="sentiment-wrapper">
+                    <div>
                         <div>
+                            <div class="status-playing detail-header">
+                                <span>Playing</span>
+                                <span>1</span>
+                            </div>
                             <div>
-                                <div class="status-playing detail-header">
-                                    <span>Playing</span>
-                                    <span>1</span>
-                                </div>
-                                <div>
-                                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id congue dolor. Vivamus eleifend vitae nunc sed tincidunt.</span>
-                                </div>
+                                <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id congue dolor. Vivamus eleifend vitae nunc sed tincidunt.</span>
                             </div>
                         </div>
+                    </div>
+                    <div>
                         <div>
+                            <div class="status-standby detail-header">
+                                <span>Standby</span>
+                                <span>0</span>
+                            </div>
                             <div>
-                                <div class="status-standby detail-header">
-                                    <span>Standby</span>
-                                    <span>0</span>
-                                </div>
-                                <div>
-                                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id congue dolor. Vivamus eleifend vitae nunc sed tincidunt.</span>
-                                </div>
+                                <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id congue dolor. Vivamus eleifend vitae nunc sed tincidunt.</span>
                             </div>
                         </div>
+                    </div>
+                    <div>
                         <div>
+                            <div class="status-paused detail-header">
+                                <span>Paused</span>
+                                <span>0</span>
+                            </div>
                             <div>
-                                <div class="status-paused detail-header">
-                                    <span>Paused</span>
-                                    <span>0</span>
-                                </div>
-                                <div>
-                                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id congue dolor. Vivamus eleifend vitae nunc sed tincidunt.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id congue dolor. Vivamus eleifend vitae nunc sed tincidunt.</span>
-                                </div>
+                                <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id congue dolor. Vivamus eleifend vitae nunc sed tincidunt.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id congue dolor. Vivamus eleifend vitae nunc sed tincidunt.</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 {% endfor %}
-        </div><!-- .device-content -->
 
     </div><!--/.container-->
 
