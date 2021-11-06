@@ -18,13 +18,28 @@
 
 ## SOne v3
 
+### Updates
+
 * Board renamed to `SOne` due to the project name change
 * Fix the known issues of K9 v2
 * Modify the UART port pinout, caused by the irregular pin numbering of the reverse engineering
 * Add more LED control outputs for RGB color LEDs
 * Add power output for display
 
+## Known Issues
+
+* Class AB amplifer TDA7294 circuit is not working.
+
+
+## SOne v3.1
+
+### Updates
+
+* Use other Class AB amplifier chip
+* add more RBG LED control outputs
+
+
 ---
 
 * Created on 8 Aug 2021
-* Last modified on 24 Sep 2021
+* Last modified on 07 Nov 2021
