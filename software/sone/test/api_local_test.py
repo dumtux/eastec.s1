@@ -43,7 +43,7 @@ def test_update_state():
     response = client.get("/sauna/ping")
     sauna_id = response.json().get("sauna_id")
 
-    response = client.put("/sauna/%s/state" % sauna_id, json={"state": "playing"})
+    response = client.put("/sauna/%s/state" % sauna_id, json={"state": "heating"})
     assert response.status_code == 200
     assert response.json() == SOne.instance().status.serialize()
 

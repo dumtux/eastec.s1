@@ -16,8 +16,8 @@ def test_set_state(mocker):
 
     spy = mocker.spy(so, 'kfive_update')
 
-    so.set_state('playing')
-    assert so.status.state =='playing'
+    so.set_state('heating')
+    assert so.status.state =='heating'
     spy.assert_called_once()
 
     so.set_state('standby')

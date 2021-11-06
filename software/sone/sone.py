@@ -19,7 +19,7 @@ class SOne(Singleton):
     kfive_update: Callable = lambda x: x
 
     def set_state(self, state: str) -> Status:
-        if state not in ['standby', 'playing', 'paused']:
+        if state not in ['standby', 'heating', 'ready', 'insession', 'paused']:
             raise HTTPException(
                 status_code=422,
                 detail="Sauna state must be one of 'standby', 'playing', and 'paused'")
