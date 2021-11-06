@@ -1,4 +1,4 @@
-from .auth import _verify_token
+from ..auth import _verify_token
 
 
 def test__verify_token():

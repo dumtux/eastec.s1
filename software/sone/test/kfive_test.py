@@ -1,6 +1,6 @@
-from .kfive import KFive
-from .singletone import Singleton
-from .utils import get_default_status
+from ..kfive import KFive
+from ..singletone import Singleton
+from ..utils import get_default_status
 
 
 def test_kfive():

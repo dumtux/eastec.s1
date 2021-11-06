@@ -1,4 +1,4 @@
-from .singletone import Singleton
+from ..singletone import Singleton
 
 
 def test_singletone():

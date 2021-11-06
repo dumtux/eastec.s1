@@ -1,8 +1,8 @@
 from fastapi import HTTPException
 from pytest import raises
 
-from .singletone import Singleton
-from .sone import SOne
+from ..singletone import Singleton
+from ..sone import SOne
 
 
 def test_sone():

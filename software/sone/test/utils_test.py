@@ -1,7 +1,7 @@
 import time
 
-from .models import Status
-from .utils import get_sauna_id, get_sauna_name, get_default_status, get_sauna_id_qr
+from ..models import Status
+from ..utils import get_sauna_id, get_sauna_name, get_default_status, get_sauna_id_qr
 
 
 def test_get_sauna_id():

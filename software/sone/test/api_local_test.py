@@ -1,9 +1,9 @@
 from fastapi.testclient import TestClient
 
-from .api_local import app
-from .defaults import DEFAULT_SCHEDULE, DEFAULT_STATUS
-from .models import Schedule
-from .sone import SOne
+from ..api_local import app
+from ..defaults import DEFAULT_SCHEDULE, DEFAULT_STATUS
+from ..models import Schedule
+from ..sone import SOne
 
 
 client = TestClient(app)
