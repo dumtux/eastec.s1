@@ -24,8 +24,18 @@
     </nav><!--/.navbar-->
 
     <div class="container">
-        {% for device_id in device_ids %}
+
         <div id="device-content">
+{% if device_ids == [] %}
+            <div class="device-tab ">
+                <div class="device-content message">
+                    <div class="device-info">
+                        <span class="device-name">No SOne device connected. Reload the page for refreshing.</span>
+                    </div>
+                </div>
+            </div>
+{% endif %}
+{% for device_id in device_ids %}
             <div class="device-tab ">
                 <input id="item-18" type="checkbox" class="device-input" name="device">
                 <label for="item-18" class="device-label"></label>
@@ -84,8 +94,9 @@
                     </div>
                 </div>
             </div>
-        </div>
 {% endfor %}
+        </div><!-- .device-content -->
+
     </div><!--/.container-->
 
 </body>

@@ -47,10 +47,12 @@ body {
 .navbar a {
     color: #FFF;
     text-decoration: none;
+    padding-bottom: 0.5em;
 }
 
 .navbar a:hover {
     color: #DDD;
+    border-bottom: solid 2px white;
 }
 
 .navbar a.active {
