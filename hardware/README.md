@@ -26,7 +26,7 @@
 * Add more LED control outputs for RGB color LEDs
 * Add power output for display
 
-## Known Issues
+### Known Issues
 
 * Class AB amplifer TDA7294 circuit is not working.
 
