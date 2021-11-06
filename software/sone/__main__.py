@@ -1,6 +1,7 @@
 import asyncio
 import json
 from multiprocessing import Process
+import socket
 
 import httpx
 import typer
@@ -18,6 +19,14 @@ CLOUD_PORT = 8001
 typer_app = typer.Typer()
 
 
+def log_green(text: str):
+    typer.secho('SOne: ' + text, fg=typer.colors.GREEN)
+
+
+def log_red(text: str):
+    typer.secho('SOne: ' + text, fg=typer.colors.RED)
+
+
 async def loop_ws_client(cloud_url: str):
     sauna_id = get_sauna_id()
     if cloud_url is None:
@@ -26,20 +35,34 @@ async def loop_ws_client(cloud_url: str):
         if cloud_url.endswith('/'):
             cloud_url = cloud_url[:-1]
         url = f"ws{cloud_url[4:]}/ws/{sauna_id}"
-        print(f"Connecting to {url}")
+        log_green(f"Connecting to {url}")
     async with httpx.AsyncClient() as client:
-        async with websockets.connect(url) as ws:
-            print("websocket connected")
-            while True:
-                req = await ws.recv()
-                req = json.loads(req)
-                print(req)
-                req = client.build_request(
-                    req['method'],
-                    f"http://{LOCAL_HOST}:{LOCAL_PORT}{req['path']}",
-                    json=req['body'])
-                res = await client.send(req)
-                await ws.send(json.dumps({"status_code": res.status_code, "body": res.json()}))
+        while True:
+            try:
+                async with websockets.connect(url) as ws:
+                    log_green("websocket connected")
+                    while True:
+                        req = await ws.recv()
+                        req = json.loads(req)
+                        log_green(req)
+                        req = client.build_request(
+                            req['method'],
+                            f"http://{LOCAL_HOST}:{LOCAL_PORT}{req['path']}",
+                            json=req['body'])
+                        res = await client.send(req)
+                        await ws.send(json.dumps({"status_code": res.status_code, "body": res.json()}))
+            except websockets.exceptions.InvalidStatusCode:
+                log_red("Invalid server response for websocket, check Cloud URL and networking. Retrying in 5 seconds.")
+            except socket.gaierror:
+                log_red("Name or service not known, check Cloud URL and networking. Retrying in 5 seconds.")
+            except ConnectionRefusedError:
+                log_red("Connect call failed, check Cloud URL and networking. Retrying in 5 seconds.")
+            except asyncio.exceptions.TimeoutError:
+                log_red("Timeout error, check Cloud URL and networking. Retrying in 5 seconds.")
+            except websockets.exceptions.ConnectionClosedError:
+                log_red("Connection closed, check Cloud URL and networking. Retrying in 5 seconds.")
+
+            await asyncio.sleep(5)
 
 
 @typer_app.command()
@@ -51,7 +74,10 @@ def device(cloud_url=None):
         uvicorn.run(api_local.app, host=LOCAL_HOST, port=LOCAL_PORT)
 
     def run_ws():
-        asyncio.run(loop_ws_client(cloud_url))
+        try:
+            asyncio.run(loop_ws_client(cloud_url))
+        except KeyboardInterrupt:
+            log_green("Stopping by the user.")
 
     ws_app = Process(target = run_app)
     ws_proc = Process(target = run_ws)
