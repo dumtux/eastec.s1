@@ -29,7 +29,7 @@ app = FastAPI(
 
 static_dir = pathlib.Path(__file__).parent / 'static'
 app.mount("/static", StaticFiles(directory=static_dir), name="static")
-templates = Jinja2Templates(directory=STATIC_DIR / "template")
+templates = Jinja2Templates(directory=str(STATIC_DIR / "template"))
 
 
 @app.get("/")

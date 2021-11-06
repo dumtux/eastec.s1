@@ -25,7 +25,7 @@ app = FastAPI(
     version=__version__,
     description="Cloud REST API for sauna status fetching and control")
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
-templates = Jinja2Templates(directory=STATIC_DIR / "template")
+templates = Jinja2Templates(directory=str(STATIC_DIR / "template"))
 
 
 @app.get("/", response_class=HTMLResponse)
