@@ -8,6 +8,7 @@ from .utils import get_sauna_id, get_sauna_id_qr, get_sauna_name, get_default_st
 
 
 class SOne(Singleton):
+    VALID_STATES = ['standby', 'heating', 'ready', 'insession', 'paused']
 
     sauna_id: str = get_sauna_id()
     sauna_id_qr: str = get_sauna_id_qr()
@@ -19,10 +20,10 @@ class SOne(Singleton):
     kfive_update: Callable = lambda x: x
 
     def set_state(self, state: str) -> Status:
-        if state not in ['standby', 'heating', 'ready', 'insession', 'paused']:
+        if state not in self.VALID_STATES:
             raise HTTPException(
                 status_code=422,
-                detail="Sauna state must be one of 'standby', 'playing', and 'paused'")
+                detail="Sauna state must be one of %s" % str(self.VALID_STATES))
         self.status.state = state
         self.kfive_update(self.status)
         return self.status

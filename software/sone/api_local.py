@@ -1,10 +1,11 @@
 import pathlib
 from typing import List
 
-from fastapi import FastAPI, APIRouter, HTTPException
+from fastapi import FastAPI, APIRouter, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 
 from . import __title__, __version__
 from .kfive import KFive
@@ -12,29 +13,7 @@ from .sone import SOne
 from .models import Schedule, Status, SaunaID, HTTPError, StateUpdate, TemperatureUpdate, TimerUpdate, Program
 
 
-HOME_HTML = '''
-<!DOCTYPE html>
-<html>
-<head>
-    <link rel="stylesheet" href="/static/css/device.css">
-</head>
-<body>
-    <div class="wrapper fadeInDown">
-        <div id="formContent">
-            <!-- Numeric ID -->
-            <h2 class="active">__ID__</h2>
-            <!-- <h2 class="inactive underlineHover">SOne Device ID</h2> -->
-
-            <!-- QR Code -->
-            <div class="fadeIn first">
-            <img src="__ID_QR__" id="icon" alt="User Icon" />
-            </div>
-
-        </div>
-    </div>
-</body>
-</html>
-'''
+STATIC_DIR = pathlib.Path(__file__).parent / "static"
 
 sone = SOne.instance()
 kfive = KFive.instance()
@@ -50,11 +29,14 @@ app = FastAPI(
 
 static_dir = pathlib.Path(__file__).parent / 'static'
 app.mount("/static", StaticFiles(directory=static_dir), name="static")
+templates = Jinja2Templates(directory=STATIC_DIR / "template")
 
 
 @app.get("/")
-async def home():
-    return HTMLResponse(HOME_HTML.replace("__ID__", sone.sauna_id).replace("__ID_QR__", sone.sauna_id_qr))
+async def home(request: Request):
+    return templates.TemplateResponse(
+        "index_device.html",
+        {"request": request, "device_id": sone.sauna_id, "device_id_qr": sone.sauna_id_qr})
 
 
 root_router = APIRouter(prefix="/sauna")

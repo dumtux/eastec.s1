@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="/static/css/device.css">
+</head>
+<body>
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+            <!-- Numeric ID -->
+            <h2 class="active">{{ device_id }}</h2>
+            <!-- <h2 class="inactive underlineHover">SOne Device ID</h2> -->
+
+            <!-- QR Code -->
+            <div class="fadeIn first">
+            <img src="{{ device_id_qr }}" id="icon" alt="User Icon" />
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
