@@ -19,7 +19,7 @@ from .utils import get_sauna_id
 
 
 LOCAL_HOST = '0.0.0.0'
-LOCAL_PORT = 8002
+LOCAL_PORT = 8000
 CLOUD_HOST = '0.0.0.0'
 CLOUD_PORT = 8001
 
