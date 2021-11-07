@@ -46,7 +46,7 @@
                         <span class="chart-pie-count">{{ status_dict[device_id]['current_temperature'] }}</span>
                         <div>
                             <div class="first-fill"></div>
-                            <div class="second-fill" style="transform: rotate(249deg)"></div>
+                            <div class="second-fill" style="transform: rotate(% status_dict[device_id]['current_temperature'] / 100 * 360 %}deg)"></div>
                         </div>
                     </div>
                     <span class="device-name">SOne {{ device_id }}</span>
