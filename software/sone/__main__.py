@@ -41,7 +41,7 @@ async def loop_ws_client(cloud_url: str, local_url: str):
                     while True:
                         req = await ws.recv()
                         req = json.loads(req)
-                        logger.log(req)
+                        logger.log(f"from cloud server: {req}")
                         req = client.build_request(
                             req['method'],
                             f"{local_url}{req['path']}",
