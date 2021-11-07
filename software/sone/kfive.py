@@ -64,18 +64,14 @@ class KFive(Singleton):
             self.endbyte = 0x42
             status.state = 'standby'
         else:
-            if status.state == 'standby':
+            if status.state == 'standby' or self.status == 'ready' or self.status == 'paused':
                 self.pwr = False
                 self.heater = False
                 self.endbyte = 0x42
-            elif status.state == 'playing':
+            elif status.state == 'heating' or status.state == 'insession':
                 self.pwr = True
                 self.heater = self.target_temperature > self.read_temperature
                 self.endbyte = 0xC2 if self.heater else 0x02
-            elif status.state == 'paused':
-                self.pwr = False
-                self.heater = False
-                self.endbyte = 0x42
 
         self.sync_hardware()
         return status
@@ -86,10 +82,11 @@ class KFive(Singleton):
         if self.uart is not None:
             self.uart.write(self.to_bytes())
         logger.log("SOne -> KFive: " + ' '.join([format(x, '02x') for x in self.to_bytes()]))
+        self.read_uart()
 
     def init_uart(self):
         if self.uart is not None:
-            raise Exception('KFive.uart is not None.')
+            raise Exception("KFive.uart is not None.")
 
         try:
             import RPi.GPIO as GPIO
@@ -106,3 +103,22 @@ class KFive(Singleton):
         GPIO.output(UART_EN, GPIO.HIGH)
 
         self.uart = serial.Serial(port=UART_PORT, baudrate=4800, timeout=1)
+
+    def read_uart(self):
+        if self.uart is None:
+            return
+        while True:
+            d = self.uart.read()
+            s = ''
+            if d == b'\xdd':
+                s += d.hex()
+                g = 0
+                for _ in range(15):
+                    d = self.uart.read()
+                    s += ' ' + d.hex()
+                    if _ != 14:
+                        g += int.from_bytes(d, 'big')
+                logger.log(f"KFive -> SOne: {s}")
+                if (g-121)%256 != int.from_bytes(d, 'big'):
+                    logger.error("KFive response checksum incorrect: %d vs %d" % ((g-121)%256, int.from_bytes(d, 'big')))
+                break
