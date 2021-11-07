@@ -7,6 +7,9 @@ from .singletone import Singleton
 from .utils import get_sauna_id, get_sauna_id_qr, get_sauna_name, get_default_status
 
 
+TEMPERATURE_DELTA = 2  # terperature delta between target and current
+
+
 class SOne(Singleton):
     VALID_STATES = ['standby', 'heating', 'ready', 'insession', 'paused']
 
@@ -24,7 +27,35 @@ class SOne(Singleton):
             raise HTTPException(
                 status_code=422,
                 detail="Sauna state must be one of %s" % str(self.VALID_STATES))
-        self.status.state = state
+
+        if state == 'standby':
+            self.status.state = state
+        elif state == 'heating':
+            if self.status.state != 'standby':
+                raise HTTPException(
+                    status_code=422,
+                    detail="'heating' state can be set only from 'standby' state.")
+            if abs(self.status.target_temperature - self.status.current_temperature) > TEMPERATURE_DELTA:
+                self.status.state = 'heating'
+            else:
+                self.status.state = 'ready'
+        elif state == 'ready':
+            raise HTTPException(
+                status_code=422,
+                detail="'ready' state can not be set manually.")
+        elif state == 'insession':
+            if self.status.state != 'ready':
+                raise HTTPException(
+                    status_code=422,
+                    detail="'insession' state can be set only from 'ready' state.")
+            self.status.state = 'insession'
+        elif state == 'paused':
+            if self.status.state != 'insession':
+                raise HTTPException(
+                    status_code=422,
+                    detail="'paused' state can be set only from 'insession' state.")
+            self.status.state = 'insession'
+
         self.kfive_update(self.status)
         return self.status
 
