@@ -13,6 +13,7 @@ import typer
 import uvicorn
 import websockets
 
+from .kfive import KFive
 from .logger import Logger
 from .utils import get_sauna_id
 
@@ -70,6 +71,7 @@ def device(cloud_url=None, host: str=LOCAL_HOST, port: int=LOCAL_PORT):
         cloud_url = f"http://{CLOUD_HOST}:{CLOUD_PORT}"
 
     def run_app():
+        KFive.instance().init_uart()
         uvicorn.run(api_local.app, host=host, port=port)
 
     def run_ws():

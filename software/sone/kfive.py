@@ -1,11 +1,17 @@
-from typing import Callable
+import serial
 
-from .singletone import Singleton
+from .logger import Logger
 from .models import Status
+from .singletone import Singleton
+
+
+logger = Logger.instance()
 
 
 class KFive(Singleton):
     HEATER_VALS = {0: 0, 1: 30, 2: 50, 3: 70, 4: 100}
+
+    uart: serial.Serial = None
 
     heater: bool  = False  # on/off, determined by target temperature vs read temperature, target time vs ellapsed time
     pwr: bool  = False     # on/off
@@ -75,5 +81,28 @@ class KFive(Singleton):
         return status
 
     def sync_hardware(self):
-        print("SOne -> KFive: " + ' '.join([format(x, '02x') for x in self.to_bytes()]))
-        # self.uart.write(self.to_bytes())
+        if self.uart is None:
+            logger.warn("KFive.uart is not initialized or the host OS is not a Raspberry, the following bytes will not be sent to KFive hardware.")
+        if self.uart is not None:
+            self.uart.write(self.to_bytes())
+        logger.log("SOne -> KFive: " + ' '.join([format(x, '02x') for x in self.to_bytes()]))
+
+    def init_uart(self):
+        if self.uart is not None:
+            raise Exception('KFive.uart is not None.')
+
+        try:
+            import RPi.GPIO as GPIO
+        except ModuleNotFoundError:
+            logger.warn("Host OS is not a Raspberry, the SOne will be run in modking mode.")
+            return
+
+        UART_EN = 12
+        UART_PORT = '/dev/serial0'
+
+        # enable UART level shifter on RJ45 connector
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(UART_EN, GPIO.OUT)
+        GPIO.output(UART_EN, GPIO.HIGH)
+
+        self.uart = serial.Serial(port=UART_PORT, baudrate=4800, timeout=1)
