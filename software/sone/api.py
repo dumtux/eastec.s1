@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+import httpx
 from starlette.endpoints import WebSocketEndpoint
 
 from . import __title__, __version__
@@ -30,7 +31,15 @@ templates = Jinja2Templates(directory=str(STATIC_DIR / "template"))
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
-    return templates.TemplateResponse("index_cloud.html", {"request": request, "device_ids": list(connections.keys())})
+    sauna_id_list = list(connections.keys())
+    status_dict = dict()
+    async with httpx.AsyncClient() as client:
+        for sauna_id in sauna_id_list:
+            res = await client.get(f"{request.url}sauna/{sauna_id}/status")
+            status_dict[sauna_id] = res.json()
+    return templates.TemplateResponse(
+        "index_cloud.html",
+        {"request": request, "sauna_id_list": sauna_id_list, "status_dict": status_dict})
 
 
 @app.websocket_route("/ws/{sauna_id}", name="ws")

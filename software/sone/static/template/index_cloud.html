@@ -25,7 +25,7 @@
 
     <div class="container">
 
-{% if device_ids == [] %}
+{% if sauna_id_list == [] %}
         <div class="device-tab ">
             <div id="device-content">
                 <div class="device-content message">
@@ -36,24 +36,24 @@
             </div>
         </div>
 {% endif %}
-{% for device_id in device_ids %}
+{% for device_id in sauna_id_list %}
         <div class="device-tab ">
-            <input id="device-{{device_id}}" type="checkbox" class="device-input" name="device">
-            <label for="device-{{device_id}}" class="device-label"></label>
+            <input id="device-{{ device_id }}" type="checkbox" class="device-input" name="device">
+            <label for="device-{{ device_id }}" class="device-label"></label>
             <div class="device-content">
                 <div class="device-info">
-                    <div class="chart-pie high-temp over50">
-                        <span class="chart-pie-count">69</span>
+                    <div class="chart-pie normal-temp">
+                        <span class="chart-pie-count">{{ status_dict[device_id]['current_temperature'] }}</span>
                         <div>
                             <div class="first-fill"></div>
                             <div class="second-fill" style="transform: rotate(249deg)"></div>
                         </div>
                     </div>
-                    <span class="device-name">SOne &lt;{{device_id}}&gt;</span>
+                    <span class="device-name">SOne {{ device_id }}</span>
                 </div>
                 <div class="device-stat">
                     <div>
-                        <span class="status-playing">Playing</span>
+                        <span class="state-{{ status_dict[device_id]['state'] }}">{{ status_dict[device_id]['state'] }}</span>
                     </div>
                 </div>
             </div>
@@ -61,34 +61,32 @@
                 <div class="sentiment-wrapper">
                     <div>
                         <div>
-                            <div class="status-playing detail-header">
-                                <span>Playing</span>
-                                <span>1</span>
+                            <div class="state-{{ status_dict[device_id]['state'] }} detail-header">
+                                <span>{{ status_dict[device_id]['state'] }}</span>
                             </div>
                             <div>
-                                <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id congue dolor. Vivamus eleifend vitae nunc sed tincidunt.</span>
+                                <span>The state of sauna, one of 'standby', 'heating', 'ready', 'insession', 'paused'. Does it make sense?</span>
                             </div>
                         </div>
                     </div>
                     <div>
                         <div>
-                            <div class="status-standby detail-header">
-                                <span>Standby</span>
-                                <span>0</span>
+                            <div class="detail-header">
+                                <span>Status in detail</span>
                             </div>
                             <div>
-                                <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id congue dolor. Vivamus eleifend vitae nunc sed tincidunt.</span>
+                                <span>state: {{ status_dict[device_id] }}</span>
                             </div>
                         </div>
                     </div>
                     <div>
                         <div>
-                            <div class="status-paused detail-header">
-                                <span>Paused</span>
-                                <span>0</span>
+                            <div class="detail-header">
+                                <span>Actions</span>
+                                <span>--</span>
                             </div>
                             <div>
-                                <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id congue dolor. Vivamus eleifend vitae nunc sed tincidunt.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id congue dolor. Vivamus eleifend vitae nunc sed tincidunt.</span>
+                                <span>Manage SOne device in more detail, control parameters, reboot, or upgrade firmware.</span>
                             </div>
                         </div>
                     </div>
