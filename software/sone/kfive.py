@@ -119,6 +119,7 @@ class KFive(Singleton):
                 g = 0
                 for _ in range(15):
                     d = self.uart.read()
+                    data.append(d)
                     s += ' ' + d.hex()
                     if _ != 14:
                         g += int.from_bytes(d, 'big')
