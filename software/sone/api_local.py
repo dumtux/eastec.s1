@@ -65,7 +65,7 @@ async def get_id_qrcode():
 async def get_status(sauna_id: str):
     if sauna_id != sone.sauna_id:
         raise HTTPException(status_code=404, detail="Sauna ID not found")
-    return sone.status
+    return sone.get_status()
 
 
 @control_router.put("/{sauna_id}/state", response_model=Status)

@@ -22,6 +22,10 @@ class SOne(Singleton):
 
     kfive_update: Callable = lambda x: x
 
+    def get_status(self) -> Status:
+        self.kfive_update(self.status)
+        return self.status
+
     def set_state(self, state: str) -> Status:
         if state not in self.VALID_STATES:
             raise HTTPException(

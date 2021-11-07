@@ -64,7 +64,7 @@ class KFive(Singleton):
             self.endbyte = 0x42
             status.state = 'standby'
         else:
-            if status.state == 'standby' or self.status == 'ready' or self.status == 'paused':
+            if status.state == 'standby' or status.state == 'ready' or status.state == 'paused':
                 self.pwr = False
                 self.heater = False
                 self.endbyte = 0x42
@@ -74,6 +74,8 @@ class KFive(Singleton):
                 self.endbyte = 0xC2 if self.heater else 0x02
 
         self.sync_hardware()
+
+        status.current_temperature = self.read_temperature
         return status
 
     def sync_hardware(self):
@@ -107,10 +109,12 @@ class KFive(Singleton):
     def read_uart(self):
         if self.uart is None:
             return
+        data = []
         while True:
             d = self.uart.read()
             s = ''
             if d == b'\xdd':
+                data.append(d)
                 s += d.hex()
                 g = 0
                 for _ in range(15):
@@ -122,3 +126,4 @@ class KFive(Singleton):
                 if (g-121)%256 != int.from_bytes(d, 'big'):
                     logger.error("KFive response checksum incorrect: %d vs %d" % ((g-121)%256, int.from_bytes(d, 'big')))
                 break
+        self.read_temperature = int.from_bytes(data[5], 'big')
