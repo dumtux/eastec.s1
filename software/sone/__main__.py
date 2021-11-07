@@ -26,19 +26,16 @@ typer_app = typer.Typer()
 logger = Logger.instance()
 
 
-async def loop_ws_client(cloud_url: str):
+async def loop_ws_client(cloud_url: str, local_url: str):
     sauna_id = get_sauna_id()
-    if cloud_url is None:
-        url = "ws://%s:%d/ws/%s" % (CLOUD_HOST, CLOUD_PORT, sauna_id)
-    else:
-        if cloud_url.endswith('/'):
-            cloud_url = cloud_url[:-1]
-        url = f"ws{cloud_url[4:]}/ws/{sauna_id}"
-        logger.log(f"Connecting to {url}")
+    if cloud_url.endswith('/'):
+        cloud_url = cloud_url[:-1]
+    ws_cloud_url = f"ws://{cloud_url.split('://')[1]}/ws/{sauna_id}"
+    logger.log(f"Connecting to {ws_cloud_url}")
     async with httpx.AsyncClient() as client:
         while True:
             try:
-                async with websockets.connect(url) as ws:
+                async with websockets.connect(ws_cloud_url) as ws:
                     logger.log("websocket connected")
                     while True:
                         req = await ws.recv()
@@ -46,7 +43,7 @@ async def loop_ws_client(cloud_url: str):
                         logger.log(req)
                         req = client.build_request(
                             req['method'],
-                            f"http://{LOCAL_HOST}:{LOCAL_PORT}{req['path']}",
+                            f"{local_url}{req['path']}",
                             json=req['body'])
                         res = await client.send(req)
                         await ws.send(json.dumps({"status_code": res.status_code, "body": res.json()}))
@@ -65,16 +62,19 @@ async def loop_ws_client(cloud_url: str):
 
 
 @typer_app.command()
-def device(cloud_url=None):
+def device(cloud_url=None, host: str=LOCAL_HOST, port: int=LOCAL_PORT):
     'run local API server'
     from . import api_local
 
+    if cloud_url is None:
+        cloud_url = f"http://{CLOUD_HOST}:{CLOUD_PORT}"
+
     def run_app():
-        uvicorn.run(api_local.app, host=LOCAL_HOST, port=LOCAL_PORT)
+        uvicorn.run(api_local.app, host=host, port=port)
 
     def run_ws():
         try:
-            asyncio.run(loop_ws_client(cloud_url))
+            asyncio.run(loop_ws_client(cloud_url, local_url=f"http://{host}:{port}"))
         except KeyboardInterrupt:
             logger.log("Stopping by the user.")
 
@@ -87,10 +87,10 @@ def device(cloud_url=None):
 
 
 @typer_app.command()
-def cloud():
+def cloud(host: str=CLOUD_HOST, port: int=CLOUD_PORT):
     'run cloud API server'
     from . import api
-    uvicorn.run(api.app, host='0.0.0.0', port=8001)
+    uvicorn.run(api.app, host=host, port=port)
 
 
 typer_app()
