@@ -8,11 +8,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-import httpx
+from httpx import AsyncClient
 from starlette.endpoints import WebSocketEndpoint
 
 from . import __title__, __version__
-from .models import Schedule, Status, SaunaID, HTTPError, StateUpdate, TemperatureUpdate, TimerUpdate, Program
+from .models import Schedule, Status, HTTPError, StateUpdate, TemperatureUpdate, TimerUpdate, Program
 from .auth import verify_token
 
 
@@ -33,7 +33,7 @@ templates = Jinja2Templates(directory=str(STATIC_DIR / "template"))
 async def home(request: Request):
     sauna_id_list = list(connections.keys())
     status_dict = dict()
-    async with httpx.AsyncClient() as client:
+    async with AsyncClient() as client:
         for sauna_id in sauna_id_list:
             res = await client.get(f"{request.url}sauna/{sauna_id}/status")
             status_dict[sauna_id] = res.json()
