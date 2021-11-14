@@ -22,4 +22,4 @@ def list_networks() -> List[str]:
     if interface == None:
         return []
     interface.scan()
-    return [profile.ssid for profile in interface.scan_results()]
+    return [profile.ssid for profile in interface.scan_results() if len(profile.ssid) > 0]  # omit empty string ssid
