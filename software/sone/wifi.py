@@ -1,8 +1,9 @@
+import asyncio
 from typing import List
 
 from fastapi import HTTPException
 from netifaces import ifaddresses
-from pywifi import PyWiFi
+from pywifi import const, PyWiFi, Profile
 
 from .logger import Logger
 
@@ -29,16 +30,33 @@ def list_networks() -> List[str]:
     return [profile.ssid for profile in interface.scan_results() if len(profile.ssid) > 0]  # omit empty string ssid
 
 
-def connect_wifi(ssid: str, key: str) -> str:
+async def connect_wifi(ssid: str, key: str) -> str:
     'connect to the give WiFi network, return the IP address'
     if interface == None:
         raise HTTPException(status_code=422, detail=NO_WIFI_DEVICE_DESC)
-    profile = None
-    for profile in interface.scan_results():
-        if profile.ssid == ssid:
-            profile.key = key
-            interface.connect(profile)
-            ip = ifaddresses('wlan0')[2][0]['addr']
-            return ip
-    raise HTTPException(status_code=422, detail=f"Cannot find the network '{ssid}'")
+    if ssid not in [profile.ssid for profile in interface.scan_results() if len(profile.ssid) > 0]:
+        raise HTTPException(status_code=422, detail=f"Cannot find the network '{ssid}'")
 
+    interface.disconnect()
+    while interface.status() != const.IFACE_DISCONNECTED:
+        await asyncio.sleep(0.1)
+    interface.remove_all_network_profiles()
+
+    profile = Profile()
+    profile.ssid = ssid
+    profile.auth = const.AUTH_ALG_OPEN
+    profile.akm.append(const.AKM_TYPE_WPA2PSK)
+    profile.cipher = const.CIPHER_TYPE_CCMP
+    profile.key = key
+
+    interface.remove_all_network_profiles()
+    tmp_profile = interface.add_network_profile(profile)
+
+    interface.connect(tmp_profile)
+    while interface.status() != const.CONNECTING:
+        await asyncio.sleep(0.1)
+
+    if interface.status() == const.CONNECTED:
+        ip = ifaddresses('wlan0')[2][0]['addr']
+        return ip
+    raise HTTPException(status_code=400, detail=f"Cannot connect to {ssid}, is passcode correct?")
