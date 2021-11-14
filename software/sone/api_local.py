@@ -68,7 +68,7 @@ def get_wifi_networks():
 
 @meta_router.post("/wifi/connect")
 def get_wifi_networks(wifi_profile: WiFiProfile):
-    return connect_wifi(wifi_profile.ssid, wifi_profile.key)
+    return await connect_wifi(wifi_profile.ssid, wifi_profile.key)
 
 
 @status_router.get("/{sauna_id}/status", response_model=Status)
