@@ -53,8 +53,12 @@ async def connect_wifi(ssid: str, key: str) -> str:
     tmp_profile = interface.add_network_profile(profile)
 
     interface.connect(tmp_profile)
-    while interface.status() != const.IFACE_CONNECTING:
-        await asyncio.sleep(0.1)
+    # while interface.status() != const.IFACE_CONNECTING:
+        # await asyncio.sleep(0.1)
+    for i in range(8):
+        await asyncio.sleep(1)
+        if interface.status() == const.IFACE_CONNECTED:
+            break
 
     if interface.status() == const.IFACE_CONNECTED:
         ip = ifaddresses('wlan0')[2][0]['addr']
