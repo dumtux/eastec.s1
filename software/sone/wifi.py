@@ -30,8 +30,8 @@ def list_networks() -> List[str]:
     return [profile.ssid for profile in interface.scan_results() if len(profile.ssid) > 0]  # omit empty string ssid
 
 
-async def connect_wifi(ssid: str, key: str) -> str:
-    'connect to the give WiFi network, return the IP address'
+async def connect_wifi(ssid: str, key: str) -> bool:
+    'connect to the give WiFi network, return True on success.'
     if interface == None:
         raise HTTPException(status_code=422, detail=NO_WIFI_DEVICE_DESC)
     if ssid not in [profile.ssid for profile in interface.scan_results() if len(profile.ssid) > 0]:
@@ -61,14 +61,15 @@ async def connect_wifi(ssid: str, key: str) -> str:
             break
 
     if interface.status() == const.IFACE_CONNECTED:
-        for i in range(8):
-            await asyncio.sleep(0.5)
-            if 2 in ifaddresses('wlan0').keys():
-                break;
-        if 2 in ifaddresses('wlan0').keys():
-            ip = ifaddresses('wlan0')[2][0]['addr']
-            return ip
-        return ifaddresses('wlan0')
-        raise HTTPException(status_code=400, detail=f"Connected, but failed to get IP address.")
+        return True
 
     raise HTTPException(status_code=400, detail=f"Cannot connect to {ssid}, is passcode correct?")
+
+
+def wifi_ip_addr() -> str:
+    try:
+        return ifaddresses('wlan0')[2][0]['addr']
+    except ValueError:
+        raise HTTPException(status_code=422, detail=NO_WIFI_DEVICE_DESC)
+    except KeyError:
+        raise HTTPException(status_code=400, detail=f"No IP address allocated to 'wlan0'.")
