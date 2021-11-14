@@ -67,7 +67,7 @@ def get_wifi_networks():
 
 
 @meta_router.post("/wifi/connect")
-def get_wifi_networks(wifi_profile: WiFiProfile):
+async def get_wifi_networks(wifi_profile: WiFiProfile):
     return await connect_wifi(wifi_profile.ssid, wifi_profile.key)
 
 
