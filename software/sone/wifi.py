@@ -34,13 +34,11 @@ def connect_wifi(ssid: str, key: str) -> str:
     if interface == None:
         raise HTTPException(status_code=422, detail=NO_WIFI_DEVICE_DESC)
     profile = None
-    for _profile in interface.scan_results():
-        if _profile.ssid == ssid:
-            profile = _profile
-    if profile == None:
-        raise HTTPException(status_code=422, detail=f"Cannot find the network '{ssid}'")
+    for profile in interface.scan_results():
+        if profile.ssid == ssid:
+            profile.key = key
+            interface.connect(profile)
+            ip = ifaddresses('wlan0')[2][0]['addr']
+            return ip
+    raise HTTPException(status_code=422, detail=f"Cannot find the network '{ssid}'")
 
-    profile.key = key
-    interface.connect(profile)
-
-    return ifaddresses('wlan0')[2][0]['addr']  # return the allocated IP address
