@@ -12,7 +12,7 @@ interface = None
 try:
     interface_list = wifi.interfaces()
     for _interface in interface_list:
-        if _internace.name() == 'wlan0':
+        if _interface.name() == 'wlan0':
             interface = _interface
 except FileNotFoundError:
     logger.error("No WiFi device found. Maybe you're running this app on a computer with no WiFi device for development?")
