@@ -4,6 +4,7 @@ fastapi
 gunicorn
 httpx
 jinja2
+netifaces
 pyjwt
 pyserial
 pytest
