@@ -134,3 +134,8 @@ class HTTPError(BaseModel):
 class SaunaID(BaseModel):
     sauna_id: str
     model_name: str
+
+
+class WiFiProfile(BaseModel):
+    ssid: str
+    key: str

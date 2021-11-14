@@ -4,10 +4,12 @@ fastapi
 gunicorn
 httpx
 jinja2
+netifaces
 pyjwt
 pyserial
 pytest
 pytest-mock
+pywifi
 qrcode[pil]
 requests
 typer

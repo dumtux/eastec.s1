@@ -9,7 +9,8 @@ from fastapi.templating import Jinja2Templates
 from . import __title__, __version__
 from .kfive import KFive
 from .sone import SOne
-from .models import Schedule, Status, SaunaID, HTTPError, StateUpdate, TemperatureUpdate, TimerUpdate, Program
+from .models import Schedule, Status, SaunaID, HTTPError, StateUpdate, TemperatureUpdate, TimerUpdate, Program, WiFiProfile
+from .wifi import list_networks, connect_wifi, wifi_ip_addr
 
 
 STATIC_DIR = pathlib.Path(__file__).parent / "static"
@@ -58,6 +59,21 @@ async def get_id():
 @meta_router.get("/qrcode")
 async def get_id_qrcode():
     return sone.sauna_id_qr
+
+
+@meta_router.get("/wifi/networks")
+def get_wifi_networks():
+    return list_networks()
+
+
+@meta_router.post("/wifi/connect")
+async def get_wifi_networks(wifi_profile: WiFiProfile):
+    return await connect_wifi(wifi_profile.ssid, wifi_profile.key)
+
+
+@meta_router.get("/wifi/ip")
+async def get_wifi_ip():
+    return wifi_ip_addr()
 
 
 @status_router.get("/{sauna_id}/status", response_model=Status)
