@@ -66,7 +66,7 @@ def get_wifi_networks():
     return list_networks()
 
 
-@meta_router.get("/wifi/connect")
+@meta_router.post("/wifi/connect")
 def get_wifi_networks(wifi_profile: WiFiProfile):
     return connect_wifi(wifi_profile.ssid, wifi_profile.key)
 
