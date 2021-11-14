@@ -1,21 +1,264 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <title>Sauna</title>
+    <link
+      type="text/css"
+      href="/static/fontawesome/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/static/css/style.css" />
     <link rel="stylesheet" href="/static/css/device.css">
-</head>
-<body>
-    <div class="wrapper fadeInDown">
-        <div id="formContent">
-            <!-- Numeric ID -->
-            <h2 class="active">{{ device_id }}</h2>
-            <!-- <h2 class="inactive underlineHover">SOne Device ID</h2> -->
+  </head>
 
-            <!-- QR Code -->
-            <div class="fadeIn first">
-            <img src="{{ device_id_qr }}" id="icon" alt="User Icon" />
-            </div>
-
+  <body>
+    <input type="hidden" name="deviceId" id="deviceId" value="{{ device_id }}">
+    <div id="loading">
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" style="width:100%">Loading</div>
         </div>
     </div>
+    <div id="bottomMenubar">
+        <div data-target="#saunaControlPage" class="bottomMenuItem active">
+            <img class="bottom-menu-icon" src="/static/image/icons/sauna-control.png">
+            Sauna Control
+        </div>
+        <div data-target="#calendarPage" class="bottomMenuItem">
+            <img class="bottom-menu-icon" src="/static/image/icons/calendar.png">
+            Programs
+        </div>
+        <div data-target="#educationPage" class="bottomMenuItem">
+            <img class="bottom-menu-icon" src="/static/image/icons/education.png">
+            Education
+        </div>
+        <div data-target="#settingsPage" class="bottomMenuItem">
+            <img class="bottom-menu-icon" src="/static/image/icons/settings.png">
+            Settings
+        </div>
+    </div>
+
+    <div id="mainContainer">
+        <div id="saunaControlPage" class="content-page is-active">
+            <h2 class="page-title">iHealth 1 Person Deluxe</h2>
+            <div class="mt-60 card-section">
+                <div id="temperature" class="block-card">
+                    <div class="block-card-collapsed">
+                        <div class="block-card-body">
+                            <h3 class="blue-label current_temperature">0°C</h3>
+                        </div>
+                        <div class="block-card-footer">
+                            <p>Program temp: <span class="program_temperature">0°C</span></p>
+                        </div>
+                    </div>
+                    <div class="block-card-expand d-none">
+                        <div class="block-card-body">
+                            <div class="text-center">
+                                <img class="color-img" src="/static/image/icons/temperature-color.png" >
+                                <h4 class="black-label">Temperature</h4>
+                                <div id="temperature-dial" class="gauge" data-digit="64" data-type="temperature" data-label="64°C">
+                                    <div class="gauge-outer"></div>
+                                    <div class="gauge-inner"></div>
+                                    <div class="gauge-digits"></div>
+                                    <div class="gauge-label ready">Ready</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="block-card-footer">
+                            <div class="row">
+                                <div class="col-6 text-center">
+                                    <p>Program:</p>
+                                    <h3 class="blue-label target_temperature">0°C</h3>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <p>Target:</p>
+                                    <h3 class="blue-label program_temperature">0°C</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="timer" class="block-card">
+                    <div class="block-card-collapsed">
+                        <div class="block-card-body">
+                            <h3 class="blue-label remaining_timer">0m 0s</h3>
+                        </div>
+                        <div class="block-card-footer">
+                            <p>Program time: <span class="program_timer">0m 0s</span></p>
+                        </div>
+                    </div>
+                    <div class="block-card-expand d-none">
+                        <div class="block-card-body">
+                            <div class="text-center">
+                                <img class="color-img" src="/static/image/icons/time-color.png" >
+                                <h4 class="black-label">Session time</h4>
+                                <div id="time-dial" class="gauge" data-digit="24" data-type="time" data-label="24m30s">
+                                    <div class="gauge-outer"></div>
+                                    <div class="gauge-inner"></div>
+                                    <div class="gauge-digits"></div>
+                                    <div class="gauge-label waiting">Waiting for start</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="block-card-footer">
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <p>Program:</p>
+                                    <h3 class="blue-label program_timer">0s</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-20 card-section">
+                <div id="halo_light" class="block-card">
+                    <div class="block-card-collapsed">
+                        <div class="block-card-body">
+                            <img class="icon-button" src="/static/image/icons/halo-light.png">
+                        </div>
+                        <div class="block-card-footer">
+                            <p>Halo light off</p>
+                        </div>
+                    </div>
+                    <div class="block-card-expand d-none">
+                        <div class="block-card-body">
+                            <div class="text-center">
+                                <img class="color-img" src="/static/image/icons/halo-light-color.png" >
+                                <h4 class="black-label">Halo light on</h4>
+                                <div>
+                                    <img class="off-button" src="/static/image/icons/off.png">
+                                </div>
+                                <div class="color-picker mt-20">
+                                    <input type="color" class="colorpicker" name="color" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" value="#ffffff"> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="overhead_light" class="block-card">
+                    <div class="block-card-collapsed">
+                        <div class="block-card-body">
+                            <img class="icon-button" src="/static/image/icons/overhead-light.png">
+                        </div>
+                        <div class="block-card-footer">
+                            <p>Overhead light off</p>
+                        </div>
+                    </div>
+                    <div class="block-card-expand d-none">
+                        <div class="block-card-body">
+                            <div class="text-center">
+                                <img class="color-img" src="/static/image/icons/halo-light-color.png" >
+                                <h4 class="black-label">Overhead light on</h4>
+                                <div>
+                                    <img class="off-button" src="/static/image/icons/off.png">
+                                </div>
+                                <div class="color-picker mt-20">
+                                    <input type="color" class="colorpicker" name="color" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" value="#bada55"> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="block-card">
+                    <div class="block-card-collapsed">
+                        <div class="block-card-body">
+                            <img class="icon-button" src="/static/image/icons/music.png">
+                        </div>
+                        <div class="block-card-footer">
+                            <p>Music off</p>
+                        </div>
+                    </div>
+                    <div class="block-card-expand d-none">
+                        <div class="block-card-body">
+                            <div class="text-center">
+                                <img class="color-img" src="/static/image/icons/music.png" >
+                                <h4 class="black-label">Music off</h4>
+                                <div>
+                                    <img class="cover-bg" src="/static/image/music-bg.png">
+                                </div>
+                                <p class="music-title">Slow dancing in the dark</p>
+                                <div class="music-control row">
+                                    <div class="col-4 text-center">
+                                        <img src="/static/image/icons/music-prev.png">
+                                    </div>
+                                    <div class="col-4 text-center">
+                                        <img src="/static/image/icons/music-play.png">
+                                    </div>
+                                    <div class="col-4 text-center">
+                                        <img src="/static/image/icons/music-next.png">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-40 card-section">
+                <button id="btnHeatStart" type="button" class="button button-primary" onclick="startHeat()">Heat the Sauna</button>
+                <button id="btnHeatFinish" type="button" class="button button-outline d-none" onclick="stopHeat()">Finish</button>
+                <button id="btnHeatPause" type="button" class="button button-warning d-none" onclick="pauseHeat()">Pause</button>
+                <button id="btnHeatContinue" type="button" class="button button-primary d-none" onclick="continueHeat()">Continue</button>
+            </div>
+        </div>
+        <div id="calendarPage" class="content-page">
+            <div id="current_program" class="card-section">
+                <div>
+                    <h3 class="card-section-title">Current Program</h3>
+                </div>
+                <div class="program-card">
+                    <div class="program-card-header">
+                        <div class="program-time">
+                            <img src="/static/image/icons/time-color.png">
+                            <span> 30s</span>
+                        </div>
+                        <div class="program-temperature">
+                            <img src="/static/image/icons/temperature-color.png">
+                            <span> 55°C </span>
+                        </div>
+                    </div>
+                    <div class="program-card-body">
+                        <h4 class="program-title">Daily relax</h4>
+                        <div class="program-detail">
+                            <ul>
+                                <li>Perfect for sportsmen</li> 
+                                <li>Adopted for people aged 25+</li>
+                                <li>Good works with your life style</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="program_lists" class="card-section mt-40">
+            </div>
+        </div>
+        <div id="educationPage" class="content-page">
+            <h1>Program Page</h1>
+        </div>
+        <div id="settingsPage" class="content-page">
+            <div class="wrapper fadeInDown">
+                <div id="formContent">
+                    <!-- Numeric ID -->
+                    <h2 class="active">{{ device_id }}</h2>
+                    <!-- h2 class="inactive underlineHover">SOne Device ID</!-->
+
+                    <!-- QR Code -->
+                    <div class="fadeIn first">
+                    <img src="{{ device_id_qr }}" id="icon" alt="User Icon" />
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/jquery-3.2.1.slim.min.js"></script>
+    <script src="/static/js/popper.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/app.js"></script>
 </body>
 </html>

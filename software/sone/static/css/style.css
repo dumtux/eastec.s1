@@ -1,0 +1,560 @@
+html, body {
+
+}
+
+div, p, a, h1, h2, h3, h4, h5 {
+    color: #37434F;
+}
+
+.mt-100 {
+    margin-top: 100px;
+}
+
+.mt-80 {
+    margin-top: 80px;
+}
+
+.mt-60 {
+    margin-top: 60px;
+}
+
+.mt-40 {
+    margin-top: 40px;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mt-10 {
+    margin-top: 10px;
+}
+
+.mb-100 {
+    margin-bottom: 100px;
+}
+
+.mb-80 {
+    margin-bottom: 80px;
+}
+
+.mb-60 {
+    margin-bottom: 60px;
+}
+
+.mb-40 {
+    margin-bottom: 40px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.mb-10 {
+    margin-bottom: 10px;
+}
+
+#loading {
+    width: 100vw;
+    height: 100vh;
+    z-index: 100;
+    background-color: white;
+    position: absolute;
+}
+
+#loading .progress {
+    width: 250px;
+    transform: translateX(-50%) translateY(-50%);
+    left: 50%;
+    top: 50%;
+    position: absolute;
+}
+
+#bottomMenubar {
+    position: fixed;
+    bottom: 0;
+    height: 80px;
+    display: grid;
+    width: 100vw;
+    padding: 15px 150px;
+    display: flex;
+    background-color: #FFFAF1;
+    color: #5F5F5F;
+    z-index: 10;
+    box-shadow: 0px -4px 8px rgba(135, 143, 163, 0.1);
+}
+
+#bottomMenubar .bottomMenuItem {
+    flex: 1;
+    text-align: center;
+    text-transform: capitalize;
+    font-size: 16pt;
+    padding-top: 11px;
+}
+
+#bottomMenubar .bottomMenuItem img {
+    width: 40px;
+    height: 40px;
+    margin-top: -5px;
+    margin-right: 5px;
+}
+
+#bottomMenubar .bottomMenuItem.active {
+    color: #3A8DDE;
+}
+
+#bottomMenubar .bottomMenuItem.active img {
+    filter: sepia(300%) hue-rotate(190deg) saturate(1000%);
+}
+
+
+#mainContainer {
+    width: 100vw;
+    height: calc(100vh - 80px);
+    background-color: white;
+    overflow: hidden;
+    position: relative;
+}
+
+#mainContainer.is-animating {
+    position: absolute;
+    top: 0;
+    left: 15px;
+    right: 15px;
+    width: auto;
+}
+
+.content-page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    -webkit-transform: translateX(100%);
+            transform: translateX(100%);
+    background-color: #caeaea;
+}
+
+.content-page.is-active {
+    position: relative;
+    opacity: 1;
+    -webkit-transform: translateX(0%);
+            transform: translateX(0%);
+}
+
+.content-page.is-exiting {
+    opacity: 0;
+    -webkit-transform: translateX(-100%);
+            transform: translateX(-100%);
+}
+
+.content-page.is-animating {
+    -webkit-transition: opacity 400ms ease-out, -webkit-transform 400ms ease-out;
+    transition: opacity 400ms ease-out, -webkit-transform 400ms ease-out;
+    transition: opacity 400ms ease-out, transform 400ms ease-out;
+    transition: opacity 400ms ease-out, transform 400ms ease-out, -webkit-transform 400ms ease-out;
+}
+
+#saunaControlPage {
+    background-image: url(../image/sauna-room.png);
+    background-position: center left;
+    background-repeat: no-repeat;
+    background-size: 35%;
+    padding: 5% 0 0 27%;
+    background-color: #caeaea;
+    overflow-y: auto;
+}
+
+#saunaControlPage.heat {
+    background-image: url(../image/sauna-room-heat.png);
+}
+
+.card-section {
+    display: flex;
+    align-items: flex-start;
+}
+
+.card-section .card-section-title {
+    font-weight: bold;
+    font-size: 23px;
+    color: #7E7E7E;
+    width: 200px;
+    margin-top: 30px;
+    margin-right: 20px;
+}
+
+
+.block-card {
+    display: inline-block;
+    background-color: white;
+    width: 280px;
+    margin-right: 15px;
+    border: 1px solid #FFFFFF;
+    box-sizing: border-box;
+    box-shadow: 0px 8px 38px rgba(124, 183, 183, 0.08), 0px 16px 22px rgba(124, 183, 183, 0.08), 0px 8px 14px rgba(124, 183, 183, 0.16);
+    border-radius: 30px;
+}
+
+.block-card .block-card-collapsed {
+    padding: 20px 20px 10px 20px;
+}
+
+.block-card .block-card-expand {
+    padding: 20px 0px;
+}
+
+.block-card .black-label {
+    font-weight: bold;
+    font-size: 18px;
+    color: #5F5F5F;
+}
+
+.block-card .color-img {
+    width: 35px;
+    height: 35px;
+}
+
+
+.blue-label {
+    color: #619595;
+    font-size: 30pt;
+}
+
+.block-card-expand .blue-label {
+    font-size: 16pt;
+}
+
+.icon-button {
+    width: 50px;
+    height: 50px;
+    border: 2px solid #EDEDED;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.button {
+    display: inline-block;
+    font-weight: bold;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    border-radius: 30px;
+    padding: 10px .75rem;
+    font-size: 18px;
+    line-height: 1.5;
+    border-radius: 30px;
+    box-shadow: 0px 0px 1px rgba(58, 141, 222, 0.12), 0px 2px 6px rgba(58, 141, 222, 0.14), 0px 16px 24px rgba(58, 141, 222, 0.06);
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.button-primary {
+    border: 4px solid #3A8DDE;
+    color: white;
+    background: #3A8DDE;
+}
+
+.button-warning {
+    border: 4px solid #EFAB46;
+    background-color: #EFAB46;
+    color: white;
+}
+
+.button-outline {
+    border: 4px solid #3A8DDE;
+    background-color: transparent;
+    color: #3A8DDE;
+}
+
+.block-card-footer p {
+    color: #7E7E7E;
+    margin-bottom: 0px;
+    font-size: 18px;
+}
+
+.block-card-expand .block-card-footer p {
+    font-size: 12px;
+}
+
+.off-button {
+    width: 35px;
+    height: 35px;
+    box-shadow: 0px 4px 6px rgb(103 103 103 / 8%), 0px 0px 1px rgb(51 51 51 / 8%), 0px 8px 6px rgb(53 53 53 / 16%);
+    border-radius: 30px;
+}
+
+.colorpicker {
+    width: 50px;
+    height: 50px;
+    border: none;
+    padding: 0px;
+}
+
+#btnHeatStart {
+    width: 475px;
+}
+
+#btnHeatFinish {
+    width: 130px;
+    margin-right: 20px;
+}
+
+#btnHeatContinue, #btnHeatPause {
+    width: 320px;
+}
+
+.content-page h2.page-title {
+    color: #7E7E7E;
+}
+
+#homeValue {
+    margin-bottom: 5px;
+    font-size: 85pt;
+    font-weight: bold;
+}
+
+#homeValue img {
+    width: 45px;
+    margin-bottom: 13px;
+}
+
+#homeProgramTemperature {
+    margin-bottom: 60px;
+    font-size: 25pt;
+}
+
+
+#homeStatus label {
+    font-weight: bold;
+    color: #6D7596;
+    font-size: 18pt;
+    margin-bottom: 15px
+}
+
+#homeStatus .value {
+    background: #F6F7FB;
+    border-radius: 20px;
+    padding: 15px 40px;
+    font-size: 25pt;
+}
+
+.block-card .cover-bg {
+    width: 100%;
+    padding: 15px;
+}
+
+.block-card p.music-title {
+    color: #5F5F5F;
+    font-size: 12px;
+}
+
+.block-card .music-control {
+    padding: 0 20px
+}
+
+.block-card .music-control img {
+    width: 40px;
+    height: 40px;
+}
+
+
+#calendarPage {
+    padding: 150px 30px 50px 55px;
+}
+
+.program-card {
+    display: inline-block;
+    background-color: white;
+    width: 300px;
+    margin-right: 15px;
+    border: 1px solid #FFFFFF;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.04), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.06);
+    border-radius: 20px;
+}
+
+.program-card .program-card-header {
+    background: #FFFAF1;
+    border: 1px solid #FFFFFF;
+    box-sizing: border-box;
+    border-radius: 20px 20px 0px 0px;
+    padding: 10px 15px;
+    display: flex;
+}
+
+.program-card .program-card-header>div {
+    display: flex;
+    align-items: center;
+    margin-right: 30px;
+}
+
+.program-card .program-card-header img {
+    width: 30px;
+    height: 30px;
+}
+
+.program-card .program-card-header span {
+    font-weight: 500;
+    font-size: 30px;
+    color: #5F5F5F;
+    margin-top: 3px;
+    margin-left: 5px
+}
+
+.program-card .program-card-header span>small {
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.program-card .program-card-body {
+    padding: 20px 15px;
+}
+
+.program-card .program-card-body .program-title {
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 30px;
+    color: #5F5F5F;
+}
+
+.program-card .program-card-body .program-title[data-toggle="collapse"]:before {
+    content: "\e011";
+    float: right;
+    transition: all 0.5s;
+}
+
+.program-card .program-card-body .program-title[data-toggle="collapse"].active:before {
+    content: "\e014";
+}
+
+.program-card .program-card-body .program-detail {
+    font-size: 14px;
+    line-height: 26px;
+    letter-spacing: -0.01em;
+    color: #9E9E9E;
+}
+
+
+#program_start {
+    font-size: 13px;
+    border-radius: 20px;
+    padding: 3px 12px;
+}
+
+/* dial */
+.gauge {
+    position: relative;
+    /*
+    width: 7em;
+    height: 5.8em;
+    */
+    width: 250px;
+    height: 209px;
+    margin: 0.6em auto;
+    font-size: 36px;
+    direction: ltr;
+}
+
+.gauge-inner {
+    position: relative;
+    top: -5.1em;
+    transition: opacity 0.5s;
+}
+.gauge-inner .bar {
+    left: 50%;
+    position: absolute;
+    transform-origin: 0 2.74em;
+    width: 0.05em;
+    height: 0.08em;
+    background-color: #DDDDDD;
+}
+.gauge-inner .bar.peak {
+    height: 0.08em;
+}
+
+.gauge-outer {
+    position: relative;
+    height: 100%;
+}
+.gauge-outer .bar {
+    position: absolute;
+    width: 0.05em;
+    height: 0.5em;
+    left: 50%;
+    transform-origin: 0 3.43em;
+    background-color: #DDDDDD;
+    opacity: 1;
+    transition: opacity 0.5s;
+}
+
+.gauge-digits {
+    position: absolute;
+    height: 81%;
+    width: 70%;
+    top: 0.8em;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #BDBDBD;
+    opacity: 1;
+}
+
+.gauge-digits.scale {
+    transform: translateX(-50%) scale(0.8);
+}
+
+.gauge-digits .digit {
+    position: absolute;
+    font-size: 0.4em;
+    line-height: 0.2;
+    color: #BDBDBD;
+}
+.gauge-digits .current-digit {
+    left: 50%;
+    top: 65%;
+    transform: translate(-50%, -50%);
+    font-size: 35pt;
+    font-weight: bold;
+}
+
+/*
+#temperature-dial .gauge-digits .current-digit:after {
+    content: "°C";
+}
+*/
+
+#temperature-dial .gauge-digits .current-digit{
+    color: #EFAB46;
+}
+
+#time-dial .gauge-digits .current-digit{
+    color: #7CB7B7;
+}
+
+.gauge-label {
+    position: absolute;
+    bottom: 0;
+    transform: translateX(-50%);
+    left: 50%;
+    font-size: 8pt;
+    color: white;
+    border-radius: 18px;
+    padding: 3px 10px 4px 10px;
+}
+
+.gauge-label.ready {
+    background-color: #FF8975;
+}
+
+.gauge-label.waiting {
+    background-color: #7CB7B7;
+}
+
+/* End dial */
+

@@ -1,0 +1,390 @@
+var SaunaID = $("#deviceId").val();
+
+var BaseUrl = '/sauna/' + SaunaID;
+
+
+function _getStatus() {
+  
+  fetch(BaseUrl + '/status')
+  .then(response => response.json())
+  .then(data => {
+    configureStatus(data)
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
+
+  fetch(BaseUrl + '/schedules')
+  .then(response => response.json())
+  .then(data => {
+    configureSchedule(data)
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
+}
+
+function _setStatus(field, value) {
+  console.log("here");
+  var post_data = {};
+  post_data[field] = value;
+  fetch(BaseUrl + '/state', {
+    method: "PUT",
+    body: JSON.stringify(post_data),
+    headers: {
+        "Content-type": "application/json; charset=UTF-8"
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log(data)
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
+}
+
+var $tabs = $('#bottomMenubar .bottomMenuItem');
+var previousPage = 0;
+
+function showPage(pageId) {
+  var $pageToHide = $("#mainContainer").find('div.content-page').filter('.is-active'), $pageToShow = $(pageId);
+
+  $pageToHide.removeClass('is-active').addClass('is-animating is-exiting');
+  $pageToShow.addClass('is-animating is-active');
+
+  $pageToShow.on('transitionend webkitTransitionEnd', function() {
+    $pageToHide.removeClass('is-animating is-exiting');
+    $pageToShow.removeClass('is-animating').off('transitionend webkitTransitionEnd');
+  });
+}
+
+var $saunaControlPage = $("#saunaControlPage");
+var $startHeat = $('#btnHeatStart'), $stopHeat = $('#btnHeatFinish'), $pauseHeat = $('#btnHeatPause'), $continueHeat = $('#btnHeatContinue');
+
+function setSaunaState(state) {
+  switch (state) {
+    case "heat":
+      $startHeat.addClass("d-none");
+      $stopHeat.removeClass("d-none");
+      $pauseHeat.removeClass("d-none");
+      $saunaControlPage.addClass("heat");
+      break;
+    case "pause":
+      $startHeat.addClass("d-none");
+      $stopHeat.removeClass("d-none");
+      $pauseHeat.addClass("d-none");
+      $continueHeat.removeClass("d-none");
+      $saunaControlPage.addClass("heat");
+      break;
+    case "standby":
+      $stopHeat.addClass("d-none");
+      $pauseHeat.addClass("d-none");
+      $continueHeat.addClass("d-none");
+      $startHeat.removeClass("d-none");
+      $saunaControlPage.removeClass("heat");
+      break;
+    case "continue":
+      $startHeat.addClass("d-none");
+      $stopHeat.removeClass("d-none");
+      $continueHeat.addClass("d-none");
+      $pauseHeat.removeClass("d-none");
+      $saunaControlPage.addClass("heat");
+      break;
+  }
+}
+
+function startHeat() {
+  _setStatus("state", "heating");
+  setSaunaState("heat");
+}
+
+function stopHeat() {
+  _setStatus("state", "standby");
+  setSaunaState("standby");
+}
+
+function pauseHeat() {
+  _setStatus("state", "paused");
+  setSaunaState("pause");
+}
+
+function continueHeat() {
+  _setStatus("state", "heating");
+  setSaunaState("continue");
+}
+
+function drawDial(eleId) {
+  let type = $(eleId + '.gauge').data('type'); //temperature, time
+  let points = 43;
+  let radius = 257;
+  let max = 0;
+  let peaks = [0];
+
+  if(type == "temperature") {
+    max = 100; peaks = [0, 25, 50, 75, 100];
+  } else if(type == "time") {
+    max = 80; peaks = [0, 20, 40, 60, 80];
+  }
+
+  let step = (max + 1) / points;
+  let realPeaks = peaks.map(peak => Math.floor(peak * (1 / step)));
+  let hueStep = 120 / points;
+
+  let gaugeDigits = $(eleId + ' .gauge-digits');
+
+  let digit = $(eleId + '.gauge').data('digit');
+  let labelTxt = $(eleId + '.gauge').data('label');
+  gaugeDigits.html("");
+  gaugeDigits.prepend(`<span class="digit current-digit count">${labelTxt}</span>`);
+
+  for (let i = 0; i < points; i++) {
+    let degree = i * (radius / (points - 1)) - radius / 2;
+    let isPeak = realPeaks.indexOf(i) > -1;
+
+    let intStep = Math.ceil(step * i);
+    let intNextStep = Math.ceil(step * (i + 1));
+
+    // let styles = `transition-delay: ${ (i / digit) * (i / digit) + 1 }s;`;
+    let inner_styles = `transform: rotate(${degree}deg);`;
+    let outer_styles = '';
+    if (intStep <= digit) {
+      // styles += `background-color: hsl(${240 + i * hueStep}, 92%, 64%);`;
+      if(type == 'temperature') {
+        outer_styles += `background-color: #EFAB46;`;
+        inner_styles += `background-color: #EFAB46;`;
+      } else if(type == 'time') {
+        outer_styles += `background-color: #7CB7B7;`;
+        inner_styles += `background-color: #7CB7B7;`;
+      }
+    }
+
+    if (intStep > digit || (intStep <= digit && intNextStep <= digit)) {
+      outer_styles += `-webkit-transform: rotate(${degree}deg);
+      -moz-transform: rotate(${degree}deg);
+      -ms-transform: rotate(${degree}deg);
+      -o-transform: rotate(${degree}deg);
+      transform: rotate(${degree}deg);`;
+    } else {
+        if (intNextStep > digit)
+          outer_styles += `
+          -webkit-transform: rotate(${degree}deg) translateY(-.1em);
+          -moz-transform: rotate(${degree}deg) translateY(-.1em);
+          -ms-transform: rotate(${degree}deg) translateY(-.1em);
+          -o-transform: rotate(${degree}deg) translateY(-.1em);
+          transform: rotate(${degree}deg) translateY(-.1em);
+          height: 0.8em;`;
+    }
+
+
+    $(eleId + ' .gauge-outer').append(`<i class="bar" style="${outer_styles}"></i>`);
+    let gaugeInner = $(eleId + ' .gauge-inner').append(`<i class="bar${isPeak ? ' peak' : ''}" style="${inner_styles}"></i>`);
+
+    if (isPeak) {
+      let digit = $(`<span class="digit">${peaks[realPeaks.indexOf(i)]}</span>`);
+      let peakOffset = gaugeInner.find('.peak').last().offset();
+
+      gaugeDigits.append(digit);
+
+      if (degree > -5 && degree < 5) {
+          digit.offset({left: peakOffset.left - 5, top: peakOffset});
+      } else {
+        digit.offset({left: peakOffset.left - 10, top: peakOffset.top + 15});
+      }
+
+      setTimeout(function () {
+          gaugeDigits.addClass('scale');
+      }, 1)
+      }
+  }
+}
+
+function openCard(ele) {
+  ele.find(".block-card-collapsed").addClass("d-none");
+  ele.find(".block-card-expand").removeClass("d-none");
+  if(ele.find(".block-card-expand .gauge").length) {
+    drawDial("#" + ele.find(".block-card-expand .gauge").attr('id'));
+  }
+}
+
+function closeCard(ele) {
+  ele.find(".block-card-collapsed").removeClass("d-none");
+  ele.find(".block-card-expand").addClass("d-none");
+}
+
+function configureStatus(status) {
+  console.log(status);
+  setSaunaState(status.state);
+
+  $(".current_temperature").html(calcTemp(status.current_temperature));
+  $(".target_temperature").html(calcTemp(status.target_temperature));
+  $(".program_temperature").html(calcTemp(status.program.target_temperature));
+  $("#temperature-dial").data("label", calcTemp(status.current_temperature));
+  $("#temperature-dial").data("digit", status.current_temperature);
+  
+
+  $(".remaining_timer").html(calcTimer(status.timer));
+  $(".program_timer").html(calcTimer(status.program.timer_duration));
+  $("#time-dial").data("label", calcTimer(status.timer));
+  $("#time-dial").data("digit", 0);
+
+  if(status.lights[0]) {
+    if(status.lights[0].state == "on") {
+      $("#halo_light input").val(RGBToHex(status.lights[0].color.r, status.lights[0].color.g, status.lights[0].color.b));
+      openCard($("#halo_light"));
+    } else {
+      closeCard($("#halo_light"));
+    }
+  }
+
+  if(status.lights[1]) {
+    if(status.lights[1].state == "on") {
+      $("#halo_light input").val(RGBToHex(status.lights[0].color.r, status.lights[0].color.g, status.lights[0].color.b));
+      openCard($("#halo_light"));
+    } else {
+      closeCard($("#halo_light"));
+    }
+  }
+
+  $("#current_program .program-time > span").html(calcTimer(status.program.timer_duration));
+  $("#current_program .program-temperature > span").html(calcTemp(status.program.target_temperature));
+  
+}
+
+function configureSchedule(status) {
+  console.log(status);
+  var program_cnt = status.length;
+  var content = `<div><h3 class="card-section-title">Program Lists</h3></div>`;
+  for (i = 0;i<program_cnt;i++) {
+    content += `<div class="program-card">
+                  <div class="program-card-header">
+                      <div class="program-time">
+                          <img src="./assets/images/icons/time-color.png">
+                          <span> ${calcTimer(status[i].program.timer_duration)} </span>
+                      </div>
+                      <div class="program-temperature">
+                          <img src="./assets/images/icons/temperature-color.png">
+                          <span> ${calcTemp(status[i].program.target_temperature)} </span>
+                      </div>
+                  </div>
+                  <div class="program-card-body">
+                      <h4 class="program-title" data-toggle="collapse" data-target="#program1">${status[i].program.name}</h4>
+                      <div id="program1" class="program-detail collapse">
+                          <ul>
+                              <li>Frequency: ${status[i].frequency}</li> 
+                              <li>User: ${status[i].user}</li>
+                              <li>Sauna: ${status[i].sauna}</li>
+                          </ul>
+                          <button id="program_start" class="btn btn-primary">Start</button>
+                      </div>
+                  </div>
+              </div>`;
+  }
+  $("#program_lists").html(content)
+}
+
+function configureApp() { 
+
+  // drawDial("#temperature-dial", 100, [0, 25, 50, 75, 100]);
+  // drawDial("#time-dial", 80, [0, 20, 40, 60, 80]);  
+}
+
+function calcTemp(temp) {
+  return Math.round(temp) + "°C";
+}
+
+function calcTimer(timer) {
+
+  if( timer <= 60)
+    return timer + "s"
+  
+  var minutes = Math.floor(timer / 60);
+  var seconds = timer - minutes * 60;
+
+  return minutes + "m " + seconds + "s"
+}
+
+function RGBToHex(r,g,b) {
+  r = r.toString(16);
+  g = g.toString(16);
+  b = b.toString(16);
+
+  if (r.length == 1)
+    r = "0" + r;
+  if (g.length == 1)
+    g = "0" + g;
+  if (b.length == 1)
+    b = "0" + b;
+
+  return "#" + r + g + b;
+}
+
+
+$(document).ready(function(){
+  _getStatus();
+  setTimeout(function(){$("#loading").addClass("d-none");}, 1500);
+  setInterval(() => {
+    _getStatus();
+  }, 6000);
+});
+
+$tabs.on('click', function() {
+  $tabs.removeClass("active");
+  $(this).addClass("active");
+  showPage($(this).data("target"));
+});
+
+$('.program-title').on('click', function () {
+  if($(this).hasClass('active'))
+    $(this).removeClass('active');
+  else
+    $(this).addClass('active');
+});
+
+$('.program-title').on('hide.bs.collapse', function () {
+  $(this).removeClass('active');
+});
+
+$('.block-card .block-card-collapsed').on('click', function() {
+  openCard($(this).parent());
+});
+
+
+$('#temperature .block-card-collapsed').on('click', function() {
+  openCard($("#temperature"));
+});
+
+$('#temperature .block-card-expand').on('click', function() {
+  closeCard($("#temperature"));
+});
+
+$('#timer .block-card-collapsed').on('click', function() {
+  openCard($("#timer"));
+});
+
+$('#timer .block-card-expand').on('click', function() {
+  closeCard($("#timer"));
+});
+
+
+
+$("#halo_light .block-card-collapsed").on("click", function(){
+  // _setStatus('light', 'on');
+  openCard($("#halo_light"));
+});
+
+$("#overhead_light .block-card-collapsed").on("click", function(){
+  // _setStatus('light', 'on');
+  openCard($("#overhead_light"));
+});
+
+$("#halo_light .off-button").on("click", function(){
+  // _setStatus('light', 'off');
+  closeCard($("#halo_light"));
+});
+
+$("#overhead_light .off-button").on("click", function(){
+  // _setStatus('light', 'off');
+  closeCard($("#overhead_light"));
+});
+

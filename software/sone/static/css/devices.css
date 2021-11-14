@@ -273,26 +273,6 @@
   padding: 24px 30px 30px;
 }
 
-.sentiment-wrapper > div {
-  display: inline-block;
-  width: 33.3%;
-  max-width: 390px;
-  padding: 0 5px;
-  box-sizing: border-box;
-  vertical-align: top;
-  cursor: default;
-}
-
-.sentiment-wrapper > div > div {
-  width: 100%;
-  padding: 16px 24px 20px;
-  box-sizing: border-box;
-  border-radius: 4px;
-  background-color: #fff;
-  border: 1px solid #ececec;
-  text-align: left;
-}
-
 .detail-header {
   position: relative;
   width: 100%;

@@ -8,6 +8,7 @@
     <title>iHealth SOne</title>
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/static/css/navbar.css">
     <link rel="stylesheet" href="/static/css/devices.css">
 </head>
@@ -59,34 +60,25 @@
             </div>
             <div class="device-tab-content">
                 <div class="sentiment-wrapper">
-                    <div>
-                        <div>
-                            <div class="state-{{ status_dict[device_id]['state'] }} detail-header">
-                                <span>{{ status_dict[device_id]['state'] }}</span>
-                            </div>
-                            <div>
-                                <span>The state of sauna, one of 'standby', 'heating', 'ready', 'insession', 'paused'. Does it make sense?</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div>
-                            <div class="detail-header">
-                                <span>Status in detail</span>
-                            </div>
-                            <div>
-                                <span>state: {{ status_dict[device_id] }}</span>
+                    <div class="row">
+                        <div class="col-7">
+                            <div class="card">
+                                <div class="card-header">
+                                    Status in detail
+                                </div>
+                                <div class="card-body">
+                                    <p>state: {{ status_dict[device_id] }}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div>
-                        <div>
-                            <div class="detail-header">
-                                <span>Actions</span>
-                                <span>--</span>
-                            </div>
-                            <div>
-                                <span>Manage SOne device in more detail, control parameters, reboot, or upgrade firmware.</span>
+                        <div class="col-5">
+                            <div class="card">
+                                <div class="card-header">
+                                    Actions
+                                </div>
+                                <div class="card-body">
+                                    <p>Manage SOne device in more detail, control parameters, reboot, or upgrade firmware.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
