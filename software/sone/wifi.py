@@ -62,12 +62,13 @@ async def connect_wifi(ssid: str, key: str) -> str:
 
     if interface.status() == const.IFACE_CONNECTED:
         for i in range(8):
-            await asyncio.sleep(0.3)
+            await asyncio.sleep(0.5)
             if 2 in ifaddresses('wlan0').keys():
                 break;
         if 2 in ifaddresses('wlan0').keys():
             ip = ifaddresses('wlan0')[2][0]['addr']
             return ip
+        return ifaddresses('wlan0')
         raise HTTPException(status_code=400, detail=f"Connected, but failed to get IP address.")
 
     raise HTTPException(status_code=400, detail=f"Cannot connect to {ssid}, is passcode correct?")
