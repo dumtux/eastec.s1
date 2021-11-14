@@ -8,6 +8,7 @@ pyjwt
 pyserial
 pytest
 pytest-mock
+pywifi
 qrcode[pil]
 requests
 typer
