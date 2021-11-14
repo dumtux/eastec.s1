@@ -53,10 +53,10 @@ async def connect_wifi(ssid: str, key: str) -> str:
     tmp_profile = interface.add_network_profile(profile)
 
     interface.connect(tmp_profile)
-    while interface.status() != const.CONNECTING:
+    while interface.status() != const.IFACE_CONNECTING:
         await asyncio.sleep(0.1)
 
-    if interface.status() == const.CONNECTED:
+    if interface.status() == const.IFACE_CONNECTED:
         ip = ifaddresses('wlan0')[2][0]['addr']
         return ip
     raise HTTPException(status_code=400, detail=f"Cannot connect to {ssid}, is passcode correct?")
