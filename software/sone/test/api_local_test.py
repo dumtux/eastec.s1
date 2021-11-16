@@ -1,10 +1,10 @@
 from fastapi.testclient import TestClient
 
-
 from ..api_local import app
 from ..defaults import DEFAULT_SCHEDULE, DEFAULT_STATUS
 from ..models import Schedule
 from ..sone import SOne
+from ..utils import is_raspberry
 from ..wifi import list_networks
 
 
@@ -31,8 +31,11 @@ def test_get_qrcode():
 
 def test_get_wifi_list():
     response = client.get("/sauna/wifi/networks")
-    assert response.status_code == 200
-    assert list_networks() == response.json()
+    if is_raspberry():
+        assert response.status_code == 200
+        assert list_networks() == response.json()
+    else:
+        assert response.status_code == 422
 
 
 def test_get_status():

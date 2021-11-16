@@ -1,7 +1,7 @@
 import time
 
 from ..models import Status
-from ..utils import get_sauna_id, get_sauna_name, get_default_status, get_sauna_id_qr
+from ..utils import get_sauna_id, get_sauna_name, get_default_status, get_sauna_id_qr, is_raspberry
 
 
 def test_get_sauna_id():
@@ -28,3 +28,13 @@ def test_get_sauna_id_qr():
     qr = get_sauna_id_qr()
     assert type(qr) == str
     assert 'base64' in qr
+
+
+def test_is_raspberry():
+    try:
+        import RPi.GPIO
+        raspberry = True
+    except ModuleNotFoundError:
+        raspberry = False
+
+    assert is_raspberry() == raspberry

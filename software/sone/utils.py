@@ -1,5 +1,6 @@
 import base64
 from io import BytesIO
+import os
 import uuid
 
 import qrcode
@@ -35,3 +36,16 @@ def get_sauna_id_qr() -> str:
     code = '%s-%s-%s' % (__name__, __version__, get_sauna_id())
     img = qrcode.make(code)
     return _img_to_base64(img)
+
+
+def is_raspberry() -> bool:
+    uname_result = os.uname()
+    if uname_result.sysname != 'Linux':
+        return False
+    if uname_result.machine != 'armv7l':
+        return False
+    try:
+        import RPi.GPIO
+        return True
+    except ModuleNotFoundError:
+        return False
