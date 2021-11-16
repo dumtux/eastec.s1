@@ -195,6 +195,16 @@ For more information, read the article ([7]).
 
 > Decided to use JS on-screen keyboard solution, [Simple Keyboard](https://github.com/hodgef/simple-keyboard)
 
+## Disable Low-Voltage Warning
+
+> Untested, need to improve Power supply circuit
+
+Add the following line to the end of `/boot/config.txt` file,
+
+```
+avoid_warnings=1
+```
+
 
 ## Reference
 
