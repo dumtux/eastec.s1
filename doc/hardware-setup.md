@@ -205,6 +205,8 @@ Add the following line to the end of `/boot/config.txt` file,
 avoid_warnings=1
 ```
 
+For more information, read the article ([8]).
+
 
 ## Reference
 
@@ -215,6 +217,7 @@ avoid_warnings=1
 * (5) [Blue Dot Documentation][5]
 * (6) [How to permanently hide mouse pointer or cursor on Raspberry Pi][6]
 * (7) [Setting up an On-Screen Keyboard on the Raspberry Pi][7]
+* (8) [Disable Low-voltage warning in Raspberry Pi][7]
 
 [1]: <https://datasheets.raspberrypi.org/cm4/cm4-datasheet.pdf> "Raspberry CM4 Datasheet"
 [2]: <https://github.com/guussie/PiDS/wiki/09.-How-to-make-various-DACs-work> "How to make various DACs work"
@@ -223,6 +226,7 @@ avoid_warnings=1
 [5]: <https://bluedot.readthedocs.io/en/latest/> "Raspberry Pi 3 BlueDot Documentation"
 [6]: <https://raspberrypi.stackexchange.com/questions/53127/how-to-permanently-hide-mouse-pointer-or-cursor-on-raspberry-pi> "How to permanently hide mouse pointer or cursor on Raspberry PI?"
 [7]: <https://pimylifeup.com/raspberry-pi-on-screen-keyboard/"> "Setting up an On-Screen Keyboard on the Raspberry Pi"
+[8]: <https://terminalwiki.com/disable-low-voltage-warning-in-raspberry-pi/"> "Disable Low-voltage warning in Raspberry Pi"
 
 
 ---
