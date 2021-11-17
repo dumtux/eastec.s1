@@ -1,6 +1,8 @@
+import serial
+
 from ..kfive import KFive
 from ..singletone import Singleton
-from ..utils import get_default_status
+from ..utils import get_default_status, is_raspberry
 
 
 def test_kfive():
@@ -24,3 +26,12 @@ def test_update():
     kf.update(status)
     print(kf.to_bytes())
     assert kf.to_bytes() == b'\xcc\x09\x3c\x00\x00\x1e\x56\x00\x00\x00\x00\x00\x00\x00\x42\x71'
+
+
+def test_init_uart():
+    kf = KFive.instance()
+    kf.init_uart()
+    if is_raspberry():
+        assert isinstance(kf.uart, serial.Serial)
+    else:
+        assert kf.uart is None
