@@ -94,6 +94,7 @@ class KFive(Singleton):
             return
 
         # enable UART level shifter on RJ45 connector
+        import RPi.GPIO as GPIO
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(UART_EN_PIN, GPIO.OUT)
         GPIO.output(UART_EN_PIN, GPIO.HIGH)
