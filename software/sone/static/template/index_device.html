@@ -32,10 +32,6 @@
             <img class="bottom-menu-icon" src="/static/image/icons/calendar.png">
             Programs
         </div>
-        <div data-target="#educationPage" class="bottomMenuItem">
-            <img class="bottom-menu-icon" src="/static/image/icons/education.png">
-            Education
-        </div>
         <div data-target="#settingsPage" class="bottomMenuItem">
             <img class="bottom-menu-icon" src="/static/image/icons/settings.png">
             Settings
@@ -237,21 +233,61 @@
             <div id="program_lists" class="card-section mt-40">
             </div>
         </div>
-        <div id="educationPage" class="content-page">
-            <h1>Program Page</h1>
-        </div>
         <div id="settingsPage" class="content-page">
-            <div class="wrapper fadeInDown">
-                <div id="formContent">
-                    <!-- Numeric ID -->
-                    <h2 class="active">{{ device_id }}</h2>
-                    <!-- h2 class="inactive underlineHover">SOne Device ID</!-->
-
-                    <!-- QR Code -->
-                    <div class="fadeIn first">
-                    <img src="{{ device_id_qr }}" id="icon" alt="User Icon" />
+            <div class="row">
+                <div class="col-6">
+                    <div class="clearfix">
+                        <h3 class="float-left">Wi-Fi</h3>
+                        <span class="float-right">
+                            <img id="searchWifi" src="/static/image/icons/search.png" style="width:20px;">
+                        </span>
                     </div>
+                    <div class="">
+                    </div>
+                    <ul id="wifiList" class="list-group">
+                        <li class="list-group-item wifi-item">Wifi router 1</li>
+                        <li class="list-group-item wifi-item">Wifi router 2</li>
+                        <li class="list-group-item wifi-item">Wifi router 3</li>
+                    </ul>
+                </div>
+                <div class="col-6">
+                    <div class="wrapper fadeInDown">
+                        <div id="formContent">
+                            <!-- Numeric ID -->
+                            <h2 class="active">{{ device_id }}</h2>
+                            <!-- h2 class="inactive underlineHover">SOne Device ID</!-->
 
+                            <!-- QR Code -->
+                            <div class="fadeIn first">
+                            <img src="{{ device_id_qr }}" id="icon" alt="User Icon" />
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal modal-sm" id="wifiModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Wifi Connect</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <p><span>Wi-Fi: </span><span class="wifi-name"></span></p>
+                    <div class="form-group">
+                        <input type="password" class="wifi-key form-control" placeholder="Password">
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button id="connect" type="button" class="btn btn-primary">Connect</button>
                 </div>
             </div>
         </div>

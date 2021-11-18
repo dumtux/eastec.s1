@@ -558,3 +558,11 @@ div, p, a, h1, h2, h3, h4, h5 {
 
 /* End dial */
 
+/* Settings Page */
+
+.modal {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* End Settings Page */

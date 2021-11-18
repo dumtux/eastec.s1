@@ -319,6 +319,30 @@ function RGBToHex(r,g,b) {
   return "#" + r + g + b;
 }
 
+function getWifiList()
+{
+  $("#wifiList").html("");
+  // testData = ["dreamteam", "tp_link_324", "tele_34d"];
+  // var network_cnt = testData.length;
+  // for (i = 0;i<network_cnt;i++) {
+  //   var eleList = "<li class='list-group-item wifi-item' data-ssid='" + testData[i] + "'>" + testData[i] + "</li>"
+  //   $("#wifiList").append(eleList);
+  // }
+  fetch('/sauna/wifi/networks')
+  .then(response => response.json())
+  .then(data => {
+    
+    var network_cnt = data.length;
+    for (i = 0;i<network_cnt;i++) {
+      eleList += "<li class='list-group-item wifi-item'>" + data[i] + "</li>"
+    }
+
+    $("#wifiList").html(eleList);
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
+}
 
 $(document).ready(function(){
   _getStatus();
@@ -388,3 +412,35 @@ $("#overhead_light .off-button").on("click", function(){
   closeCard($("#overhead_light"));
 });
 
+$("#searchWifi").on("click", function(){
+  getWifiList();
+});
+
+$(document).on("click", "#wifiList .wifi-item", function(){
+  $("#wifiModal .wifi-name").html($(this).data("ssid"));
+  $("#wifiModal").modal();
+});
+
+$("#connect").on("click", function(){
+  var ssid = $("#wifiModal .wifi-name").text();
+  var key = $("#wifiModal .wifi-key").val();
+  var post_data = {};
+  post_data['ssid'] = ssid;
+  post_data['key'] = key;
+  fetch('/sauna/wifi/connect', {
+    method: "POST",
+    body: JSON.stringify(post_data),
+    headers: {
+        "Content-type": "application/json; charset=UTF-8"
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log(data)
+    $("#wifiModal").modal("hide");
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+    $("#wifiModal").modal("hide");
+  });
+});
