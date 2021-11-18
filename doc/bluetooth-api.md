@@ -1,5 +1,7 @@
 # Bluetooth API for the SOne device status control
 
+> Deprecated, all the controls from mobile app are moved to REST API via WiFi network.
+
 **The contents of this document are provisional. It may be changed during the integration of BT API and GUI Application.**
 
 
@@ -218,4 +220,4 @@ Open <http://localhost:8000/docs> and test the API.
 ---
 
 * Created on 15 Sep 2021
-* Last modified on 18 Sep 2021
+* Last modified on 18 Nov 2021
