@@ -54,7 +54,7 @@
                 </div>
                 <div class="device-stat">
                     <div>
-                        <span class="state-{{ status_dict[device_id]['state'] }}">{{ status_dict[device_id]['state'] }}</span>
+                        <span class="state state-{{ status_dict[device_id]['state'] }}">{{ status_dict[device_id]['state'] }}</span>
                     </div>
                 </div>
             </div>
@@ -67,7 +67,25 @@
                                     Status in detail
                                 </div>
                                 <div class="card-body">
-                                    <p>state: {{ status_dict[device_id] }}</p>
+                                    <!--p>Sauna ID: {{ status_dict[device_id] }}</p-->
+                                    <div>
+                                        Device ID: {{ device_id }}
+                                    </div>
+                                    <div>
+                                        Current Temperature: {{ status_dict[device_id]['current_temperature'] }} °C
+                                    </div>
+                                    <div>
+                                        Target Temperature: {{ status_dict[device_id]['target_temperature'] }} °C
+                                    </div>
+                                    <div>
+                                        Timer: {{ status_dict[device_id]['timer'] }}
+                                    </div>
+                                    <div>
+                                        Firmware Version: {{ status_dict[device_id]['firmware_version'] }}
+                                    </div>
+                                    <div>
+                                        Program Name: {{ status_dict[device_id]['program']['name'] }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -77,7 +95,10 @@
                                     Actions
                                 </div>
                                 <div class="card-body">
-                                    <p>Manage SOne device in more detail, control parameters, reboot, or upgrade firmware.</p>
+                                    <button type="button" class="btn btn-primary btn-block">Change Model</button>
+                                    <button type="button" class="btn btn-success btn-block">Force Firmware Update</button>
+                                    <button type="button" class="btn btn-info btn-block">Enable Auto Updates</button>
+                                    <button type="button" class="btn btn-warning btn-block">Reboot</button>
                                 </div>
                             </div>
                         </div>

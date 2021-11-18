@@ -199,10 +199,11 @@
                 </div>
             </div>
             <div class="mt-40 card-section">
-                <button id="btnHeatStart" type="button" class="button button-primary" onclick="startHeat()">Heat the Sauna</button>
+                <button id="btnReady" type="button" class="button button-primary" onclick="ready()">Continue</button>
+                <button id="btnHeatStart" type="button" class="button button-primary d-none" onclick="startHeat()">Heat the Sauna</button>
                 <button id="btnHeatFinish" type="button" class="button button-outline d-none" onclick="stopHeat()">Finish</button>
                 <button id="btnHeatPause" type="button" class="button button-warning d-none" onclick="pauseHeat()">Pause</button>
-                <button id="btnHeatContinue" type="button" class="button button-primary d-none" onclick="continueHeat()">Continue</button>
+                <button id="btnHeatContinue" type="button" class="button button-primary d-none" onclick="continueHeat()">Continue</button>                
             </div>
         </div>
         <div id="calendarPage" class="content-page">
