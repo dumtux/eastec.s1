@@ -437,9 +437,11 @@ $("#connect").on("click", function(){
   .then(response => response.json())
   .then(data => {
     console.log(data)
+    alert(data);
     $("#wifiModal").modal("hide");
   })
   .catch((error) => {
+    alert(data);
     console.error('Error:', error);
     $("#wifiModal").modal("hide");
   });
