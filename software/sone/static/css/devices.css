@@ -129,18 +129,12 @@
   vertical-align: middle;
 }
 
-.state-standby,
-.state-heating,
-.state-ready,
-.state-insession,
-.state-paused {
-  display: inline-block;
-  margin: 0 0 0 20px;
-  padding-left: 26px;
+.state {
+  padding: 6px 10px;
   background-repeat: no-repeat;
   font-size: 13px;
   line-height: 20px;
-  color: #363636;
+  border-radius: 6px
 }
 
 .state-standby {
@@ -294,6 +288,15 @@
   font-weight: 400;
   line-height: 22px;
   color: #363636;
+}
+
+.sentiment-wrapper .card .card-header {
+  font-size: 18px;
+}
+
+.sentiment-wrapper .card .card-body {
+  font-size: 16px;
+  line-height: 29px;
 }
 
 @media screen and (max-width: 800px) {
