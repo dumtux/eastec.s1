@@ -1,0 +1,3 @@
+UART_EN_PIN = 12
+UART_PORT = '/dev/serial0'
+UART_BAUDRATE = 4800

@@ -1,8 +1,10 @@
 import serial
 
+from .conf import UART_EN_PIN, UART_BAUDRATE, UART_PORT
 from .logger import Logger
 from .models import Status
 from .singletone import Singleton
+from .utils import is_raspberry
 
 
 logger = Logger.instance()
@@ -87,24 +89,21 @@ class KFive(Singleton):
         self.read_uart()
 
     def init_uart(self):
-        if self.uart is not None:
-            raise Exception("KFive.uart is not None.")
-
-        try:
-            import RPi.GPIO as GPIO
-        except ModuleNotFoundError:
+        if not is_raspberry():
             logger.warn("Host OS is not a Raspberry, the SOne will be run in modking mode.")
             return
 
-        UART_EN = 12
-        UART_PORT = '/dev/serial0'
-
         # enable UART level shifter on RJ45 connector
+        import RPi.GPIO as GPIO
         GPIO.setmode(GPIO.BCM)
-        GPIO.setup(UART_EN, GPIO.OUT)
-        GPIO.output(UART_EN, GPIO.HIGH)
+        GPIO.setup(UART_EN_PIN, GPIO.OUT)
+        GPIO.output(UART_EN_PIN, GPIO.HIGH)
 
-        self.uart = serial.Serial(port=UART_PORT, baudrate=4800, timeout=1)
+        try:
+            self.uart = serial.Serial(port=UART_PORT, baudrate=UART_BAUDRATE, timeout=1)
+        except serial.serialutil.SerialException:
+            self.uart = None
+            logger.warn("Failed to open serial port. Serial port is not enabled on configuration, or used by other application.")
 
     def read_uart(self):
         if self.uart is None:

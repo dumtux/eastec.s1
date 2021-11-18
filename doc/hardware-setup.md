@@ -161,6 +161,53 @@ sudo service bluetooth restart
 ```
 
 
+## Setting up On-Screen Keyboard
+
+```sh
+sudo apt install matchbox-keyboard
+```
+
+Show keyboard via SSH
+
+```sh
+DISPLAY=:0 matchbox-keyboard &
+```
+
+Show Keyboard on Pi
+
+```sh
+matchbox-keyboard
+```
+
+Or use this shellscript,
+
+```sh
+#!/bin/bash
+PID="$(pidof matchbox-keyboard)"
+if [  "$PID" != ""  ]; then
+  kill $PID
+else
+ matchbox-keyboard &
+fi
+```
+
+For more information, read the article ([7]).
+
+> Decided to use JS on-screen keyboard solution, [Simple Keyboard](https://github.com/hodgef/simple-keyboard)
+
+## Disable Low-Voltage Warning
+
+> Untested, need to improve Power supply circuit
+
+Add the following line to the end of `/boot/config.txt` file,
+
+```
+avoid_warnings=1
+```
+
+For more information, read the article ([8]).
+
+
 ## Reference
 
 * (1) [Raspberry Compute Module 4 Datasheet][1]
@@ -168,6 +215,9 @@ sudo service bluetooth restart
 * (3) [Adding a Real-Time Clock to Raspberry Pi][3]
 * (4) [Raspberry Pi 3 Bluetooth A2DP Sink/Reciever Setup Problem][4]
 * (5) [Blue Dot Documentation][5]
+* (6) [How to permanently hide mouse pointer or cursor on Raspberry Pi][6]
+* (7) [Setting up an On-Screen Keyboard on the Raspberry Pi][7]
+* (8) [Disable Low-voltage warning in Raspberry Pi][7]
 
 [1]: <https://datasheets.raspberrypi.org/cm4/cm4-datasheet.pdf> "Raspberry CM4 Datasheet"
 [2]: <https://github.com/guussie/PiDS/wiki/09.-How-to-make-various-DACs-work> "How to make various DACs work"
@@ -175,8 +225,10 @@ sudo service bluetooth restart
 [4]: <https://www.raspberrypi.org/forums/viewtopic.php?t=161770> "Raspberry Pi 3 Bluetooth A2DP Sink/Reciever Setup Problem"
 [5]: <https://bluedot.readthedocs.io/en/latest/> "Raspberry Pi 3 BlueDot Documentation"
 [6]: <https://raspberrypi.stackexchange.com/questions/53127/how-to-permanently-hide-mouse-pointer-or-cursor-on-raspberry-pi> "How to permanently hide mouse pointer or cursor on Raspberry PI?"
+[7]: <https://pimylifeup.com/raspberry-pi-on-screen-keyboard/"> "Setting up an On-Screen Keyboard on the Raspberry Pi"
+[8]: <https://terminalwiki.com/disable-low-voltage-warning-in-raspberry-pi/"> "Disable Low-voltage warning in Raspberry Pi"
 
 
 ---
 
-* Last modified on 23 Sep 2021
+* Last modified on 16 Nov 2021
