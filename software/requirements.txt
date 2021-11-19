@@ -12,6 +12,7 @@ pytest-mock
 pywifi
 qrcode[pil]
 requests
+tinydb
 typer
 uvicorn
 websockets

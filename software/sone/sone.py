@@ -1,7 +1,9 @@
 from typing import Callable, List
 
 from fastapi import HTTPException
+from tinydb import TinyDB, Query
 
+from .conf import DB_FILE_PATH
 from .models import Status, Schedule, Program
 from .singletone import Singleton
 from .utils import get_sauna_id, get_sauna_id_qr, get_sauna_name, get_default_status
@@ -17,6 +19,7 @@ class SOne(Singleton):
     sauna_id_qr: str = get_sauna_id_qr()
     model_name: str = get_sauna_name()
     status: Status = get_default_status()
+    db: TinyDB = TinyDB(DB_FILE_PATH)
     schedules: List[Schedule] = []
     program: Program = None
 
