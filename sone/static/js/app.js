@@ -331,7 +331,7 @@ function getWifiList()
   fetch('/sauna/wifi/networks')
   .then(response => response.json())
   .then(data => {
-    
+    var eleList = "";
     var network_cnt = data.length;
     for (i = 0;i<network_cnt;i++) {
       eleList += "<li class='list-group-item wifi-item'>" + data[i] + "</li>"
