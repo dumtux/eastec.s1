@@ -52,3 +52,9 @@ def test_set_target_temperature(mocker):
 def test_set_program(mocker):
     so = SOne.instance()
     program = Program.deserialize(so.status.program.serialize())
+    program.target_temperature = 52
+    so.set_program(program)
+    assert so.status.program.target_temperature == program.target_temperature
+    assert so.status.target_temperature == program.target_temperature
+    so.set_target_temperature(45)
+    assert so.status.program.target_temperature != 45

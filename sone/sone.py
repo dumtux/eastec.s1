@@ -21,7 +21,6 @@ class SOne(Singleton):
     status: Status = get_default_status()
     db: TinyDB = TinyDB(DB_FILE_PATH)
     schedules: List[Schedule] = []
-    program: Program = None
 
     kfive_update: Callable = lambda x: x
 
@@ -91,7 +90,7 @@ class SOne(Singleton):
         raise Exception("Not implemented yet")
 
     def set_program(self, program: Program) -> Status:
-        self.program = program
+        self.status.program = program
         self.set_timer(program.timer_duration)
         self.set_target_temperature(program.target_temperature)
         # self.set_lights(program.lights)
