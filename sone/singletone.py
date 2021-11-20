@@ -2,7 +2,7 @@ class Singleton(object):
     _instance = None
 
     def __init__(self):
-        raise Error('call instance()')
+        raise Exception('call instance()')
 
     @classmethod
     def instance(cls):

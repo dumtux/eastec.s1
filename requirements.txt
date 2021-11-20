@@ -1,6 +1,7 @@
 aiofiles
 cryptography
 fastapi
+flake8
 gunicorn
 httpx
 jinja2
