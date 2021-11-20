@@ -32,7 +32,7 @@ DEFAULT_STATUS = {
         }
     ],
     "program": {
-        "name": "string",
+        "name": "Default Program",
         "target_temperature": 50,
         "timer_duration": 30,
         "lights": [
