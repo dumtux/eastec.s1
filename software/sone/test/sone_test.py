@@ -2,6 +2,7 @@ from fastapi import HTTPException
 from pytest import raises
 
 from ..singletone import Singleton
+from ..models import Program
 from ..sone import SOne
 
 
@@ -46,3 +47,8 @@ def test_set_target_temperature(mocker):
 
     with raises(HTTPException):
         so.set_target_temperature(100)
+
+
+def test_set_program(mocker):
+    so = SOne.instance()
+    program = Program.deserialize(so.status.program.serialize())
