@@ -1,2 +1,6 @@
 .vscode/
+__pycache__/
 backup/
+env/
+venv_linux/
+venv_windows/
