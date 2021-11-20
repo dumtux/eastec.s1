@@ -83,7 +83,7 @@ class Schedule(BaseModel):
 class Status(BaseModel):
     state: str
     sauna_id: str
-    firmware_version: int
+    firmware_version: str
     target_temperature: int
     current_temperature: int
     timer: int

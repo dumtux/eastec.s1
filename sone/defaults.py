@@ -1,7 +1,10 @@
+from . import __version__
+
+
 DEFAULT_STATUS = {
     "state": "standby",
     "sauna_id": "string",
-    "firmware_version": 0,
+    "firmware_version": __version__,
     "target_temperature": 30,
     "current_temperature": 0,
     "timer": 60,
@@ -32,7 +35,7 @@ DEFAULT_STATUS = {
         }
     ],
     "program": {
-        "name": "string",
+        "name": "Default Program",
         "target_temperature": 50,
         "timer_duration": 30,
         "lights": [
