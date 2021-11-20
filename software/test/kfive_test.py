@@ -1,8 +1,8 @@
 import serial
 
-from ..kfive import KFive
-from ..singletone import Singleton
-from ..utils import get_default_status, is_raspberry
+from sone.kfive import KFive
+from sone.singletone import Singleton
+from sone.utils import get_default_status, is_raspberry
 
 
 def test_kfive():

@@ -1,4 +1,4 @@
-from ..singletone import Singleton
+from sone.singletone import Singleton
 
 
 def test_singletone():

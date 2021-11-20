@@ -1,7 +1,7 @@
 import time
 
-from ..models import Status
-from ..utils import get_sauna_id, get_sauna_name, get_default_status, get_sauna_id_qr, is_raspberry
+from sone.models import Status
+from sone.utils import get_sauna_id, get_sauna_name, get_default_status, get_sauna_id_qr, is_raspberry
 
 
 def test_get_sauna_id():

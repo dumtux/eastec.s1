@@ -1,9 +1,9 @@
 from fastapi import HTTPException
 from pytest import raises
 
-from ..singletone import Singleton
-from ..models import Program
-from ..sone import SOne
+from sone.singletone import Singleton
+from sone.models import Program
+from sone.sone import SOne
 
 
 def test_sone():

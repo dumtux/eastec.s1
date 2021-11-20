@@ -1,5 +1,5 @@
-from ..logger import Logger
-from ..singletone import Singleton
+from sone.logger import Logger
+from sone.singletone import Singleton
 
 
 def test_logger():

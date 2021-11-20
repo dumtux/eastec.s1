@@ -1,11 +1,11 @@
 from fastapi.testclient import TestClient
 
-from ..api_local import app
-from ..defaults import DEFAULT_SCHEDULE, DEFAULT_STATUS
-from ..models import Schedule
-from ..sone import SOne
-from ..utils import is_raspberry
-from ..wifi import list_networks
+from sone.api_local import app
+from sone.defaults import DEFAULT_SCHEDULE, DEFAULT_STATUS
+from sone.models import Schedule
+from sone.sone import SOne
+from sone.utils import is_raspberry
+from sone.wifi import list_networks
 
 
 client = TestClient(app)
