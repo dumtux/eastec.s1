@@ -1,6 +1,7 @@
 # SOne - iHealth Sauna Control System
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![Test](https://github.com/hotteshen/eastec.s1/actions/workflows/python-package.yml/badge.svg)
 
 
 ## Quickstart
