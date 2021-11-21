@@ -7,7 +7,7 @@
 ## Overview
 
 **SOne** is a collection of the human interface device and software, server side dashboard and API softwares.
-* **KFive** The power control module of sauna heaters and lights. which is controolled by *SOne*.
+**KFive** The power control module of sauna heaters and lights. which is controolled by *SOne*.
 
   - built with an Linux-based SBC
   - User interface on touchscreen
