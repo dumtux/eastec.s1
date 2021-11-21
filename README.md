@@ -37,7 +37,7 @@ pip install -r requirements.txt
 
 ### Running as device vs running as server.
 
-The device-side software and server side software shares many common data structure and patterns.
+The device-side software and server side software share many common data structure and patterns.
 Thus, both softwares are implemented in this same repository, as a single Python package named `sone`.
 
 With the above virtual environment is activated,
