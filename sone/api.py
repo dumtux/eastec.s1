@@ -32,14 +32,17 @@ templates = Jinja2Templates(directory=str(STATIC_DIR / "template"))
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     sauna_id_list = list(connections.keys())
+    valid_sauna_id_list = []
     status_dict = dict()
     async with AsyncClient() as client:
         for sauna_id in sauna_id_list:
             res = await client.get(f"{request.url}sauna/{sauna_id}/status")
-            status_dict[sauna_id] = res.json()
+            if res.status_code < 300:
+                valid_sauna_id_list.append(sauna_id)
+                status_dict[sauna_id] = res.json()
     return templates.TemplateResponse(
         "index_cloud.html",
-        {"request": request, "sauna_id_list": sauna_id_list, "status_dict": status_dict})
+        {"request": request, "sauna_id_list": valid_sauna_id_list, "status_dict": status_dict})
 
 
 @app.websocket_route("/ws/{sauna_id}", name="ws")
@@ -86,14 +89,18 @@ async def tick_ws(sauna_id: str, request: Request) -> Any:
         "body": body,
     }
     await connections[sauna_id].send_json(data)
-    while responses[sauna_id] is None:
-        await asyncio.sleep(0.8)
-    r = dict(responses[sauna_id])
-    responses[sauna_id] = None
 
-    if r['status_code'] not in [200, 201]:
-        raise HTTPException(status_code = r['status_code'], detail=r['body']['detail'])
-    return r['body']
+    for i in range(3):
+        if sauna_id not in responses.keys():
+            raise HTTPException(status_code=400, detail=f"Connection to {sauna_id} is closed due to device-side error.")
+        if responses[sauna_id]:
+            r = dict(responses[sauna_id])
+            responses[sauna_id] = None
+            if r['status_code'] not in [200, 201]:
+                raise HTTPException(status_code=r['status_code'], detail=r['body']['detail'])
+            return r['body']
+        await asyncio.sleep(0.8)
+    raise HTTPException(status_code=400, detail=f"timed out listening from {sauna_id}.")
 
 
 root_router = APIRouter(prefix="/sauna")
