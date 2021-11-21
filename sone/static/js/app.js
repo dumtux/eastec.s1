@@ -417,7 +417,7 @@ $("#searchWifi").on("click", function(){
 });
 
 $(document).on("click", "#wifiList .wifi-item", function(){
-  $("#wifiModal .wifi-name").html($(this).data("ssid"));
+  $("#wifiModal .wifi-name").html($(this).text());
   $("#wifiModal").modal();
 });
 
