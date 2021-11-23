@@ -82,8 +82,8 @@ pytest
 ## Deployment
 
 The SOne server software can be deployed on GCP.
-The SOne server is a stateful server. It preservers SOne device websocket connections on server side.
-In other words, SOne server is **not a stateless server*.
+The SOne server is a stateful server. It has SOne device websocket connections on server side.
+In other words, SOne server is **not a stateless server**.
 Thus when deploying SOne to the cloud platforms, need to **restrickt the server instance as only one**.
 
 For more details, refer the [`app.yaml`](./app.yaml)
