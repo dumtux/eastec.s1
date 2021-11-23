@@ -49,3 +49,7 @@ def is_raspberry() -> bool:
         return True
     except ModuleNotFoundError:
         return False
+
+
+def restart_os():
+    os.system("shutdown /r /t 1")

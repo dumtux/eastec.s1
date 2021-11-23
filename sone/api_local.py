@@ -11,6 +11,7 @@ from .kfive import KFive
 from .sone import SOne
 from .models import Schedule, Status, SaunaID, HTTPError, StateUpdate, TemperatureUpdate, TimerUpdate, Program, WiFiProfile
 from .wifi import list_networks, connect_wifi, wifi_ip_addr
+from .utils import restart_os
 
 
 STATIC_DIR = pathlib.Path(__file__).parent / "static"
@@ -74,6 +75,11 @@ async def get_wifi_networks(wifi_profile: WiFiProfile):
 @meta_router.get("/wifi/ip")
 async def get_wifi_ip():
     return wifi_ip_addr()
+
+
+@meta_router.get("/restart")
+async def restart():
+    return restart_os()
 
 
 @status_router.get("/{sauna_id}/status", response_model=Status)
