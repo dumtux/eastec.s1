@@ -52,4 +52,4 @@ def is_raspberry() -> bool:
 
 
 def restart_os():
-    os.system("shutdown /r /t 1")
+    os.system("reboot")
