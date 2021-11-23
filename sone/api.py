@@ -126,7 +126,19 @@ async def get_protected():
 
 @meta_router.get("/{sauna_id}/restart")
 async def restart(sauna_id: str, request: Request):
-    return await tick_ws(sauna_id, request)
+    '''
+    After this endpoint is called, the device OS is restarted.
+    Thus, network connection is lost, and it returns error code 400 and message about the device network connection is lost.
+    In this case, return valid 200 response.
+    Otherwise, raise the exception.
+    '''
+    try:
+        await tick_ws(sauna_id, request)
+    except HTTPException as e:
+        if e.status_code == 400 and e.detail == f"Connection to {sauna_id} is closed due to device-side error.":
+            return {f"{sauna_id} is restarting."}
+        else:
+            raise e
 
 
 @status_router.get("/{sauna_id}/status", response_model=Status)
