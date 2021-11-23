@@ -60,9 +60,24 @@ function showPage(pageId) {
 }
 
 var $saunaControlPage = $("#saunaControlPage");
-var $startHeat = $('#btnHeatStart'), $stopHeat = $('#btnHeatFinish'), $pauseHeat = $('#btnHeatPause'), $continueHeat = $('#btnHeatContinue');
+// var $startHeat = $('#btnHeatStart'), $stopHeat = $('#btnHeatFinish'), $pauseHeat = $('#btnHeatPause'), $continueHeat = $('#btnHeatContinue');
+var $startHeat = $('#btnStartHeat'), $stopHeat = $('#btnStopHeat');
+var $statusSauna = $('#lblSaunaStatus');
 
 function setSaunaState(state) {
+  switch (state) {
+    case "standby":
+      $startHeat.removeClass("d-none");
+      $stopHeat.addClass("d-none");
+      $statusSauna.html("Sauna is in standby.");
+      break;
+    case "heating":
+      $startHeat.addClass("d-none");
+      $stopHeat.removeClass("d-none");
+      $statusSauna.html("Sauna is heating.");
+      break
+  }
+  /*
   switch (state) {
     case "heat":
       $startHeat.addClass("d-none");
@@ -92,11 +107,12 @@ function setSaunaState(state) {
       $saunaControlPage.addClass("heat");
       break;
   }
+  */
 }
 
 function startHeat() {
   _setStatus("state", "heating");
-  setSaunaState("heat");
+  setSaunaState("heating");
 }
 
 function stopHeat() {
@@ -113,6 +129,7 @@ function continueHeat() {
   _setStatus("state", "heating");
   setSaunaState("continue");
 }
+
 
 function drawDial(eleId) {
   let type = $(eleId + '.gauge').data('type'); //temperature, time
@@ -213,6 +230,7 @@ function closeCard(ele) {
 }
 
 function configureStatus(status) {
+  console.log(">>>>>>>>>>>>>>>>>>>");
   console.log(status);
   setSaunaState(status.state);
 
@@ -319,31 +337,6 @@ function RGBToHex(r,g,b) {
   return "#" + r + g + b;
 }
 
-function getWifiList()
-{
-  $("#wifiList").html("");
-  // testData = ["dreamteam", "tp_link_324", "tele_34d"];
-  // var network_cnt = testData.length;
-  // for (i = 0;i<network_cnt;i++) {
-  //   var eleList = "<li class='list-group-item wifi-item' data-ssid='" + testData[i] + "'>" + testData[i] + "</li>"
-  //   $("#wifiList").append(eleList);
-  // }
-  fetch('/sauna/wifi/networks')
-  .then(response => response.json())
-  .then(data => {
-    var eleList = "";
-    var network_cnt = data.length;
-    for (i = 0;i<network_cnt;i++) {
-      eleList += "<li class='list-group-item wifi-item'>" + data[i] + "</li>"
-    }
-
-    $("#wifiList").html(eleList);
-  })
-  .catch((error) => {
-    console.error('Error:', error);
-  });
-}
-
 $(document).ready(function(){
   _getStatus();
   setTimeout(function(){$("#loading").addClass("d-none");}, 1500);
@@ -412,12 +405,43 @@ $("#overhead_light .off-button").on("click", function(){
   closeCard($("#overhead_light"));
 });
 
+
 $("#searchWifi").on("click", function(){
-  getWifiList();
+  
+  // testData = ["dreamteam", "tp_link_324", "tele_34d"];
+  // var network_cnt = testData.length;
+  // for (i = 0;i<network_cnt;i++) {
+  //   var eleList = "<li class='list-group-item wifi-item' data-ssid='" + testData[i] + "'>" + testData[i] + "</li>"
+  //   $("#wifiList").append(eleList);
+  // }
+  // $("#wifiList").addClass("show");
+  $("#wifiList").html("");
+  fetch('/sauna/wifi/networks')
+  .then(response => response.json())
+  .then(data => {
+    if(data.detail) {
+      $("#errorModal .modal-body").html("<p>" + data.detail + "</p>");
+      $("#errorModal").modal();
+    } else {
+      var eleList = "";
+      var network_cnt = data.length;
+      for (i = 0;i<network_cnt;i++) {
+        eleList += "<li class='list-group-item wifi-item'>" + data[i] + "</li>"
+      }
+      $("#wifiList").html(eleList);
+      $("#wifiList").addClass("show");
+    }    
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+    $("#errorModal .modal-body").html("<p>No Wifi Network</p>");
+    $("#errorModal").modal();
+  });
 });
 
 $(document).on("click", "#wifiList .wifi-item", function(){
   $("#wifiModal .wifi-name").html($(this).text());
+  $("#wifiList").removeClass("show");
   $("#wifiModal").modal();
 });
 
@@ -446,3 +470,12 @@ $("#connect").on("click", function(){
     $("#wifiModal").modal("hide");
   });
 });
+
+
+$(function(){
+    $('.wifi-key').keyboard({
+    // options here
+  });
+});
+  
+
