@@ -60,74 +60,52 @@ function showPage(pageId) {
 }
 
 var $saunaControlPage = $("#saunaControlPage");
-// var $startHeat = $('#btnHeatStart'), $stopHeat = $('#btnHeatFinish'), $pauseHeat = $('#btnHeatPause'), $continueHeat = $('#btnHeatContinue');
-var $startHeat = $('#btnStartHeat'), $stopHeat = $('#btnStopHeat');
-var $statusSauna = $('#lblSaunaStatus');
+var $stateStandby = $('#stateStandby'), $stateHeating = $('#stateHeating'), $stateReady = $('#stateReady'), $stateInsession = $('#stateInsession'), $statePause = $('#statePause');
 
 function setSaunaState(state) {
+  $(".state-btns").addClass("d-none");
   switch (state) {
     case "standby":
-      $startHeat.removeClass("d-none");
-      $stopHeat.addClass("d-none");
-      $statusSauna.html("Sauna is in standby.");
+      $stateStandby.removeClass("d-none");
       break;
     case "heating":
-      $startHeat.addClass("d-none");
-      $stopHeat.removeClass("d-none");
-      $statusSauna.html("Sauna is heating.");
-      break
-  }
-  /*
-  switch (state) {
-    case "heat":
-      $startHeat.addClass("d-none");
-      $stopHeat.removeClass("d-none");
-      $pauseHeat.removeClass("d-none");
-      $saunaControlPage.addClass("heat");
+      $stateHeating.removeClass("d-none");
       break;
-    case "pause":
-      $startHeat.addClass("d-none");
-      $stopHeat.removeClass("d-none");
-      $pauseHeat.addClass("d-none");
-      $continueHeat.removeClass("d-none");
-      $saunaControlPage.addClass("heat");
+    case "ready":
+      $stateReady.removeClass("d-none");
       break;
-    case "standby":
-      $stopHeat.addClass("d-none");
-      $pauseHeat.addClass("d-none");
-      $continueHeat.addClass("d-none");
-      $startHeat.removeClass("d-none");
-      $saunaControlPage.removeClass("heat");
+    case "insession":
+      $stateInsession.removeClass("d-none");
       break;
-    case "continue":
-      $startHeat.addClass("d-none");
-      $stopHeat.removeClass("d-none");
-      $continueHeat.addClass("d-none");
-      $pauseHeat.removeClass("d-none");
-      $saunaControlPage.addClass("heat");
+    case "paused":
+      $statePause.removeClass("d-none");
       break;
   }
-  */
 }
 
-function startHeat() {
-  _setStatus("state", "heating");
-  setSaunaState("heating");
-}
-
-function stopHeat() {
+function goStandBy() {
   _setStatus("state", "standby");
   setSaunaState("standby");
 }
 
-function pauseHeat() {
-  _setStatus("state", "paused");
-  setSaunaState("pause");
+function goReady() {
+  _setStatus("state", "ready");
+  setSaunaState("ready");
 }
 
-function continueHeat() {
+function goHeating() {
   _setStatus("state", "heating");
-  setSaunaState("continue");
+  setSaunaState("heating");
+}
+
+function goInsession() {
+  _setStatus("state", "insession");
+  setSaunaState("insession");
+}
+
+function goPause() {
+  _setStatus("state", "paused");
+  setSaunaState("paused");
 }
 
 

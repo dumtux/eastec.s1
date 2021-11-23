@@ -198,17 +198,27 @@
                     </div>
                 </div>
             </div>
-            <div class="mt-40">
-                <label id="lblSaunaStatus" class="d-block mb-20 pl-4">Sauna is in standby</label>
-                <button id="btnStartHeat" type="button" class="button button-primary w-50"  onclick="startHeat()">Heat Sauna</button>
-                <button id="btnStopHeat" type="button" class="button button-warning w-50 d-none" onclick="stopHeat()">Stop Heating Sauna</button>
-                <!--
-                <button id="btnReady" type="button" class="button button-primary" onclick="ready()">Continue</button>
-                <button id="btnHeatStart" type="button" class="button button-primary d-none" onclick="startHeat()">Heat the Sauna</button>
-                <button id="btnHeatFinish" type="button" class="button button-outline d-none" onclick="stopHeat()">Finish</button>
-                <button id="btnHeatPause" type="button" class="button button-warning d-none" onclick="pauseHeat()">Pause</button>
-                <button id="btnHeatContinue" type="button" class="button button-primary d-none" onclick="continueHeat()">Continue</button>                
-                -->
+            <div id="stateStandby" class="state-btns mt-40">
+                <label class="d-block pl-4">Sauna is in standby</label>
+                <button type="button" class="button button-primary w-50"  onclick="goHeating()">Heat Sauna</button>
+            </div>
+            <div id="stateHeating" class="state-btns mt-40">
+                <label class="d-block pl-4">Sauna is in heating</label>
+                <button type="button" class="button button-outline w-50" onclick="goStandBy()">Cancel</button>
+            </div>
+            <div id="stateReady" class="state-btns mt-40">
+                <label class="d-block pl-4">Sauna is in ready</label>
+                <button type="button" class="button btn-success w-25 mr-2" onclick="goStandBy()">Start</button>
+                <button type="button" class="button btn-secondary w-25" onclick="goInsession()">Stop</button>
+            </div>
+            <div id="stateInsession" class="state-btns mt-40">
+                <label class="d-block pl-4">Sauna is in session</label>
+                <button type="button" class="button button-warning w-25 mr-2" onclick="goPause()">Pause</button>
+                <button type="button" class="button btn-secondary w-25" onclick="goStandBy()">Stop</button>
+            </div>
+            <div id="statePause" class="state-btns mt-40">
+                <label class="d-block pl-4">Sauna is in pause</label>
+                <button type="button" class="button btn-info w-25" onclick="goInsession()">Resume</button>
             </div>
         </div>
         <div id="calendarPage" class="content-page">
