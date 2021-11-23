@@ -35,11 +35,12 @@
 
 ### Updates
 
-* Use other Class AB amplifier chip
+* Use other Class AB amplifier chip TDA7297
 * add more RBG LED control outputs
+* all tests passed
 
 
 ---
 
 * Created on 8 Aug 2021
-* Last modified on 07 Nov 2021
+* Last modified on 21 Nov 2021
