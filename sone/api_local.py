@@ -77,8 +77,8 @@ async def get_wifi_ip():
     return wifi_ip_addr()
 
 
-@meta_router.get("/restart")
-async def restart():
+@meta_router.get("/{sauna_id}/restart")
+async def restart(sauna_id: str):
     return restart_os()
 
 

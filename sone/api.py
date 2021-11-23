@@ -124,6 +124,11 @@ async def get_protected():
     return "You've got the protected data successfully!"
 
 
+@meta_router.get("/{sauna_id}/restart")
+async def restart(sauna_id: str, request: Request):
+    return await tick_ws(sauna_id, request)
+
+
 @status_router.get("/{sauna_id}/status", response_model=Status)
 async def get_status(sauna_id: str, request: Request):
     return await tick_ws(sauna_id, request)
