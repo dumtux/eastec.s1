@@ -31,6 +31,9 @@ async def loop_ws_client(cloud_url: str, local_url: str):
     sauna_id = get_sauna_id()
     if cloud_url.endswith('/'):
         cloud_url = cloud_url[:-1]
+    if not (cloud_url.startswith("http://") or cloud_url.startswith("https://")):
+        logger.error("Invalid cloud URL form.")
+        return
     ws_cloud_url = f"ws://{cloud_url.split('://')[1]}/ws/{sauna_id}"
     logger.log(f"Connecting to {ws_cloud_url}")
     async with httpx.AsyncClient() as client:
