@@ -53,3 +53,7 @@ def is_raspberry() -> bool:
 
 def restart_os():
     os.system("reboot")
+
+
+def upgrade_firmware():
+    os.system("pip3 install git+https://github.com/hotteshen/eastec.s1@release/1.0")
