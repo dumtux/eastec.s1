@@ -141,6 +141,11 @@ async def restart(sauna_id: str, request: Request):
             raise e
 
 
+@meta_router.get("/{sauna_id}/upgrade")
+async def upgrade(sauna_id: str, request: Request):
+    return await tick_ws(sauna_id, request)
+
+
 @status_router.get("/{sauna_id}/status", response_model=Status)
 async def get_status(sauna_id: str, request: Request):
     return await tick_ws(sauna_id, request)
