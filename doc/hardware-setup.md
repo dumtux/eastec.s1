@@ -208,6 +208,39 @@ avoid_warnings=1
 For more information, read the article ([8]).
 
 
+## Running SOne as a Systemd Service
+
+Install the `sone` from GitHub.
+
+```sh
+sudo pip3 install git+https://github.com/hotteshen/eastec.s1@release/1.0
+```
+
+Create `sone.service` file in the `/lib/systemd/system/` location, with the following content.
+
+```
+[Unit]
+Description=SOne Device App
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 -m sone device --cloud-url https://s1apis.ts.r.appspot.com/
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Reload `systemd`, start `sone` as a service, enable autostart.
+
+```sh
+sudo systemctl daemon-reload
+systemctl enable dash_sniffer.service
+systemctl start dash_sniffer.service
+```
+
+For more information about running a Python script as a `systemd` service, read [this article](https://gist.github.com/ewenchou/be496b2b73be801fd85267ef5471458c).
+
+
 ## Reference
 
 * (1) [Raspberry Compute Module 4 Datasheet][1]
