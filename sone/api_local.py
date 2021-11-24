@@ -84,7 +84,12 @@ async def restart(sauna_id: str):
 
 @meta_router.get("/{sauna_id}/upgrade")
 async def upgrade(sauna_id: str):
-    return upgrade_firmware()
+    logger.log("Upgrading SOne PIP package...")
+    upgrade_firmware()
+    logger.log("Upgrading SOne finished.")
+    return {
+        "detail": f"Firmware of {sauna_id} upgraded, reboot the device to run the upgraded firmware."
+    }
 
 
 @status_router.get("/{sauna_id}/status", response_model=Status)
