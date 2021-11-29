@@ -56,4 +56,4 @@ def restart_os():
 
 
 def upgrade_firmware():
-    os.system("pip3 install git+https://github.com/hotteshen/eastec.s1@release/1.0")
+    os.system("pip3 install --upgrade git+https://github.com/hotteshen/eastec.s1@release/1.0")
