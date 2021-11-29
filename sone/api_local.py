@@ -19,7 +19,7 @@ STATIC_DIR = pathlib.Path(__file__).parent / "static"
 
 sone = SOne.instance()
 kfive = KFive.instance()
-kfive.update(sone.status)         # update KFive with the default Status of SOne
+# kfive.update(sone.status)         # update KFive with the default Status of SOne
 sone.kfive_update = kfive.update  # sync SOne with KFive
 
 logger = Logger.instance()

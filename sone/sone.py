@@ -103,8 +103,7 @@ class SOne(Singleton):
 
     async def _kfive_update(self, status: Status):
         try:
-            logger.log("trying to update, calling with timeout(1)")
             async with timeout(1):
                 await self.kfive_update(status)
         except TimeoutError:
-            logger.warn("No response from KFive, check the UART connection.")
+            logger.error("No response from KFive, check the UART connection.")
