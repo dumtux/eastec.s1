@@ -1,7 +1,10 @@
-# SOne - iHealth Sauna Control System
+<center>
+<img src="https://github.com/hotteshen/eastec.s1/blob/develop/doc/logo_white_96x96.png?raw=true" style="background: #00000033;">
+<h1>SOne - iHealth Sauna Control System</h1>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Test](https://github.com/hotteshen/eastec.s1/actions/workflows/python-package.yml/badge.svg)
+</center>
 
 
 ## Overview
