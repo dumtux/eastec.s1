@@ -36,7 +36,7 @@ async def test_set_timer(mocker):
     assert so.status.timer == 30
     spy.assert_called_once()
 
-    async with raises(HTTPException):
+    with raises(HTTPException):
         await so.set_timer(100)
 
 @pytest.mark.asyncio
@@ -49,7 +49,7 @@ async def test_set_target_temperature(mocker):
     assert so.status.target_temperature == 60
     spy.assert_called_once()
 
-    async with raises(HTTPException):
+    with raises(HTTPException):
         await so.set_target_temperature(100)
 
 
