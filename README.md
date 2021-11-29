@@ -1,4 +1,4 @@
-<div style="text-align: center">
+<div align="center">
 <img src="https://github.com/hotteshen/eastec.s1/blob/develop/doc/logo_white_96x96.png?raw=true" style="background: #00000033;">
 <h1>SOne - iHealth Sauna Control System</h1>
 
