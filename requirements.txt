@@ -1,4 +1,5 @@
 aiofiles
+async-timeout
 cryptography
 fastapi
 flake8

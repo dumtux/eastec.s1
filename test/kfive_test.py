@@ -1,3 +1,4 @@
+import pytest
 import serial
 
 from sone.kfive import KFive
@@ -20,10 +21,11 @@ def test_to_bytes():
     assert kf.to_bytes() == b'\xcc\x09\x3c\x00\x00\x1e\x56\x00\x00\x00\x00\x00\x00\x00\x42\x71'
 
 
-def test_update():
+@pytest.mark.asyncio
+async def test_update():
     kf = KFive.instance()
     status = get_default_status()
-    kf.update(status)
+    await kf.update(status)
     print(kf.to_bytes())
     assert kf.to_bytes() == b'\xcc\x09\x3c\x00\x00\x1e\x56\x00\x00\x00\x00\x00\x00\x00\x42\x71'
 

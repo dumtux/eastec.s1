@@ -1,5 +1,6 @@
 import serial
 
+from .async_wrap import async_wrap
 from .conf import UART_EN_PIN, UART_BAUDRATE, UART_PORT
 from .logger import Logger
 from .models import Status
@@ -53,7 +54,7 @@ class KFive(Singleton):
         ba = bytearray.fromhex(t)
         return bytes(ba)
 
-    def update(self, status: Status) -> Status:
+    async def update(self, status: Status) -> Status:
         self.target_temperature = status.target_temperature
         self.time = status.timer
         self.ht1 = status.heaters[0].level
@@ -75,18 +76,14 @@ class KFive(Singleton):
                 self.heater = self.target_temperature > self.read_temperature
                 self.endbyte = 0xC2 if self.heater else 0x02
 
-        self.sync_hardware()
+        await self.sync_hardware()
 
         status.current_temperature = self.read_temperature
         return status
 
-    def sync_hardware(self):
-        if self.uart is None:
-            logger.warn("KFive.uart is not initialized or the host OS is not a Raspberry, the following bytes will not be sent to KFive hardware.")
-        if self.uart is not None:
-            self.uart.write(self.to_bytes())
-        logger.log("SOne -> KFive: " + ' '.join([format(x, '02x') for x in self.to_bytes()]))
-        self.read_uart()
+    async def sync_hardware(self):
+        await self.write_uart()
+        await self.read_uart()
 
     def init_uart(self):
         if not is_raspberry():
@@ -105,6 +102,15 @@ class KFive(Singleton):
             self.uart = None
             logger.warn("Failed to open serial port. Serial port is not enabled on configuration, or used by other application.")
 
+    @async_wrap
+    def write_uart(self):
+        if self.uart is None:
+            logger.warn("KFive.uart is not initialized or the host OS is not a Raspberry, the following bytes will not be sent to KFive hardware.")
+        if self.uart is not None:
+            self.uart.write(self.to_bytes())
+        logger.log("SOne -> KFive: " + ' '.join([format(x, '02x') for x in self.to_bytes()]))
+
+    @async_wrap
     def read_uart(self):
         if self.uart is None:
             return

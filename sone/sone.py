@@ -1,5 +1,7 @@
+from asyncio import TimeoutError
 from typing import Callable, List
 
+from async_timeout import timeout
 from fastapi import HTTPException
 from tinydb import TinyDB, Query
 
@@ -24,11 +26,11 @@ class SOne(Singleton):
 
     kfive_update: Callable = lambda x: x
 
-    def get_status(self) -> Status:
-        self.kfive_update(self.status)
+    async def get_status(self) -> Status:
+        await self._kfive_update(self.status)
         return self.status
 
-    def set_state(self, state: str) -> Status:
+    async def set_state(self, state: str) -> Status:
         if state not in self.VALID_STATES:
             raise HTTPException(
                 status_code=422,
@@ -62,37 +64,44 @@ class SOne(Singleton):
                     detail="'paused' state can be set only from 'insession' state.")
             self.status.state = 'insession'
 
-        self.kfive_update(self.status)
+        await self._kfive_update(self.status)
         return self.status
 
-    def set_timer(self, timer: int) -> Status:
+    async def set_timer(self, timer: int) -> Status:
         if timer > 90 or timer < 0:
             raise HTTPException(
                 status_code=422,
                 detail="Sauna timer value should be between 0 and 90")
         self.status.timer = timer
-        self.kfive_update(self.status)
+        await self._kfive_update(self.status)
         return self.status
 
-    def set_target_temperature(self, temperature: int) -> Status:
+    async def set_target_temperature(self, temperature: int) -> Status:
         if temperature > 70 or temperature < 20:
             raise HTTPException(
                 status_code=422,
                 detail="Sauna temperature value should be between 20 and 70")
         self.status.target_temperature = temperature
-        self.kfive_update(self.status)
+        await self._kfive_update(self.status)
         return self.status
 
-    def set_heaters(self) -> Status:
+    async def set_heaters(self) -> Status:
         raise Exception("Not implemented yet")
 
-    def set_lights(self) -> Status:
+    async def set_lights(self) -> Status:
         raise Exception("Not implemented yet")
 
-    def set_program(self, program: Program) -> Status:
+    async def set_program(self, program: Program) -> Status:
         self.status.program = program
-        self.set_timer(program.timer_duration)
-        self.set_target_temperature(program.target_temperature)
+        await self.set_timer(program.timer_duration)
+        await self.set_target_temperature(program.target_temperature)
         # self.set_lights(program.lights)
         # self.set_heaters(program.heaters)
         return self.status
+
+    async def _kfive_update(self, status: Status):
+        try:
+            async with timeout(1):
+                await self.kfive_update(status)
+        except TimeoutError:
+            logger.warn("No response from KFive, check the UART connection.")

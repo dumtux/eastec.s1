@@ -96,35 +96,35 @@ async def upgrade(sauna_id: str):
 async def get_status(sauna_id: str):
     if sauna_id != sone.sauna_id:
         raise HTTPException(status_code=404, detail="Sauna ID not found")
-    return sone.get_status()
+    return await sone.get_status()
 
 
 @control_router.put("/{sauna_id}/state", response_model=Status)
 async def update_state(sauna_id: str, update: StateUpdate):
     if sauna_id != sone.sauna_id:
         raise HTTPException(status_code=404, detail="Sauna ID not found")
-    return sone.set_state(update.state)
+    return await sone.set_state(update.state)
 
 
 @control_router.put("/{sauna_id}/temperature", response_model=Status)
 async def update_target_temperature(sauna_id: str, update: TemperatureUpdate):
     if sauna_id != sone.sauna_id:
         raise HTTPException(status_code=404, detail="Sauna ID not found")
-    return sone.set_target_temperature(update.target_temperature)
+    return await sone.set_target_temperature(update.target_temperature)
 
 
 @control_router.put("/{sauna_id}/timer", response_model=Status)
 async def update_timer(sauna_id: str, update: TimerUpdate):
     if sauna_id != sone.sauna_id:
         raise HTTPException(status_code=404, detail="Sauna ID not found")
-    return sone.set_timer(update.timer)
+    return await sone.set_timer(update.timer)
 
 
 @control_router.post("/{sauna_id}/program", response_model=Status)
 async def update_timer(sauna_id: str, program: Program):
     if sauna_id != sone.sauna_id:
         raise HTTPException(status_code=404, detail="Sauna ID not found")
-    return sone.set_program(program)
+    return await sone.set_program(program)
 
 
 @scheduling_router.get(
