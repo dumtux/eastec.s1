@@ -6,6 +6,7 @@ from fastapi import HTTPException
 from tinydb import TinyDB, Query
 
 from .conf import DB_FILE_PATH
+from .logger import Logger
 from .models import Status, Schedule, Program
 from .singletone import Singleton
 from .utils import get_sauna_id, get_sauna_id_qr, get_sauna_name, get_default_status
@@ -13,6 +14,7 @@ from .utils import get_sauna_id, get_sauna_id_qr, get_sauna_name, get_default_st
 
 TEMPERATURE_DELTA = 2  # terperature delta between target and current
 
+logger = Logger.instance()
 
 class SOne(Singleton):
     VALID_STATES = ['standby', 'heating', 'ready', 'insession', 'paused']
@@ -101,6 +103,7 @@ class SOne(Singleton):
 
     async def _kfive_update(self, status: Status):
         try:
+            logger.log("trying to update, calling with timeout(1)")
             async with timeout(1):
                 await self.kfive_update(status)
         except TimeoutError:
