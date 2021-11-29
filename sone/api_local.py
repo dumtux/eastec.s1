@@ -8,6 +8,7 @@ from fastapi.templating import Jinja2Templates
 
 from . import __title__, __version__
 from .kfive import KFive
+from .logger import Logger
 from .sone import SOne
 from .models import Schedule, Status, SaunaID, HTTPError, StateUpdate, TemperatureUpdate, TimerUpdate, Program, WiFiProfile
 from .wifi import list_networks, connect_wifi, wifi_ip_addr
@@ -21,7 +22,7 @@ kfive = KFive.instance()
 kfive.update(sone.status)         # update KFive with the default Status of SOne
 sone.kfive_update = kfive.update  # sync SOne with KFive
 
-
+logger = Logger.instance()
 
 app = FastAPI(
     title=f"{__title__} Device",
