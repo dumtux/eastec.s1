@@ -114,6 +114,7 @@ class KFive(Singleton):
     def read_uart(self):
         if self.uart is None:
             return
+        self.uart.reset_input_buffer()
         data = []
         while True:
             d = self.uart.read()
