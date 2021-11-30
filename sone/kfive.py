@@ -1,6 +1,6 @@
 import serial
 
-from .async_wrap import async_wrap
+from .utils import async_wrap
 from .conf import UART_EN_PIN, UART_BAUDRATE, UART_PORT
 from .logger import Logger
 from .models import Status

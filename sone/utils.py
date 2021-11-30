@@ -1,4 +1,6 @@
+import asyncio
 import base64
+from functools import wraps, partial
 from io import BytesIO
 import os
 import uuid
@@ -57,3 +59,13 @@ def restart_os():
 
 def upgrade_firmware():
     os.system("pip3 install --upgrade git+https://github.com/hotteshen/eastec.s1@release/1.0")
+
+
+def async_wrap(func):
+    @wraps(func)
+    async def run(*args, loop=None, executor=None, **kwargs):
+        if loop is None:
+            loop = asyncio.get_event_loop()
+        pfunc = partial(func, *args, **kwargs)
+        return await loop.run_in_executor(executor, pfunc)
+    return run 
