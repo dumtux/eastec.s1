@@ -1,7 +1,7 @@
 from fastapi.testclient import TestClient
 
 from sone.api_local import app
-from sone.defaults import DEFAULT_SCHEDULE, DEFAULT_STATUS
+from sone.conf import DEFAULT_SCHEDULE, DEFAULT_STATUS
 from sone.models import Schedule
 from sone.sone import SOne
 from sone.utils import is_raspberry

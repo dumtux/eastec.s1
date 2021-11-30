@@ -7,7 +7,7 @@ import qrcode
 from qrcode.image.pil import PilImage
 
 from . import __name__, __version__
-from .defaults import DEFAULT_STATUS
+from .conf import DEFAULT_STATUS
 from .models import Status
 
 
