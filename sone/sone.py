@@ -1,4 +1,8 @@
-from asyncio import TimeoutError
+try:
+    from asyncio.exceptions import TimeoutError
+except:
+    # for Python 3.7 of Raspberry OS
+    from concurrent.futures._base import TimeoutError
 from typing import Callable, List
 
 from async_timeout import timeout
