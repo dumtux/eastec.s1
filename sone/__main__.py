@@ -14,8 +14,7 @@ import uvicorn
 import websockets
 
 from .kfive import KFive
-from .logger import Logger
-from .utils import get_sauna_id
+from .utils import Logger, get_sauna_id
 
 
 LOCAL_HOST = '0.0.0.0'
