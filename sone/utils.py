@@ -31,7 +31,13 @@ class Logger(Singleton):
 
 
 def get_sauna_id() -> str:
-    return str(uuid.getnode())
+    with open("/proc/cpuinfo") as f:
+        cpuinfo = f.read()
+    try:
+        _id = cpuinfo.split("\nSerial")[1].split("\nModel")[0].split(": ")[1]
+    except IndexError:
+        _id = str(uuid.getnode())
+    return _id
 
 
 def get_sauna_name() -> str:
