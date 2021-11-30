@@ -6,10 +6,9 @@ from fastapi import HTTPException
 from tinydb import TinyDB, Query
 
 from .conf import DB_FILE_PATH
-from .logger import Logger
 from .models import Status, Schedule, Program
 from .singletone import Singleton
-from .utils import get_sauna_id, get_sauna_id_qr, get_sauna_name, get_default_status
+from .utils import Logger, get_sauna_id, get_sauna_id_qr, get_sauna_name, get_default_status
 
 
 TEMPERATURE_DELTA = 2  # terperature delta between target and current

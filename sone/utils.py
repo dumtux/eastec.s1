@@ -11,6 +11,23 @@ from qrcode.image.pil import PilImage
 from . import __name__, __version__
 from .conf import DEFAULT_STATUS
 from .models import Status
+from .singletone import Singleton
+import typer
+
+
+class Logger(Singleton):
+
+    def log(self, text: any):
+        tag = typer.style(" [SOne] ", bold=True, bg=typer.colors.GREEN, fg=typer.colors.WHITE)
+        typer.secho(tag + " " + str(text))
+
+    def error(self, text: any):
+        tag = typer.style(" [SOne] ", bold=True, bg=typer.colors.RED, fg=typer.colors.WHITE)
+        typer.secho(tag + " " + str(text))
+
+    def warn(self, text: any):
+        tag = typer.style(" [SOne] ", bold=True, bg=typer.colors.YELLOW, fg=typer.colors.WHITE)
+        typer.secho(tag + " " + str(text))
 
 
 def get_sauna_id() -> str:

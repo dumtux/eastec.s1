@@ -8,11 +8,10 @@ from fastapi.templating import Jinja2Templates
 
 from . import __title__, __version__
 from .kfive import KFive
-from .logger import Logger
 from .sone import SOne
 from .models import Schedule, Status, SaunaID, HTTPError, StateUpdate, TemperatureUpdate, TimerUpdate, Program, WiFiProfile
 from .wifi import list_networks, connect_wifi, wifi_ip_addr
-from .utils import restart_os, upgrade_firmware
+from .utils import Logger, restart_os, upgrade_firmware
 
 
 STATIC_DIR = pathlib.Path(__file__).parent / "static"

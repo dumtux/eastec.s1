@@ -2,10 +2,9 @@ import serial
 
 from .utils import async_wrap
 from .conf import UART_EN_PIN, UART_BAUDRATE, UART_PORT
-from .logger import Logger
 from .models import Status
 from .singletone import Singleton
-from .utils import is_raspberry
+from .utils import Logger, is_raspberry
 
 
 logger = Logger.instance()

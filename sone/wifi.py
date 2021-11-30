@@ -5,7 +5,7 @@ from fastapi import HTTPException
 from netifaces import ifaddresses
 from pywifi import const, PyWiFi, Profile
 
-from .logger import Logger
+from .utils import Logger
 
 
 NO_WIFI_DEVICE_DESC = "No WiFi device found. Maybe you're running this app on a computer with no WiFi device for development?"

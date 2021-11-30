@@ -1,7 +1,13 @@
 import time
 
 from sone.models import Status
-from sone.utils import get_sauna_id, get_sauna_name, get_default_status, get_sauna_id_qr, is_raspberry
+from sone.singletone import Singleton
+from sone.utils import Logger, get_sauna_id, get_sauna_name, get_default_status, get_sauna_id_qr, is_raspberry
+
+
+def test_logger():
+    logger = Logger.instance()
+    assert isinstance(logger, Singleton)
 
 
 def test_get_sauna_id():
