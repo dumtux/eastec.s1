@@ -22,6 +22,28 @@ When talking about softwaer, *SOne" refers this whole project.
 
 ## Development
 
+### Running on a Raspberry Pi
+
+Install packages globally.
+
+```sh
+pip3 install --upgrade git+https://github.com/hotteshen/eastec.s1@release/1.0
+```
+
+Run the app.
+
+```sh
+python3 -m sone device --cloud-url https://s1apis.ts.r.appspot.com/
+```
+
+Open app in browser.
+
+```sh
+chromium -kiosk http://localhost:8000
+```
+
+### Running on a computer
+
 * Linux or MacOS is recommended for development. At the moment, Windows is not supported.
 * Python version greater than 3.8 is recomended.
 
