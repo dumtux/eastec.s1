@@ -78,7 +78,7 @@ class SOne(Singleton):
                 status_code=422,
                 detail="Sauna timer value should be between 0 and 90")
         self.status.timer = timer
-        await self._kfive_update(self.status)
+        await self._kfive_update(self.status, set_time=True)
         return self.status
 
     async def set_target_temperature(self, temperature: int) -> Status:
@@ -104,9 +104,9 @@ class SOne(Singleton):
         # self.set_heaters(program.heaters)
         return self.status
 
-    async def _kfive_update(self, status: Status):
+    async def _kfive_update(self, status: Status, set_time=False):
         try:
             async with timeout(1):
-                await self.kfive_update(status)
+                await self.kfive_update(status, set_time=set_time)
         except TimeoutError:
             logger.error("No response from KFive, check the UART connection.")
