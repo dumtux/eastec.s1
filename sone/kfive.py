@@ -40,7 +40,6 @@ class KFive(Singleton):
         a.append(self.auto_mm)
         a.append(self.target_temperature)
         a.append(int(self.target_temperature * 9 / 5) + 32)
-        logger.log(f"set_time = {set_time}, set_temp={set_temp}")
         if set_time:
             a.append(2)
             a.append(0)
@@ -115,11 +114,12 @@ class KFive(Singleton):
 
     @async_wrap
     def write_uart(self, set_time=False, set_temp=False):
-        if self.uart is None:
-            logger.warn("KFive.uart is not initialized or the host OS is not a Raspberry, the following bytes will not be sent to KFive hardware.")
-        if self.uart is not None:
-            self.uart.write(self.to_bytes(set_time=set_time, set_temp=set_temp))
+        bytesdata = self.to_bytes(set_time=set_time, set_temp=set_temp)
         logger.log("SOne -> KFive: " + ' '.join([format(x, '02x') for x in self.to_bytes()]))
+        if self.uart is None:
+            logger.warn("KFive.uart is not initialized or the host OS is not a Raspberry, the above bytes has not sent to KFive hardware.")
+        if self.uart is not None:
+            self.uart.write(bytesdata)
 
     @async_wrap
     def read_uart(self):
