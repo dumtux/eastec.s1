@@ -75,13 +75,14 @@ async def test_set_heaters(mocker):
         Heater(name='B', level=0),
         Heater(name='C', level=0),
     ]
-    await so.set_heaters(heaters)
+    status = await so.set_heaters(heaters)
+    assert status == so.status
     assert so.status.heaters == heaters
     spy.assert_called_once()
 
     heaters_with_invalid_level = [
         Heater(name='A', level=0),
-        Heater(name='B', level=200),
+        Heater(name='B', level=8),
         Heater(name='C', level=0),
     ]
     with raises(HTTPException):

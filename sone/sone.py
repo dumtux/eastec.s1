@@ -9,6 +9,8 @@ from async_timeout import timeout
 from fastapi import HTTPException
 from tinydb import TinyDB, Query
 
+from sone.kfive import KFive
+
 from .conf import DB_FILE_PATH
 from .models import Heater, Status, Schedule, Program
 from .singletone import Singleton
@@ -100,12 +102,13 @@ class SOne(Singleton):
                 status_code=422,
                 detail="Heater names should be 'A', 'B', 'C'")
         for h in heaters:
-            if h.level > 100 or h.level < 0:
+            if h.level not in KFive.HEATER_VALS.keys():
                 raise HTTPException(
                     status_code=422,
-                    detail="Heater values should be 0-100")
+                    detail="Heater values should be 0, 1, 2, 3, 4")
         self.status.heaters = heaters
         await self._kfive_update(self.status)
+        return self.status
 
     async def set_lights(self) -> Status:
         raise Exception("Not implemented yet")
