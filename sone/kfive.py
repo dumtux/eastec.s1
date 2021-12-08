@@ -97,7 +97,7 @@ class KFive(Singleton):
 
     def init_uart(self):
         if not is_raspberry():
-            logger.warn("Host OS is not a Raspberry, the SOne will be run in modking mode.")
+            logger.warn("Host OS is not a Raspberry, the SOne will be run in mocking mode.")
             return
 
         # enable UART level shifter on RJ45 connector
