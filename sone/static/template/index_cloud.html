@@ -81,10 +81,19 @@
                                         Timer: {{ status_dict[device_id]['timer'] }}
                                     </div>
                                     <div>
-                                        Firmware Version: {{ status_dict[device_id]['firmware_version'] }}
+                                        Program Name: {{ status_dict[device_id]['program']['name'] }}
                                     </div>
                                     <div>
-                                        Program Name: {{ status_dict[device_id]['program']['name'] }}
+                                        <br />
+                                    </div>
+                                    <div>
+                                        Device Uptime: {{ status_dict[device_id]['sysinfo']['time_since_sys_boot'] }}
+                                    </div>
+                                    <div>
+                                        App Uptime: {{ status_dict[device_id]['sysinfo']['time_since_app_start'] }}
+                                    </div>
+                                    <div>
+                                        Firmware Version: {{ status_dict[device_id]['sysinfo']['firmware_version'] }}
                                     </div>
                                 </div>
                             </div>
