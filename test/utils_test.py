@@ -4,7 +4,16 @@ import psutil
 
 from sone.models import Status
 from sone.singletone import Singleton
-from sone.utils import Logger, get_sauna_id, get_sauna_name, get_default_status, get_sauna_id_qr, is_raspberry, seconds_elapsed
+from sone.utils import (
+    Logger,
+    get_sauna_id,
+    get_sauna_name,
+    get_default_status,
+    get_sauna_id_qr,
+    is_raspberry,
+    time_since_last_boot,
+    sec_to_readable
+)
 
 
 def test_logger():
@@ -48,5 +57,10 @@ def test_is_raspberry():
     assert is_raspberry() == raspberry
 
 
-def test_seconds_elapsed():
-    assert int(seconds_elapsed()) == int(time.time() - psutil.boot_time())
+def test_time_since_last_boot():
+    assert int(time_since_last_boot()) == int(time.time() - psutil.boot_time())
+
+
+def test_sec_to_readable():
+    assert sec_to_readable(100.0) == '0d 0h 1m'
+    assert sec_to_readable(3801) == '0d 1h 3m'

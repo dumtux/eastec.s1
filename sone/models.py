@@ -80,10 +80,16 @@ class Schedule(BaseModel):
         return Schedule(**data)
 
 
+class Sysinfo(BaseModel):
+    firmware_version: str
+    time_since_sys_boot: str
+    time_since_app_start: str
+
+
 class Status(BaseModel):
     state: str
     sauna_id: str
-    firmware_version: str
+    sysinfo: Sysinfo
     target_temperature: int
     current_temperature: int
     timer: int
@@ -100,6 +106,7 @@ class Status(BaseModel):
         data['lights'] = [Light(**item) for item in data['lights']]
         data['heaters'] = [Heater(**item) for item in data['heaters']]
         data['program'] = Program(**data['program'])
+        data['sysinfo'] = Sysinfo(**data['sysinfo'])
         return Status(**data)
 
 

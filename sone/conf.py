@@ -16,7 +16,11 @@ UART_BAUDRATE = 4800
 DEFAULT_STATUS = {
     "state": "standby",
     "sauna_id": "string",
-    "firmware_version": __version__,
+    "sysinfo": {
+        "firmware_version": __version__,
+        "time_since_sys_boot": "unknown",
+        "time_since_app_start": "unknown",
+    },
     "target_temperature": 30,
     "current_temperature": 0,
     "timer": 60,

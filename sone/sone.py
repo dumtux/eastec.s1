@@ -3,6 +3,7 @@ try:
 except:
     # for Python 3.7 of Raspberry OS
     from concurrent.futures._base import TimeoutError
+import time
 from typing import Callable, List
 
 from async_timeout import timeout
@@ -14,12 +15,21 @@ from sone.kfive import KFive
 from .conf import DB_FILE_PATH
 from .models import Heater, Status, Schedule, Program
 from .singletone import Singleton
-from .utils import Logger, get_sauna_id, get_sauna_id_qr, get_sauna_name, get_default_status
+from .utils import (
+    Logger,
+    get_sauna_id,
+    get_sauna_id_qr,
+    get_sauna_name,
+    get_default_status,
+    time_since_last_boot,
+    sec_to_readable,
+)
 
 
 TEMPERATURE_DELTA = 2  # terperature delta between target and current
 
 logger = Logger.instance()
+uptime = time.time()
 
 class SOne(Singleton):
     VALID_STATES = ['standby', 'heating', 'ready', 'insession', 'paused']
@@ -35,6 +45,7 @@ class SOne(Singleton):
 
     async def get_status(self) -> Status:
         await self._kfive_update(self.status)
+        self._update_sysinfo()
         return self.status
 
     async def set_state(self, state: str) -> Status:
@@ -72,6 +83,7 @@ class SOne(Singleton):
             self.status.state = 'insession'
 
         await self._kfive_update(self.status)
+        self._update_sysinfo()
         return self.status
 
     async def set_timer(self, timer: int) -> Status:
@@ -81,6 +93,7 @@ class SOne(Singleton):
                 detail="Sauna timer value should be between 0 and 90")
         self.status.timer = timer
         await self._kfive_update(self.status, set_time=True)
+        self._update_sysinfo()
         return self.status
 
     async def set_target_temperature(self, temperature: int) -> Status:
@@ -90,6 +103,7 @@ class SOne(Singleton):
                 detail="Sauna temperature value should be between 20 and 70")
         self.status.target_temperature = temperature
         await self._kfive_update(self.status, set_temp=True)
+        self._update_sysinfo()
         return self.status
 
     async def set_heaters(self, heaters: List[Heater]) -> Status:
@@ -108,6 +122,7 @@ class SOne(Singleton):
                     detail="Heater values should be 0, 1, 2, 3, 4")
         self.status.heaters = heaters
         await self._kfive_update(self.status)
+        self._update_sysinfo()
         return self.status
 
     async def set_lights(self) -> Status:
@@ -118,7 +133,8 @@ class SOne(Singleton):
         await self.set_timer(program.timer_duration)
         await self.set_target_temperature(program.target_temperature)
         # self.set_lights(program.lights)
-        # self.set_heaters(program.heaters)
+        await self.set_heaters(program.heaters)
+        self._update_sysinfo()
         return self.status
 
     async def _kfive_update(self, status: Status, set_time=False, set_temp=False):
@@ -127,3 +143,7 @@ class SOne(Singleton):
                 await self.kfive_update(status, set_time=set_time, set_temp=set_temp)
         except TimeoutError:
             logger.error("No response from KFive, check the UART connection.")
+
+    def _update_sysinfo(self):
+        self.status.sysinfo.time_since_sys_boot = sec_to_readable(time_since_last_boot())
+        self.status.sysinfo.time_since_app_start = sec_to_readable(time.time() - uptime)

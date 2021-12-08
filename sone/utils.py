@@ -96,10 +96,10 @@ def async_wrap(func):
     return run
 
 
-def seconds_elapsed() -> float:
+def time_since_last_boot() -> float:
     return time.time() - psutil.boot_time()
 
 
-def time_elapsed() -> str:
-    s = int(seconds_elapsed())
+def sec_to_readable(sec: float) -> str:
+    s = int(sec)
     return f"{s//86400}d {(s%86400)//3600}h {(s%3600)//60}m"
