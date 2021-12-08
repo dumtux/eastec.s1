@@ -36,6 +36,7 @@ class KFive(Singleton):
         a.append(0xcc)
         a.append((self.heater * 1 + self.lac * 2 + self.l2 * 4) * 0x10 + (1 if self.pwr else 9))
         a.append(self.time)
+        logger.log(f"in KFive.to_bytes(), KFive.time == {self.time}")
         a.append(self.auto_hh)
         a.append(self.auto_mm)
         a.append(self.target_temperature)
@@ -56,6 +57,7 @@ class KFive(Singleton):
 
     async def update(self, status: Status) -> Status:
         self.target_temperature = status.target_temperature
+        logger.log(f"in KFive.update(), before assigning self.time == status.timer, status.timer == {status.timer}")
         self.time = status.timer
         self.ht1 = status.heaters[0].level
         self.ht2 = status.heaters[1].level
@@ -76,12 +78,14 @@ class KFive(Singleton):
                 self.heater = self.target_temperature > self.read_temperature
                 self.endbyte = 0xC2 if self.heater else 0x02
 
+        logger.log(f"in KFive.update(), before KFive.sync_hardware(), KFive.time == {self.time}")
         await self.sync_hardware()
 
         status.current_temperature = self.read_temperature
         return status
 
     async def sync_hardware(self):
+        logger.log(f"in KFive.sync_hardware(), before KFive.write_uart(), KFive.time == {self.time}")
         await self.write_uart()
         await self.read_uart()
         await self.read_uart()
