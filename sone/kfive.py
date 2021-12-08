@@ -1,4 +1,5 @@
 import serial
+from serial.serialutil import SerialException
 
 from .utils import async_wrap
 from .conf import UART_EN_PIN, UART_BAUDRATE, UART_PORT
@@ -116,20 +117,23 @@ class KFive(Singleton):
         self.uart.reset_input_buffer()
         data = []
         while True:
-            d = self.uart.read()
-            s = ''
-            if d == b'\xdd':
-                data.append(d)
-                s += d.hex()
-                g = 0
-                for _ in range(15):
-                    d = self.uart.read()
+            try:
+                d = self.uart.read()
+                s = ''
+                if d == b'\xdd':
                     data.append(d)
-                    s += ' ' + d.hex()
-                    if _ != 14:
-                        g += int.from_bytes(d, 'big')
-                logger.log(f"KFive -> SOne: {s}")
-                if (g-121)%256 != int.from_bytes(d, 'big'):
-                    logger.error("KFive response checksum incorrect: %d vs %d" % ((g-121)%256, int.from_bytes(d, 'big')))
-                break
+                    s += d.hex()
+                    g = 0
+                    for _ in range(15):
+                        d = self.uart.read()
+                        data.append(d)
+                        s += ' ' + d.hex()
+                        if _ != 14:
+                            g += int.from_bytes(d, 'big')
+                    logger.log(f"KFive -> SOne: {s}")
+                    if (g-121)%256 != int.from_bytes(d, 'big'):
+                        logger.error("KFive response checksum incorrect: %d vs %d" % ((g-121)%256, int.from_bytes(d, 'big')))
+                    break
+            except SerialException:
+                continue
         self.read_temperature = int.from_bytes(data[5], 'big')
