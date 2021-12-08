@@ -4,7 +4,7 @@ var BaseUrl = '/sauna/' + SaunaID;
 
 
 function _getStatus() {
-  
+
   fetch(BaseUrl + '/status')
   .then(response => response.json())
   .then(data => {
@@ -217,7 +217,7 @@ function configureStatus(status) {
   $(".program_temperature").html(calcTemp(status.program.target_temperature));
   $("#temperature-dial").data("label", calcTemp(status.current_temperature));
   $("#temperature-dial").data("digit", status.current_temperature);
-  
+
 
   $(".remaining_timer").html(calcTimer(status.timer));
   $(".program_timer").html(calcTimer(status.program.timer_duration));
@@ -244,7 +244,7 @@ function configureStatus(status) {
 
   $("#current_program .program-time > span").html(calcTimer(status.program.timer_duration));
   $("#current_program .program-temperature > span").html(calcTemp(status.program.target_temperature));
-  
+
 }
 
 function configureSchedule(status) {
@@ -267,7 +267,7 @@ function configureSchedule(status) {
                       <h4 class="program-title" data-toggle="collapse" data-target="#program1">${status[i].program.name}</h4>
                       <div id="program1" class="program-detail collapse">
                           <ul>
-                              <li>Frequency: ${status[i].frequency}</li> 
+                              <li>Frequency: ${status[i].frequency}</li>
                               <li>User: ${status[i].user}</li>
                               <li>Sauna: ${status[i].sauna}</li>
                           </ul>
@@ -279,10 +279,10 @@ function configureSchedule(status) {
   $("#program_lists").html(content)
 }
 
-function configureApp() { 
+function configureApp() {
 
   // drawDial("#temperature-dial", 100, [0, 25, 50, 75, 100]);
-  // drawDial("#time-dial", 80, [0, 20, 40, 60, 80]);  
+  // drawDial("#time-dial", 80, [0, 20, 40, 60, 80]);
 }
 
 function calcTemp(temp) {
@@ -386,7 +386,7 @@ $("#overhead_light .off-button").on("click", function(){
 
 
 $("#searchWifi").on("click", function(){
-  
+
   // testData = ["dreamteam", "tp_link_324", "tele_34d"];
   // var network_cnt = testData.length;
   // for (i = 0;i<network_cnt;i++) {
@@ -409,7 +409,7 @@ $("#searchWifi").on("click", function(){
       }
       $("#wifiList").html(eleList);
       $("#wifiList").addClass("show");
-    }    
+    }
   })
   .catch((error) => {
     console.error('Error:', error);
@@ -456,5 +456,5 @@ $(function(){
     // options here
   });
 });
-  
+
 
