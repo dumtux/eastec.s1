@@ -121,7 +121,7 @@ async def update_timer(sauna_id: str, update: TimerUpdate):
 
 
 @control_router.put("/{sauna_id}/heaters", response_model=Status)
-async def update_timer(sauna_id: str, update: List[Heater]):
+async def update_heaters(sauna_id: str, update: List[Heater]):
     if sauna_id != sone.sauna_id:
         raise HTTPException(status_code=404, detail="Sauna ID not found")
     return await sone.set_heaters(update)
