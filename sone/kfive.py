@@ -84,6 +84,7 @@ class KFive(Singleton):
     async def sync_hardware(self):
         await self.write_uart()
         await self.read_uart()
+        await self.read_uart()
 
     def init_uart(self):
         if not is_raspberry():
