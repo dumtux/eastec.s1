@@ -10,7 +10,7 @@ from fastapi import HTTPException
 from tinydb import TinyDB, Query
 
 from .conf import DB_FILE_PATH
-from .models import Status, Schedule, Program
+from .models import Heater, Status, Schedule, Program
 from .singletone import Singleton
 from .utils import Logger, get_sauna_id, get_sauna_id_qr, get_sauna_name, get_default_status
 
@@ -90,8 +90,22 @@ class SOne(Singleton):
         await self._kfive_update(self.status, set_temp=True)
         return self.status
 
-    async def set_heaters(self) -> Status:
-        raise Exception("Not implemented yet")
+    async def set_heaters(self, heaters: List[Heater]) -> Status:
+        if len(heaters) != 3:
+            raise HTTPException(
+                status_code=422,
+                detail="All 3 heater values should be given")
+        if (heaters[0].name != 'A' or heaters[1].name != 'B' or heaters[2].name != 'C'):
+            raise HTTPException(
+                status_code=422,
+                detail="Heater names should be 'A', 'B', 'C'")
+        for h in heaters:
+            if h.level > 100 or h.level < 0:
+                raise HTTPException(
+                    status_code=422,
+                    detail="Heater values should be 0-100")
+        self.status.heaters = heaters
+        await self._kfive_update(self.status)
 
     async def set_lights(self) -> Status:
         raise Exception("Not implemented yet")

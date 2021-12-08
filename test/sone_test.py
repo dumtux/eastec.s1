@@ -3,7 +3,7 @@ import pytest
 from pytest import raises
 
 from sone.singletone import Singleton
-from sone.models import Program
+from sone.models import Heater, Program
 from sone.sone import SOne
 
 
@@ -63,3 +63,34 @@ async def test_set_program(mocker):
     assert so.status.target_temperature == program.target_temperature
     await so.set_target_temperature(45)
     assert so.status.program.target_temperature != 45
+
+
+@pytest.mark.asyncio
+async def test_set_heaters(mocker):
+    so = SOne.instance()
+    spy = mocker.spy(so, 'kfive_update')
+
+    heaters = [
+        Heater(name='A', level=0),
+        Heater(name='B', level=0),
+        Heater(name='C', level=0),
+    ]
+    await so.set_heaters(heaters)
+    assert so.status.heaters == heaters
+    spy.assert_called_once()
+
+    heaters_with_invalid_level = [
+        Heater(name='A', level=0),
+        Heater(name='B', level=200),
+        Heater(name='C', level=0),
+    ]
+    with raises(HTTPException):
+        await so.set_heaters(heaters_with_invalid_level)
+
+    heaters_with_invalid_order = [
+        Heater(name='B', level=0),
+        Heater(name='A', level=0),
+        Heater(name='C', level=0),
+    ]
+    with raises(HTTPException):
+        await so.set_heaters(heaters_with_invalid_order)
