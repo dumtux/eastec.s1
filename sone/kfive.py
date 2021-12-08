@@ -31,7 +31,7 @@ class KFive(Singleton):
     ht3: int  = 0          # heater 3 level 0 - 4
     endbyte: int = 0x42    # changes
 
-    def to_bytes(self, set_time=False) -> bytes:
+    def to_bytes(self, set_time=False, set_temp=False) -> bytes:
         a = []
         a.append(0xcc)
         a.append((self.heater * 1 + self.lac * 2 + self.l2 * 4) * 0x10 + (1 if self.pwr else 9))
@@ -44,6 +44,10 @@ class KFive(Singleton):
             a.append(2)
             a.append(0)
             a.append(1)
+        elif set_temp:
+            a.append(1)
+            a.append(0)
+            a.append(0)
         else:
             a.append(0)
             a.append(0)
@@ -59,7 +63,7 @@ class KFive(Singleton):
         ba = bytearray.fromhex(t)
         return bytes(ba)
 
-    async def update(self, status: Status, set_time=False) -> Status:
+    async def update(self, status: Status, set_time=False, set_temp=False) -> Status:
         self.target_temperature = status.target_temperature
         self.time = status.timer
         self.ht1 = status.heaters[0].level
@@ -81,13 +85,13 @@ class KFive(Singleton):
                 self.heater = self.target_temperature > self.read_temperature
                 self.endbyte = 0xC2 if self.heater else 0x02
 
-        await self.sync_hardware(set_time=set_time)
+        await self.sync_hardware(set_time=set_time, set_temp=set_temp)
 
         status.current_temperature = self.read_temperature
         return status
 
-    async def sync_hardware(self, set_time=False):
-        await self.write_uart(set_time=set_time)
+    async def sync_hardware(self, set_time=False, set_temp=False):
+        await self.write_uart(set_time=set_time, set_temp=set_temp)
         await self.read_uart()
         await self.read_uart()
 
@@ -109,11 +113,11 @@ class KFive(Singleton):
             logger.warn("Failed to open serial port. Serial port is not enabled on configuration, or used by other application.")
 
     @async_wrap
-    def write_uart(self, set_time=False):
+    def write_uart(self, set_time=False, set_temp=False):
         if self.uart is None:
             logger.warn("KFive.uart is not initialized or the host OS is not a Raspberry, the following bytes will not be sent to KFive hardware.")
         if self.uart is not None:
-            self.uart.write(self.to_bytes(set_time=set_time))
+            self.uart.write(self.to_bytes(set_time=set_time, set_temp=set_temp))
         logger.log("SOne -> KFive: " + ' '.join([format(x, '02x') for x in self.to_bytes()]))
 
     @async_wrap

@@ -20,6 +20,9 @@ def test_to_bytes():
     # after KFive is synced with SOne, the values are set as DEFAULT_STATUS
     assert kf.to_bytes() == b'\xcc\x09\x3c\x00\x00\x1e\x56\x00\x00\x00\x00\x00\x00\x00\x42\x71'
 
+    assert kf.to_bytes(set_time=True) == b'\xcc\x09\x3c\x00\x00\x1e\x56\x02\x00\x01\x00\x00\x00\x00\x42\x74'
+    assert kf.to_bytes(set_temp=True) == b'\xcc\x09\x3c\x00\x00\x1e\x56\x01\x00\x00\x00\x00\x00\x00\x42\x72'
+
 
 @pytest.mark.asyncio
 async def test_update():
