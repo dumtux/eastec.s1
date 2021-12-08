@@ -1,8 +1,10 @@
 import time
 
+import psutil
+
 from sone.models import Status
 from sone.singletone import Singleton
-from sone.utils import Logger, get_sauna_id, get_sauna_name, get_default_status, get_sauna_id_qr, is_raspberry
+from sone.utils import Logger, get_sauna_id, get_sauna_name, get_default_status, get_sauna_id_qr, is_raspberry, seconds_elapsed
 
 
 def test_logger():
@@ -44,3 +46,7 @@ def test_is_raspberry():
         raspberry = False
 
     assert is_raspberry() == raspberry
+
+
+def test_seconds_elapsed():
+    assert int(seconds_elapsed()) == int(time.time() - psutil.boot_time())

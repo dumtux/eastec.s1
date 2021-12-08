@@ -3,8 +3,10 @@ import base64
 from functools import wraps, partial
 from io import BytesIO
 import os
+import time
 import uuid
 
+import psutil
 import qrcode
 from qrcode.image.pil import PilImage
 
@@ -91,4 +93,13 @@ def async_wrap(func):
             loop = asyncio.get_event_loop()
         pfunc = partial(func, *args, **kwargs)
         return await loop.run_in_executor(executor, pfunc)
-    return run 
+    return run
+
+
+def seconds_elapsed() -> float:
+    return time.time() - psutil.boot_time()
+
+
+def time_elapsed() -> str:
+    s = int(seconds_elapsed())
+    return f"{s//86400}d {(s%86400)//3600}h {(s%3600)//60}m"
