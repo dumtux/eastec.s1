@@ -290,14 +290,15 @@ function calcTemp(temp) {
 }
 
 function calcTimer(timer) {
+  return timer + "m"
 
-  if( timer <= 60)
-    return timer + "s"
-  
-  var minutes = Math.floor(timer / 60);
-  var seconds = timer - minutes * 60;
+  // if( timer <= 60)
+  //   return timer + "s"
 
-  return minutes + "m " + seconds + "s"
+  //   var minutes = Math.floor(timer / 60);
+  // var seconds = timer - minutes * 60;
+
+  // return minutes + "m " + seconds + "s"
 }
 
 function RGBToHex(r,g,b) {
