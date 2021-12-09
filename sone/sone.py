@@ -126,7 +126,7 @@ class SOne(Singleton):
         self._update_sysinfo()
         return self.status
 
-    async def set_lights(self, lights: List[Light]) -> Status:
+    def set_lights(self, lights: List[Light]) -> Status:
         if len(lights) != 2:
             raise HTTPException(
                 status_code=422,
@@ -139,8 +139,6 @@ class SOne(Singleton):
         self.status.lights = lights
 
         if lights[0].state:
-            print(type(lights[0].color.r), type(lights[0].color.g), type(lights[0].color.b))
-            print(lights[0].color.r, lights[0].color.g, lights[0].color.b)
             light_rgb_1(lights[0].color.r, lights[0].color.g, lights[0].color.b)
         else:
             light_rgb_1(0, 0, 0)
@@ -156,7 +154,7 @@ class SOne(Singleton):
         self.status.program = program
         await self.set_timer(program.timer_duration)
         await self.set_target_temperature(program.target_temperature)
-        await self.set_lights(program.lights)
+        self.set_lights(program.lights)
         await self.set_heaters(program.heaters)
         self._update_sysinfo()
         return self.status

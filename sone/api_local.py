@@ -143,7 +143,7 @@ async def update_heaters(sauna_id: str, update: List[Heater]):
 async def update_lights(sauna_id: str, update: List[Light]):
     if sauna_id != sone.sauna_id:
         raise HTTPException(status_code=404, detail="Sauna ID not found")
-    return await sone.set_lights(update)
+    return sone.set_lights(update)
 
 
 @control_router.post("/{sauna_id}/program", response_model=Status)
