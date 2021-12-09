@@ -95,3 +95,16 @@ async def test_set_heaters(mocker):
     ]
     with raises(HTTPException):
         await so.set_heaters(heaters_with_invalid_order)
+
+
+@pytest.mark.asyncio
+async def test_set_lights(mocker):
+    so = SOne.instance()
+
+    lights = so.status.lights
+    status = await so.set_lights(lights)
+    assert status == so.status
+
+    lights[0].name = "RGB_3"
+    with raises(HTTPException):
+        status = await so.set_lights(lights)

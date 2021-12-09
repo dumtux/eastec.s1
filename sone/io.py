@@ -13,8 +13,10 @@ from .conf import (
 
     PWM_FREQ,
 )
-from .utils import is_raspberry
+from .utils import Logger, is_raspberry
 
+
+logger = Logger.instance()
 
 if is_raspberry():
     # enable UART level shifter on RJ45 connector
@@ -44,5 +46,9 @@ if is_raspberry():
         pwm[LED_B_2].ChangeDutyCycle(int(b / 255 * 100))
 else:
     GPIO = None
-    light_rgb_1 = None
-    light_rgb_2 = None
+
+    def light_rgb_1(r: int, g: int, b: int):
+        logger.warn("Host is not Raspberry OS. Ignoring Light 1 PWM command.")
+
+    def light_rgb_2(r: int, g: int, b: int):
+        logger.warn("Host is not Raspberry OS. Ignoring Light 2 PWM command.")

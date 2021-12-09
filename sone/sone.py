@@ -13,8 +13,8 @@ from tinydb import TinyDB, Query
 from sone.kfive import KFive
 
 from .conf import DB_FILE_PATH
-from .io import GPIO
-from .models import Heater, Status, Schedule, Program
+from .io import light_rgb_1, light_rgb_2
+from .models import Heater, Light, Status, Schedule, Program
 from .singletone import Singleton
 from .utils import (
     Logger,
@@ -111,7 +111,7 @@ class SOne(Singleton):
         if len(heaters) != 3:
             raise HTTPException(
                 status_code=422,
-                detail="All 3 heater values should be given")
+                detail="All 3 heaters should be given")
         if (heaters[0].name != 'A' or heaters[1].name != 'B' or heaters[2].name != 'C'):
             raise HTTPException(
                 status_code=422,
@@ -126,14 +126,24 @@ class SOne(Singleton):
         self._update_sysinfo()
         return self.status
 
-    async def set_lights(self) -> Status:
-        raise Exception("Not implemented yet")
+    async def set_lights(self, lights: List[Light]) -> Status:
+        if len(lights) != 2:
+            raise HTTPException(
+                status_code=422,
+                detail="All 2 light should be given")
+        if lights[0].name != 'RGB_1' or lights[1].name != 'RGB_2':
+            raise HTTPException(
+                status_code=422,
+                detail="Light names should be 'RGB_1' and 'RGB_2'")
+        light_rgb_1(lights[0].color.r, lights[0].color.g, lights[0].color.b)
+        light_rgb_2(lights[1].color.r, lights[1].color.g, lights[1].color.b)
+        return self.status
 
     async def set_program(self, program: Program) -> Status:
         self.status.program = program
         await self.set_timer(program.timer_duration)
         await self.set_target_temperature(program.target_temperature)
-        # self.set_lights(program.lights)
+        await self.set_lights(program.lights)
         await self.set_heaters(program.heaters)
         self._update_sysinfo()
         return self.status
