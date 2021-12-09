@@ -9,7 +9,19 @@ from fastapi.templating import Jinja2Templates
 from . import __title__, __version__
 from .kfive import KFive
 from .sone import SOne
-from .models import Heater, Schedule, Status, SaunaID, HTTPError, StateUpdate, TemperatureUpdate, TimerUpdate, Program, WiFiProfile
+from .models import (
+    Heater,
+    Light,
+    Schedule,
+    Status,
+    SaunaID,
+    HTTPError,
+    StateUpdate,
+    TemperatureUpdate,
+    TimerUpdate,
+    Program,
+    WiFiProfile
+)
 from .wifi import list_networks, connect_wifi, wifi_ip_addr
 from .utils import Logger, restart_os, upgrade_firmware
 
@@ -125,6 +137,13 @@ async def update_heaters(sauna_id: str, update: List[Heater]):
     if sauna_id != sone.sauna_id:
         raise HTTPException(status_code=404, detail="Sauna ID not found")
     return await sone.set_heaters(update)
+
+
+@control_router.put("/{sauna_id}/lights", response_model=Status)
+async def update_lights(sauna_id: str, update: List[Light]):
+    if sauna_id != sone.sauna_id:
+        raise HTTPException(status_code=404, detail="Sauna ID not found")
+    return await sone.set_lights(lights)
 
 
 @control_router.post("/{sauna_id}/program", response_model=Status)
