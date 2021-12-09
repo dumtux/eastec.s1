@@ -38,14 +38,22 @@ DEFAULT_STATUS = {
     "timer": 60,
     "lights": [
         {
-        "identifier": "string",
-        "state": "on",
-        "color": {
-            "r": 255,
-            "g": 255,
-            "b": 255
+            "name": "RGB_1",
+            "state": False,
+            "color": {
+                "r": 255,
+                "g": 255,
+                "b": 255
+            },
         },
-        "brightness": 1
+        {
+            "name": "RGB_2",
+            "state": False,
+            "color": {
+                "r": 255,
+                "g": 255,
+                "b": 255
+            },
         }
     ],
     "heaters": [
@@ -68,14 +76,22 @@ DEFAULT_STATUS = {
         "timer_duration": 30,
         "lights": [
             {
-                "identifier": "string",
-                "state": "on",
+                "name": "RGB_1",
+                "state": False,
                 "color": {
                     "r": 255,
                     "g": 255,
                     "b": 255
                 },
-                "brightness": 1
+            },
+            {
+                "name": "RGB_2",
+                "state": False,
+                "color": {
+                    "r": 255,
+                    "g": 255,
+                    "b": 255
+                },
             }
         ],
         "heaters": [
@@ -107,14 +123,22 @@ DEFAULT_SCHEDULE = {
         "timer_duration": 30,
         "lights": [
             {
-                "identifier": "string",
-                "state": "on",
+                "name": "RGB_1",
+                "state": False,
                 "color": {
                     "r": 255,
                     "g": 255,
                     "b": 255
                 },
-                "brightness": 1
+            },
+            {
+                "name": "RGB_2",
+                "state": False,
+                "color": {
+                    "r": 255,
+                    "g": 255,
+                    "b": 255
+                },
             }
         ],
         "heaters": [

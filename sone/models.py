@@ -16,10 +16,9 @@ class Color(BaseModel):
 
 
 class Light(BaseModel):
-    identifier: str
-    state: str
+    name: str
+    state: bool
     color: Color
-    brightness: int
 
     def serialize(self) -> dict:
         data = self.dict()
