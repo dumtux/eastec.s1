@@ -100,12 +100,6 @@ class KFive(Singleton):
             logger.warn("Host OS is not a Raspberry, the SOne will be run in mocking mode.")
             return
 
-        # enable UART level shifter on RJ45 connector
-        import RPi.GPIO as GPIO
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(UART_EN_PIN, GPIO.OUT)
-        GPIO.output(UART_EN_PIN, GPIO.HIGH)
-
         try:
             self.uart = serial.Serial(port=UART_PORT, baudrate=UART_BAUDRATE, timeout=1)
         except serial.serialutil.SerialException:

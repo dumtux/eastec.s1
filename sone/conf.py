@@ -13,6 +13,18 @@ UART_EN_PIN = 12
 UART_PORT = '/dev/serial0'
 UART_BAUDRATE = 4800
 
+REED_IN = 27
+LED_R_1 = 6
+LED_G_1 = 5
+LED_B_1 = 4
+LED_MONO_1 = 7
+LED_MONO_2 = 8
+LED_R_2 = 11
+LED_G_2 = 10
+LED_B_2 = 9
+
+PWM_FREQ = 200
+
 DEFAULT_STATUS = {
     "state": "standby",
     "sauna_id": "string",

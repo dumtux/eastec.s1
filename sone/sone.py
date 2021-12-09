@@ -13,6 +13,7 @@ from tinydb import TinyDB, Query
 from sone.kfive import KFive
 
 from .conf import DB_FILE_PATH
+from .io import GPIO
 from .models import Heater, Status, Schedule, Program
 from .singletone import Singleton
 from .utils import (
