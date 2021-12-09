@@ -28,6 +28,7 @@ from .utils import Logger, restart_os, upgrade_firmware
 
 STATIC_DIR = pathlib.Path(__file__).parent / "static"
 
+from . import io as _io  # for GPIO initializing
 sone = SOne.instance()
 kfive = KFive.instance()
 # kfive.update(sone.status)         # update KFive with the default Status of SOne
