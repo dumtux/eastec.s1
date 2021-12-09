@@ -1,6 +1,5 @@
 from sone.sone import SOne
 from .conf import (
-    UART_BAUDRATE,
     UART_EN_PIN,
 
     LED_R_1,
@@ -14,15 +13,19 @@ from .conf import (
 
     PWM_FREQ,
 )
-from .utils import Logger, is_raspberry
+from .utils import is_raspberry
 
 
-logger = Logger.instance()
+def init_gpio():
+    if not is_raspberry():
+        return
 
-if is_raspberry():
-    # enable UART level shifter on RJ45 connector
     import RPi.GPIO as GPIO
+
+    GPIO.setwarnings(False)
     GPIO.setmode(GPIO.BCM)
+
+    # enable UART level shifter on RJ45 connector
     GPIO.setup(UART_EN_PIN, GPIO.OUT)
     GPIO.output(UART_EN_PIN, GPIO.HIGH)
 
@@ -33,5 +36,3 @@ if is_raspberry():
             pwm_dict[pin] = GPIO.PWM(pin, PWM_FREQ)
             pwm_dict[pin].start(0)
         SOne.instance().pwm_dict = pwm_dict
-else:
-    GPIO = None

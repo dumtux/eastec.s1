@@ -74,6 +74,8 @@ def device(cloud_url=None, host: str=LOCAL_HOST, port: int=LOCAL_PORT):
 
     def run_app():
         KFive.instance().init_uart()
+        from .io import init_gpio
+        init_gpio()
         uvicorn.run(api_local.app, host=host, port=port)
 
     def run_ws():
