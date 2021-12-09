@@ -135,8 +135,19 @@ class SOne(Singleton):
             raise HTTPException(
                 status_code=422,
                 detail="Light names should be 'RGB_1' and 'RGB_2'")
-        light_rgb_1(lights[0].color.r, lights[0].color.g, lights[0].color.b)
-        light_rgb_2(lights[1].color.r, lights[1].color.g, lights[1].color.b)
+
+        self.status.lights = lights
+
+        if lights[0].state:
+            light_rgb_1(lights[0].color.r, lights[0].color.g, lights[0].color.b)
+        else:
+            light_rgb_1(0, 0, 0)
+
+        if lights[1].state:
+            light_rgb_2(lights[1].color.r, lights[1].color.g, lights[1].color.b)
+        else:
+            light_rgb_2(0, 0, 0)
+
         return self.status
 
     async def set_program(self, program: Program) -> Status:
