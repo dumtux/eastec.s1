@@ -32,16 +32,16 @@ if is_raspberry():
     def light_rgb_1(r: int, g: int, b: int):
         if (r not in range(256)) or (g not in range(256)) or (b not in range(256)):
             raise Exception("RGB values should be 0-255")
-        pwm[LED_R_1].ChangeDutyCycle(r // 255)
-        pwm[LED_G_1].ChangeDutyCycle(g // 255)
-        pwm[LED_B_1].ChangeDutyCycle(b // 255)
+        pwm[LED_R_1].ChangeDutyCycle(int(r / 255 * 100))
+        pwm[LED_G_1].ChangeDutyCycle(int(g / 255 * 100))
+        pwm[LED_B_1].ChangeDutyCycle(int(b / 255 * 100))
 
     def light_rgb_2(r: int, g: int, b: int):
         if (r not in range(256)) or (g not in range(256)) or (b not in range(256)):
             raise Exception("RGB values should be 0-255")
-        pwm[LED_R_2].ChangeDutyCycle(r // 255)
-        pwm[LED_G_2].ChangeDutyCycle(g // 255)
-        pwm[LED_B_2].ChangeDutyCycle(b // 255)
+        pwm[LED_R_2].ChangeDutyCycle(int(r / 255 * 100))
+        pwm[LED_G_2].ChangeDutyCycle(int(g / 255 * 100))
+        pwm[LED_B_2].ChangeDutyCycle(int(b / 255 * 100))
 else:
     GPIO = None
     light_rgb_1 = None
