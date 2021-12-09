@@ -8,12 +8,19 @@ from typing import Callable, List
 
 from async_timeout import timeout
 from fastapi import HTTPException
-from tinydb import TinyDB, Query
+from tinydb import TinyDB
 
 from sone.kfive import KFive
 
-from .conf import DB_FILE_PATH
-from .io import light_rgb_1, light_rgb_2
+from .conf import (
+    DB_FILE_PATH,
+    LED_R_1,
+    LED_G_1,
+    LED_B_1,
+    LED_R_2,
+    LED_G_2,
+    LED_B_2,
+)
 from .models import Heater, Light, Status, Schedule, Program
 from .singletone import Singleton
 from .utils import (
@@ -43,6 +50,8 @@ class SOne(Singleton):
     schedules: List[Schedule] = []
 
     kfive_update: Callable = lambda x: x
+
+    pwm_dict: dict = None
 
     async def get_status(self) -> Status:
         await self._kfive_update(self.status)
@@ -139,14 +148,14 @@ class SOne(Singleton):
         self.status.lights = lights
 
         if lights[0].state:
-            light_rgb_1(lights[0].color.r, lights[0].color.g, lights[0].color.b)
+            self._light_rgb_1(lights[0].color.r, lights[0].color.g, lights[0].color.b)
         else:
-            light_rgb_1(0, 0, 0)
+            self._light_rgb_1(0, 0, 0)
 
         if lights[1].state:
-            light_rgb_2(lights[1].color.r, lights[1].color.g, lights[1].color.b)
+            self._light_rgb_2(lights[1].color.r, lights[1].color.g, lights[1].color.b)
         else:
-            light_rgb_2(0, 0, 0)
+            self._light_rgb_2(0, 0, 0)
 
         return self.status
 
@@ -169,3 +178,21 @@ class SOne(Singleton):
     def _update_sysinfo(self):
         self.status.sysinfo.time_since_sys_boot = sec_to_readable(time_since_last_boot())
         self.status.sysinfo.time_since_app_start = sec_to_readable(time.time() - uptime)
+
+    def _light_rgb_1(self, r: int, g: int, b: int):
+        if (r not in range(256)) or (g not in range(256)) or (b not in range(256)):
+            raise Exception("RGB values should be 0-255")
+        if self.pwm_dict is None:
+            return
+        self.pwm_dict[LED_R_1].ChangeDutyCycle(int(r / 255 * 100))
+        self.pwm_dict[LED_G_1].ChangeDutyCycle(int(g / 255 * 100))
+        self.pwm_dict[LED_B_1].ChangeDutyCycle(int(b / 255 * 100))
+
+    def _light_rgb_2(self, r: int, g: int, b: int):
+        if (r not in range(256)) or (g not in range(256)) or (b not in range(256)):
+            raise Exception("RGB values should be 0-255")
+        if self.pwm_dict is None:
+            return
+        self.pwm_dict[LED_R_2].ChangeDutyCycle(int(r / 255 * 100))
+        self.pwm_dict[LED_G_2].ChangeDutyCycle(int(g / 255 * 100))
+        self.pwm_dict[LED_B_2].ChangeDutyCycle(int(b / 255 * 100))
