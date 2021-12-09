@@ -139,6 +139,8 @@ class SOne(Singleton):
         self.status.lights = lights
 
         if lights[0].state:
+            print(type(lights[0].color.r), type(lights[0].color.g), type(lights[0].color.b))
+            print(lights[0].color.r, lights[0].color.g, lights[0].color.b)
             light_rgb_1(lights[0].color.r, lights[0].color.g, lights[0].color.b)
         else:
             light_rgb_1(0, 0, 0)
