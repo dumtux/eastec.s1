@@ -47,7 +47,9 @@ def get_sauna_name() -> str:
 
 
 def get_default_status() -> Status:
-    return Status.deserialize(DEFAULT_STATUS)
+    status = Status.deserialize(DEFAULT_STATUS)
+    status.sauna_id = get_sauna_id()
+    return status
 
 
 def _img_to_base64(img: PilImage) -> str:

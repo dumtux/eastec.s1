@@ -5,6 +5,7 @@ from pytest import raises
 from sone.singletone import Singleton
 from sone.models import Heater, Program
 from sone.sone import SOne
+from sone.utils import get_sauna_id
 
 
 def test_sone():
@@ -107,3 +108,9 @@ def test_set_lights(mocker):
     lights[0].name = "RGB_3"
     with raises(HTTPException):
         status = so.set_lights(lights)
+
+
+def test_sauna_id():
+    so = SOne.instance()
+    assert so.sauna_id == get_sauna_id()
+    assert so.status.sauna_id == so.sauna_id

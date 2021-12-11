@@ -39,6 +39,7 @@ def test_get_sauna_name():
 def test_get_default_status():
     status = get_default_status()
     assert isinstance(status, Status)
+    assert status.sauna_id == get_sauna_id()
 
 
 def test_get_sauna_id_qr():
