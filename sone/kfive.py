@@ -141,4 +141,4 @@ class KFive(Singleton):
                     break
             except SerialException:
                 continue
-        self.read_temperature = int.from_bytes(data[5], 'big')
+        self.read_temperature = int.from_bytes(data[7], 'big')
