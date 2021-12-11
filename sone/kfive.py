@@ -135,7 +135,7 @@ class KFive(Singleton):
                         s += ' ' + d.hex()
                         if _ != 14:
                             g += int.from_bytes(d, 'big')
-                    logger.log(f"KFive -> SOne: {s}")
+                    logger.log(f"SOne <-- KFive: {s}")
                     if (g-121)%256 != int.from_bytes(d, 'big'):
                         logger.error("KFive response checksum incorrect: %d vs %d" % ((g-121)%256, int.from_bytes(d, 'big')))
                     break
