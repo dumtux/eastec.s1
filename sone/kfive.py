@@ -64,8 +64,10 @@ class KFive(Singleton):
         return bytes(ba)
 
     async def update(self, status: Status, set_time=False, set_temp=False) -> Status:
-        self.target_temperature = status.target_temperature
-        self.time = status.timer
+        if set_time:
+            self.target_temperature = status.target_temperature
+        elif set_temp:
+            self.time = status.timer
         self.ht1 = status.heaters[0].level
         self.ht2 = status.heaters[1].level
         self.ht3 = status.heaters[2].level
@@ -85,15 +87,13 @@ class KFive(Singleton):
                 self.heater = self.target_temperature > self.read_temperature
                 self.endbyte = 0xC2 if self.heater else 0x02
 
-        await self.sync_hardware(set_time=set_time, set_temp=set_temp)
-
-        status.current_temperature = self.read_temperature
-        return status
-
-    async def sync_hardware(self, set_time=False, set_temp=False):
         await self.write_uart(set_time=set_time, set_temp=set_temp)
         await self.read_uart()
-        await self.read_uart()
+
+        status.timer = self.time
+        status.target_temperature = self.target_temperature
+        status.current_temperature = self.read_temperature
+        return status
 
     def init_uart(self):
         if not is_raspberry():
@@ -141,4 +141,6 @@ class KFive(Singleton):
                     break
             except SerialException:
                 continue
+
+        self.time = int.from_bytes(data[2], 'big')
         self.read_temperature = int.from_bytes(data[7], 'big')
