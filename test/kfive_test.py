@@ -30,7 +30,7 @@ async def test_update():
     status = get_default_status()
     await kf.update(status)
     print(kf.to_bytes())
-    assert kf.to_bytes() == b'\xcc\x09\x3c\x00\x00\x1e\x56\x00\x00\x00\x00\x00\x00\x00\x42\x71'
+    assert kf.to_bytes() == b'\xcc\x01\x3c\x00\x00\x1e\x56\x00\x00\x00\x00\x00\x00\x00\x42\x69'
 
 
 def test_init_uart():
