@@ -34,7 +34,7 @@ class KFive(Singleton):
     def to_bytes(self, set_time=False, set_temp=False) -> bytes:
         a = []
         a.append(0xcc)
-        a.append((self.heater * 1 + self.lac * 2 + self.l2 * 4) * 0x10 + (1 if self.pwr else 9))
+        a.append((self.heater * 1 + self.lac * 2 + self.l2 * 4) * 0x10 + (9 if self.pwr else 1))
         a.append(self.time)
         a.append(self.auto_hh)
         a.append(self.auto_mm)
