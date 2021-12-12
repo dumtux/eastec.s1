@@ -64,9 +64,9 @@ class KFive(Singleton):
         return bytes(ba)
 
     async def update(self, status: Status, set_time=False, set_temp=False) -> Status:
-        if set_time:
+        if set_temp:
             self.target_temperature = status.target_temperature
-        elif set_temp:
+        elif set_time:
             self.time = status.timer
         self.ht1 = status.heaters[0].level
         self.ht2 = status.heaters[1].level
