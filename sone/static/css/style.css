@@ -560,15 +560,21 @@ div, p, a, h1, h2, h3, h4, h5 {
 
 /* Settings Page */
 
-#wifiNetwork {
-    position: absolute;
-    top: 30px;
-    left: 30px;
+.settings-meta {
+    width: 35%;
+    margin-top: 10%;
+    margin-left: 10%;
+    margin-right: 5%;
+    float: left;
+    text-align: center;
 }
 
-#searchWifi {
-    width: 50px;
-    cursor: pointer;
+.settings-actions {
+    width: 35%;
+    margin-top: 10%;
+    margin-left: 5%;
+    margin-right: 10%;
+    float: left;
 }
 
 #wifiList {

@@ -13,7 +13,6 @@
     />
     <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/static/css/style.css" />
-    <link rel="stylesheet" href="/static/css/device.css">
 
     <link href="/static/keyboard/keyboard.css" rel="stylesheet" />
     <link href="/static/keyboard/keyboard-basic.css" rel="stylesheet" />
@@ -253,27 +252,21 @@
             </div>
         </div>
         <div id="settingsPage" class="content-page">
-            <div class="wrapper fadeInDown">
-                <div id="formContent">
-                    <!-- Numeric ID -->
-                    <h2 class="active">{{ device_id }}</h2>
-                    <!-- h2 class="inactive underlineHover">SOne Device ID</!-->
-
-                    <!-- QR Code -->
-                    <div class="fadeIn first">
-                    <img src="{{ device_id_qr }}" id="icon" alt="User Icon" />
-                    </div>
-
-                </div>
-
-                <div id="wifiNetwork">
-                    <img id="searchWifi" src="/static/image/icons/wifi.png">
-                    <ul id="wifiList" class="list-group">
-                    </ul>
-                </div>
+            <div class="settings-meta">
+                <h2 class="active">{{ device_id }}</h2>
+                <img src="{{ device_id_qr }}" id="icon" alt="User Icon" />
             </div>
+            <div class="settings-actions">
+                <button id="searchWifi" type="button" class="btn btn-primary btn-block">Wifi Setup</button>
+                <button type="button" class="btn btn-primary btn-block">Restart Device App</button>
+                <button type="button" class="btn btn-primary btn-block">Reboot Device Hardware</button>
+                <button type="button" class="btn btn-warning btn-block">Update Frimware</button>
+            </div>
+            <ul id="wifiList" class="list-group">
+            </ul>
         </div>
     </div>
+
     <div class="modal modal-sm" id="wifiModal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -310,7 +303,6 @@
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    
                 </div>
 
                 <!-- Modal footer -->
