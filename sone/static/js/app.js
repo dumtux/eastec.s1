@@ -316,8 +316,21 @@ function RGBToHex(r,g,b) {
   return "#" + r + g + b;
 }
 
+function setupSettings() {
+    document.getElementById("restartApp").onclick =() => {
+        fetch(BaseUrl + '/restart').then(console.log).catch(console.error)
+    }
+    document.getElementById("rebootOS").onclick =() => {
+        fetch(BaseUrl + '/reboot').then(console.log).catch(console.error)
+    }
+    document.getElementById("updateFirmware").onclick =() => {
+        fetch(BaseUrl + '/update').then(console.log).catch(console.error)
+    }
+}
+
 $(document).ready(function(){
   _getStatus();
+  setupSettings();
   setTimeout(function(){$("#loading").addClass("d-none");}, 1500);
   setInterval(() => {
     _getStatus();
@@ -456,15 +469,3 @@ $(function(){
     // options here
   });
 });
-
-$("#restartApp").on("click", () => {
-    fetch(BaseUrl + '/restart').then(console.log).catch(console.error)
-})
-
-$("#rebootOS").on("click", () => {
-    fetch(BaseUrl + '/reboot').then(console.log).catch(console.error)
-})
-
-$("#upgradeFirmware").on("click", () => {
-    fetch(BaseUrl + '/upgrade').then(console.log).catch(console.error)
-})
