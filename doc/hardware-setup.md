@@ -241,6 +241,23 @@ systemctl start dash_sniffer.service
 For more information about running a Python script as a `systemd` service, read [this article](https://gist.github.com/ewenchou/be496b2b73be801fd85267ef5471458c).
 
 
+
+## Make Bluetooth Discoverable permanently
+
+Check the discoverable timout is set to 0 in `/etc/bluetooth/main.conf` file.
+
+```
+iscoverableTimeout = 0
+```
+
+Add enabling script on startup script file, for example, `/home/pi/.bashrc`
+
+```
+sudo hciconfig hci0 piscan
+sudo hciconfig hci0 sspmode 1
+```
+
+
 ## Reference
 
 * (1) [Raspberry Compute Module 4 Datasheet][1]
