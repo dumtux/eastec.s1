@@ -80,7 +80,11 @@ def is_raspberry() -> bool:
         return False
 
 
-def restart_os():
+def restart_app():
+    os.system("systemctl ")
+
+
+def reboot_os():
     os.system("reboot")
 
 

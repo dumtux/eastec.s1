@@ -23,7 +23,7 @@ from .models import (
     WiFiProfile
 )
 from .wifi import list_networks, connect_wifi, wifi_ip_addr
-from .utils import Logger, restart_os, upgrade_firmware
+from .utils import Logger, restart_app, reboot_os, upgrade_firmware
 
 
 STATIC_DIR = pathlib.Path(__file__).parent / "static"
@@ -92,7 +92,14 @@ async def get_wifi_ip():
 
 @meta_router.get("/{sauna_id}/restart")
 async def restart(sauna_id: str):
-    return restart_os()
+    '''Restart the SOne systemd service'''
+    return restart_app()
+
+
+@meta_router.get("/{sauna_id}/reboot")
+async def reboot(sauna_id: str):
+    '''Reboot the SOne device'''
+    return reboot_os()
 
 
 @meta_router.get("/{sauna_id}/upgrade")
