@@ -457,4 +457,14 @@ $(function(){
   });
 });
 
+$("#restartApp").on("click", () => {
+    fetch(BaseUrl + '/restart').then(console.log).catch(console.error)
+})
 
+$("#rebootOS").on("click", () => {
+    fetch(BaseUrl + '/reboot').then(console.log).catch(console.error)
+})
+
+$("#upgradeFirmware").on("click", () => {
+    fetch(BaseUrl + '/upgrade').then(console.log).catch(console.error)
+})
