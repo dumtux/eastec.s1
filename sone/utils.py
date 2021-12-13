@@ -81,7 +81,7 @@ def is_raspberry() -> bool:
 
 
 def restart_app():
-    os.system("systemctl ")
+    os.system("systemctl restart sone")
 
 
 def reboot_os():
