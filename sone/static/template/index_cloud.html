@@ -104,9 +104,9 @@
                                     Actions
                                 </div>
                                 <div class="card-body">
-                                    <button type="button" class="btn btn-primary btn-block">Restart Device App</button>
-                                    <button type="button" class="btn btn-primary btn-block">Reboot Device Hardware</button>
-                                    <button type="button" class="btn btn-warning btn-block">Update Frimware</button>
+                                    <button type="button" class="btn btn-primary btn-block" onclick="restartApp('{{device_id}}')">Restart Device App</button>
+                                    <button type="button" class="btn btn-primary btn-block" onclick="rebootOS('{{device_id}}')">Reboot Device Hardware</button>
+                                    <button type="button" class="btn btn-warning btn-block" onclick="updateFirmware('{{device_id}}')">Update Frimware</button>
                                 </div>
                             </div>
                         </div>
@@ -117,6 +117,18 @@
 {% endfor %}
 
     </div><!--/.container-->
+
+    <script>
+function restartApp(device_id) {
+    fetch('/sauna/' + device_id + '/restart').then(console.log).catch(console.error)
+}
+function rebootOS(device_id) {
+    fetch('/sauna/' + device_id + '/reboot').then(console.log).catch(console.error)
+}
+function updateFirmware(device_id) {
+    fetch('/sauna/' + device_id + '/update').then(console.log).catch(console.error)
+}
+    </script>
 
 </body>
 </html>
