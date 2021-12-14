@@ -8,6 +8,7 @@ _CONF_PATH = Path.home() / '.eastec-sone'
 if not os.path.exists(_CONF_PATH):
     os.mkdir(_CONF_PATH)
 
+TOKEN_FILE_PATH = _CONF_PATH / 'token'
 DB_FILE_PATH = _CONF_PATH / 'db.json'
 UART_EN_PIN = 12
 UART_PORT = '/dev/serial0'

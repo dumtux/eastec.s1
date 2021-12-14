@@ -11,7 +11,7 @@ import qrcode
 from qrcode.image.pil import PilImage
 
 from . import __name__, __version__
-from .conf import DEFAULT_STATUS
+from .conf import DEFAULT_STATUS, TOKEN_FILE_PATH
 from .models import Status
 from .singletone import Singleton
 import typer
@@ -89,7 +89,9 @@ def reboot_os():
 
 
 def upgrade_firmware():
-    os.system("pip3 install --upgrade git+https://github.com/hotteshen/eastec.s1@release/1.0")
+    with open(TOKEN_FILE_PATH) as f:
+        token = f.read()
+    os.system("pip3 install --upgrade git+https://{token}@github.com/hotteshen/eastec.s1@release/1.0")
 
 
 def async_wrap(func):
