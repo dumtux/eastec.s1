@@ -90,9 +90,7 @@ def reboot_os():
 
 def upgrade_firmware():
     with open(TOKEN_FILE_PATH) as f:
-        token = f.read()
-    cmd = f"pip3 install --upgrade git+https://{token}@github.com/hotteshen/eastec.s1.git@release/1.0"
-    Logger.instance().log(cmd)
+        token = f.read().strip()
     os.system(f"pip3 install --upgrade git+https://{token}@github.com/hotteshen/eastec.s1.git@release/1.0")
 
 
