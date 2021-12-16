@@ -56,21 +56,21 @@ def get_default_status() -> Status:
 
 
 def _img_to_base64(img) -> str:
-    try:
-        buffered = BytesIO()
-        img.save(buffered, format="PNG")
-        buffered.seek(0)
-        img_byte = buffered.getvalue()
-        img_str = "data:image/png;base64," + base64.b64encode(img_byte).decode()
-        return img_str
-    except:
-        return ""
+    buffered = BytesIO()
+    img.save(buffered, format="PNG")
+    buffered.seek(0)
+    img_byte = buffered.getvalue()
+    img_str = "data:image/png;base64," + base64.b64encode(img_byte).decode()
+    return img_str
 
 
 def get_sauna_id_qr() -> str:
-    code = '%s-%s-%s' % (__name__, __version__, get_sauna_id())
-    img = qrcode.make(code)
-    return _img_to_base64(img)
+    try:
+        code = '%s-%s-%s' % (__name__, __version__, get_sauna_id())
+        img = qrcode.make(code)
+        return _img_to_base64(img)
+    except:
+        pass
 
 
 def is_raspberry() -> bool:
