@@ -234,8 +234,8 @@ Reload `systemd`, start `sone` as a service, enable autostart.
 
 ```sh
 sudo systemctl daemon-reload
-systemctl enable dash_sniffer.service
-systemctl start dash_sniffer.service
+systemctl enable sone.service
+systemctl start sone.service
 ```
 
 For more information about running a Python script as a `systemd` service, read [this article](https://gist.github.com/ewenchou/be496b2b73be801fd85267ef5471458c).
@@ -256,6 +256,22 @@ Add enabling script on startup script file, for example, `/home/pi/.bashrc`
 sudo hciconfig hci0 piscan
 sudo hciconfig hci0 sspmode 1
 ```
+
+
+## Clone OS Image and Shrink
+
+```
+dd bs=4M if=/dev/sdb of=image1-`date +%d%m%y`.img
+```
+
+```
+wget https://raw.githubusercontent.com/Drewsif/PiShrink/master/pishrink.sh
+chmod +x pishrink.sh
+sudo mv pishrink.sh /usr/local/bin
+sudo pishrink.sh pi.img
+```
+
+[article](https://ep.gnt.md/index.php/how-to-clone-raspberry-pi-sd-card-on-linux-and-shrink-it-to-actual-size/)
 
 
 ## Reference
