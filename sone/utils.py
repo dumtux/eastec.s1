@@ -8,7 +8,10 @@ import uuid
 
 import psutil
 import qrcode
-from qrcode.image.pil import PilImage
+try:
+    from qrcode.image.pil import PilImage
+except:
+    PilImage = None
 
 from . import __name__, __version__
 from .conf import DEFAULT_STATUS, TOKEN_FILE_PATH
@@ -52,13 +55,16 @@ def get_default_status() -> Status:
     return status
 
 
-def _img_to_base64(img: PilImage) -> str:
-    buffered = BytesIO()
-    img.save(buffered, format="PNG")
-    buffered.seek(0)
-    img_byte = buffered.getvalue()
-    img_str = "data:image/png;base64," + base64.b64encode(img_byte).decode()
-    return img_str
+def _img_to_base64(img) -> str:
+    try:
+        buffered = BytesIO()
+        img.save(buffered, format="PNG")
+        buffered.seek(0)
+        img_byte = buffered.getvalue()
+        img_str = "data:image/png;base64," + base64.b64encode(img_byte).decode()
+        return img_str
+    except:
+        return ""
 
 
 def get_sauna_id_qr() -> str:
