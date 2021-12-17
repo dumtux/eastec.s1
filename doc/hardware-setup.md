@@ -250,11 +250,15 @@ Check the discoverable timout is set to 0 in `/etc/bluetooth/main.conf` file.
 iscoverableTimeout = 0
 ```
 
-Add enabling script on startup script file, for example, `/home/pi/.bashrc`
+Add enabling script on startup script file, for example, `/etc/rc.local` (before `exit 0`)
 
 ```
-sudo hciconfig hci0 piscan
-sudo hciconfig hci0 sspmode 1
+sudo bluetoothctl <<EOF
+power on
+discoverable on
+pairable on
+default-agent
+agent NoInputNoOutput
 ```
 
 
