@@ -151,7 +151,7 @@ For more information, read the QA ([6]).
 Create file `/etc/machine-info` with,
 
 ```
-PRETTY+HOSTNAME=Eastec-SOne
+PRETTY_HOSTNAME=Eastec-SOne
 ```
 
 To apply this, need to restart the system, or restart the Bluetooth service.
