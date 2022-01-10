@@ -1,5 +1,6 @@
 .vscode/
 __pycache__/
+sone.egg-info/
 backup/
 env/
 venv_linux/

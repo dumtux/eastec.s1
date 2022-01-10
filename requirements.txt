@@ -11,6 +11,7 @@ psutil
 pyjwt
 pyserial
 pytest
+pytest-asyncio
 pytest-mock
 pywifi
 qrcode[pil]
