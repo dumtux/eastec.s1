@@ -136,26 +136,28 @@ class SOne(Singleton):
         return self.status
 
     def set_lights(self, lights: List[Light]) -> Status:
-        if len(lights) != 2:
+        if len(lights) not in [1, 2]:
             raise HTTPException(
                 status_code=422,
-                detail="All 2 light should be given")
-        if lights[0].name != 'RGB_1' or lights[1].name != 'RGB_2':
-            raise HTTPException(
-                status_code=422,
-                detail="Light names should be 'RGB_1' and 'RGB_2'")
+                detail="1 or 2 lights should be given")
 
-        self.status.lights = lights
-
-        if lights[0].state:
-            self._light_rgb_1(lights[0].color.r, lights[0].color.g, lights[0].color.b)
-        else:
-            self._light_rgb_1(0, 0, 0)
-
-        if lights[1].state:
-            self._light_rgb_2(lights[1].color.r, lights[1].color.g, lights[1].color.b)
-        else:
-            self._light_rgb_2(0, 0, 0)
+        for light in lights:
+            if light.name not in ['RGB_1', 'RGB_2'] or light.name  not in ['RGB_1', 'RGB_2']:
+                raise HTTPException(
+                    status_code=422,
+                    detail="Light names should be 'RGB_1' and/or 'RGB_2'")
+            if light.name == 'RGB_1':
+                self.status.lights[0] = light
+                if light.state:
+                    self._light_rgb_1(light.color.r, light.color.g, light.color.b)
+                else:
+                    self._light_rgb_1(0, 0, 0)
+            if light.name == 'RGB_2':
+                self.status.lights[1] = light
+                if light.state:
+                    self._light_rgb_2(light.color.r, light.color.g, light.color.b)
+                else:
+                    self._light_rgb_2(0, 0, 0)
 
         return self.status
 
