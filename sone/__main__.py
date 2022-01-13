@@ -60,7 +60,8 @@ async def loop_ws_client(cloud_url: str, local_url: str):
                 logger.error("Timeout error, check Cloud URL and networking. Retrying in 5 seconds.")
             except websockets.exceptions.ConnectionClosedError:
                 logger.error("Connection closed, check Cloud URL and networking. Retrying in 5 seconds.")
-
+            except OSError:
+                logger.warn("Connect call failed, check if the port is open on server side.")
             await asyncio.sleep(5)
 
 
