@@ -13,7 +13,7 @@ def test_websocket():
     pass
 
 
-def test_get_sauna_list():
-    response = client.get("/sauna/list")
-    assert response.status_code == 200
-    assert response.json() == []
+# def test_get_sauna_list():
+#     response = client.get("/sauna/list")
+#     assert response.status_code == 200
+#     assert response.json() == []

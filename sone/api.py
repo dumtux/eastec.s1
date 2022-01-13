@@ -114,7 +114,7 @@ control_router = APIRouter(
 scheduling_router = APIRouter(tags=["Sauna Scheduling"])
 
 
-@meta_router.get("/list", response_model=List[str])
+@meta_router.get("/list", response_model=List[str], dependencies=[Depends(verify_token)])
 async def get_sauna_list():
     return list(connections.keys())
 
@@ -124,8 +124,8 @@ async def get_protected():
     return "You've got the protected data successfully!"
 
 
-@meta_router.get("/{sauna_id}/restart")
-async def restart(sauna_id: str, request: Request):
+@meta_router.get("/{sauna_id}/restart", dependencies=[Depends(verify_token)])
+async def restart(sauna_id: str, request: Request, dependencies=[Depends(verify_token)]):
     '''
     After this endpoint is called, the SOne systemd service is restarted.
     Thus, network connection is lost, and it returns error code 400 and message about the device network connection is lost.
@@ -141,7 +141,7 @@ async def restart(sauna_id: str, request: Request):
             raise e
 
 
-@meta_router.get("/{sauna_id}/reboot")
+@meta_router.get("/{sauna_id}/reboot", dependencies=[Depends(verify_token)])
 async def reboot(sauna_id: str, request: Request):
     '''
     After this endpoint is called, the device is rebooted.
@@ -158,26 +158,26 @@ async def reboot(sauna_id: str, request: Request):
             raise e
 
 
-@meta_router.get("/{sauna_id}/upgrade")
+@meta_router.get("/{sauna_id}/upgrade", dependencies=[Depends(verify_token)])
 async def upgrade(sauna_id: str, request: Request):
     return await tick_ws(sauna_id, request)
 
 
-@status_router.get("/{sauna_id}/status", response_model=Status)
+@status_router.get("/{sauna_id}/status", response_model=Status, dependencies=[Depends(verify_token)])
 async def get_status(sauna_id: str, request: Request):
     return await tick_ws(sauna_id, request)
 
-@control_router.put("/{sauna_id}/state", response_model=Status)
+@control_router.put("/{sauna_id}/state", response_model=Status, dependencies=[Depends(verify_token)])
 async def update_state(sauna_id: str, update: StateUpdate, request: Request):
     return await tick_ws(sauna_id, request)
 
 
-@control_router.put("/{sauna_id}/temperature", response_model=Status)
+@control_router.put("/{sauna_id}/temperature", response_model=Status, dependencies=[Depends(verify_token)])
 async def update_target_temperature(sauna_id: str, update: TemperatureUpdate, request: Request):
     return await tick_ws(sauna_id, request)
 
 
-@control_router.put("/{sauna_id}/timer", response_model=Status)
+@control_router.put("/{sauna_id}/timer", response_model=Status, dependencies=[Depends(verify_token)])
 async def update_timer(sauna_id: str, update: TimerUpdate, request: Request):
     return await tick_ws(sauna_id, request)
 
@@ -188,12 +188,13 @@ async def update_timer(sauna_id: str, update: TimerUpdate, request: Request):
     responses={
         404: {"description": "Sauna ID not found", "model": HTTPError},
     },
+    dependencies=[Depends(verify_token)]
 )
 async def get_schedules(sauna_id: str, request: Request):
     return await tick_ws(sauna_id, request)
 
 
-@control_router.post("/{sauna_id}/program", response_model=Status)
+@control_router.post("/{sauna_id}/program", response_model=Status, dependencies=[Depends(verify_token)])
 async def update_timer(sauna_id: str, program: Program, request: Request):
     return await tick_ws(sauna_id, request)
 
@@ -206,6 +207,7 @@ async def update_timer(sauna_id: str, program: Program, request: Request):
         404: {"description": "Sauna ID or Schedule ID not found", "model": HTTPError},
         409: {"description": "Schedule ID conflicts", "model": HTTPError},
     },
+    dependencies=[Depends(verify_token)]
 )
 async def add_schedule(sauna_id: str, schedule: Schedule, request: Request):
     return await tick_ws(sauna_id, request)
@@ -217,6 +219,7 @@ async def add_schedule(sauna_id: str, schedule: Schedule, request: Request):
     responses={
         404: {"description": "Sauna ID or Schedule ID not found", "model": HTTPError},
     },
+    dependencies=[Depends(verify_token)]
 )
 async def delete_schedule(sauna_id: str, schedule_id: str, request: Request):
     return await tick_ws(sauna_id, request)
