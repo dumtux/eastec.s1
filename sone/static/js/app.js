@@ -469,3 +469,45 @@ $(function(){
     // options here
   });
 });
+
+$(document).ready(function(){
+  console.log("okok");
+  if(getCookie("_ColorMode") == 1) {
+    $("body").addClass("dark-mode");
+  } else {
+    $("body").removeClass("dark-mode");
+  }
+});
+
+$("#switchColorMode").on("change", function(){
+  if($(this).prop("checked")) {
+    $("body").addClass("dark-mode");
+    setCookie("_ColorMode", "1", 365);
+  } else {
+    $("body").removeClass("dark-mode");
+    setCookie("_ColorMode", "0", 365);
+  }
+});
+
+function setCookie(cname, cvalue, exdays) {
+  const d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  let expires = "expires="+ d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}

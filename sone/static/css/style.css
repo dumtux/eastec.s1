@@ -1,10 +1,17 @@
-html, body {
 
+.dark-mode #bottomMenubar {
+    background-color: #1c1e23;
+    color: #fff;
 }
 
 div, p, a, h1, h2, h3, h4, h5 {
     color: #37434F;
 }
+
+.dark-mode div, p, a, h1, h2, h3, h4, h5 {
+    color: #fff;
+}
+
 
 .mt-100 {
     margin-top: 100px;
@@ -62,6 +69,11 @@ div, p, a, h1, h2, h3, h4, h5 {
     position: absolute;
 }
 
+.dark-mode #loading {
+    background-color: #1c1e23;
+}
+
+
 #loading .progress {
     width: 250px;
     transform: translateX(-50%) translateY(-50%);
@@ -82,6 +94,11 @@ div, p, a, h1, h2, h3, h4, h5 {
     color: #5F5F5F;
     z-index: 10;
     box-shadow: 0px -4px 8px rgba(135, 143, 163, 0.1);
+}
+
+.dark-mode #bottomMenubar {
+    background-color: #1c1e23;
+    color: #fff;
 }
 
 #bottomMenubar .bottomMenuItem {
@@ -116,6 +133,10 @@ div, p, a, h1, h2, h3, h4, h5 {
     position: relative;
 }
 
+.dark-mode #mainContainer {
+    background-color: #1c1e23;
+}
+
 #mainContainer.is-animating {
     position: absolute;
     top: 0;
@@ -136,6 +157,10 @@ div, p, a, h1, h2, h3, h4, h5 {
     -webkit-transform: translateX(100%);
             transform: translateX(100%);
     background-color: #caeaea;
+}
+
+.dark-mode .content-page {
+    background-color: #1c1e23;
 }
 
 .content-page.is-active {
@@ -168,6 +193,10 @@ div, p, a, h1, h2, h3, h4, h5 {
     overflow-y: auto;
 }
 
+.dark-mode #saunaControlPage {
+    background-color: #1c1e23;
+}
+
 #saunaControlPage.heat {
     background-image: url(../image/sauna-room-heat.png);
 }
@@ -186,6 +215,9 @@ div, p, a, h1, h2, h3, h4, h5 {
     margin-right: 20px;
 }
 
+.dark-mode .card-section .card-section-title {
+    color: #fff;
+}
 
 .block-card {
     display: inline-block;
@@ -196,6 +228,10 @@ div, p, a, h1, h2, h3, h4, h5 {
     box-sizing: border-box;
     box-shadow: 0px 8px 38px rgba(124, 183, 183, 0.08), 0px 16px 22px rgba(124, 183, 183, 0.08), 0px 8px 14px rgba(124, 183, 183, 0.16);
     border-radius: 30px;
+}
+
+.dark-mode .block-card {
+    background-color: #1c1e23;
 }
 
 .block-card .block-card-collapsed {
@@ -212,6 +248,10 @@ div, p, a, h1, h2, h3, h4, h5 {
     color: #5F5F5F;
 }
 
+.dark-mode .block-card .black-label {
+    color: #fff;
+}
+
 .block-card .color-img {
     width: 35px;
     height: 35px;
@@ -221,6 +261,10 @@ div, p, a, h1, h2, h3, h4, h5 {
 .blue-label {
     color: #619595;
     font-size: 30pt;
+}
+
+.dark-mode .blue-label {
+    color: #fff;
 }
 
 .block-card-expand .blue-label {
@@ -233,6 +277,10 @@ div, p, a, h1, h2, h3, h4, h5 {
     border: 2px solid #EDEDED;
     border-radius: 10px;
     margin-bottom: 10px;
+}
+
+.dark-mode .icon-button {
+    border-color: #37434F;
 }
 
 .button {
@@ -261,10 +309,20 @@ div, p, a, h1, h2, h3, h4, h5 {
     background: #3A8DDE;
 }
 
+.dark-mode .icon-button {
+    color: #37434F;
+    background: #fff;
+    border-color: #fff;
+}
+
 .button-warning {
     border: 4px solid #EFAB46;
     background-color: #EFAB46;
     color: white;
+}
+
+.dark-mode .icon-button {
+    color: #37434F;
 }
 
 .button-outline {
@@ -273,10 +331,20 @@ div, p, a, h1, h2, h3, h4, h5 {
     color: #3A8DDE;
 }
 
+.dark-mode .button-outline {
+    color: #fff;
+    border-color: #fff;
+}
+
 .block-card-footer p {
     color: #7E7E7E;
     margin-bottom: 0px;
     font-size: 18px;
+}
+
+.dark-mode .block-card-footer p {
+    color: #fff;
+    border-color: #fff;
 }
 
 .block-card-expand .block-card-footer p {
@@ -314,6 +382,10 @@ div, p, a, h1, h2, h3, h4, h5 {
     color: #7E7E7E;
 }
 
+.dark-mode .content-page h2.page-title  {
+    color: #fff;
+}
+
 #homeValue {
     margin-bottom: 5px;
     font-size: 85pt;
@@ -338,11 +410,19 @@ div, p, a, h1, h2, h3, h4, h5 {
     margin-bottom: 15px
 }
 
+.dark-mode #homeStatus label {
+    color: #fff;
+}
+
 #homeStatus .value {
     background: #F6F7FB;
     border-radius: 20px;
     padding: 15px 40px;
     font-size: 25pt;
+}
+
+.dark-mode #homeStatus label {
+    background: #37434F;
 }
 
 .block-card .cover-bg {
@@ -353,6 +433,10 @@ div, p, a, h1, h2, h3, h4, h5 {
 .block-card p.music-title {
     color: #5F5F5F;
     font-size: 12px;
+}
+
+.dark-mode #homeStatus label {
+    color: #fff;
 }
 
 .block-card .music-control {
@@ -380,6 +464,11 @@ div, p, a, h1, h2, h3, h4, h5 {
     border-radius: 20px;
 }
 
+.dark-mode .program-card {
+    background-color: #37434F;
+    border-color: #37434F;
+}
+
 .program-card .program-card-header {
     background: #FFFAF1;
     border: 1px solid #FFFFFF;
@@ -387,6 +476,11 @@ div, p, a, h1, h2, h3, h4, h5 {
     border-radius: 20px 20px 0px 0px;
     padding: 10px 15px;
     display: flex;
+}
+
+.dark-mode .program-card .program-card-header {
+    background-color: #37434F;
+    border-color: #37434F;
 }
 
 .program-card .program-card-header>div {
@@ -408,6 +502,10 @@ div, p, a, h1, h2, h3, h4, h5 {
     margin-left: 5px
 }
 
+.dark-mode .program-card .program-card-header span {
+    color: #fff;
+}
+
 .program-card .program-card-header span>small {
     font-size: 17px;
     font-weight: 500;
@@ -422,6 +520,10 @@ div, p, a, h1, h2, h3, h4, h5 {
     font-size: 18px;
     line-height: 30px;
     color: #5F5F5F;
+}
+
+.dark-mode .program-card .program-card-body .program-title {
+    color: #fff;
 }
 
 .program-card .program-card-body .program-title[data-toggle="collapse"]:before {
@@ -441,6 +543,9 @@ div, p, a, h1, h2, h3, h4, h5 {
     color: #9E9E9E;
 }
 
+.dark-mode .program-card .program-card-body .program-title {
+    color: #fff;
+}
 
 #program_start {
     font-size: 13px;
@@ -475,6 +580,11 @@ div, p, a, h1, h2, h3, h4, h5 {
     height: 0.08em;
     background-color: #DDDDDD;
 }
+
+.dark-mode .gauge-inner .bar {
+    background-color: #37434F;
+}
+
 .gauge-inner .bar.peak {
     height: 0.08em;
 }
@@ -492,6 +602,10 @@ div, p, a, h1, h2, h3, h4, h5 {
     background-color: #DDDDDD;
     opacity: 1;
     transition: opacity 0.5s;
+}
+
+.dark-mode .gauge-outer .bar {
+    background-color: #37434F;
 }
 
 .gauge-digits {
@@ -607,4 +721,73 @@ to { transform: rotate(360deg); }
     animation: spinner-border .75s linear infinite;
 }
 
+/* The switch - the box around the slider */
+#colorMode .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+  
+/* Hide default HTML checkbox */
+#colorMode .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+  
+  /* The slider */
+#colorMode .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 5px;
+}
+  
+#colorMode .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 2px;
+}
+  
+#colorMode input:checked + .slider {
+    background-color: #007bff;
+}
+  
+#colorMode input:focus + .slider {
+    box-shadow: 0 0 1px #007bff;
+}
+  
+#colorMode input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+  
+/* Rounded sliders */
+#colorMode .slider.round {
+    border-radius: 34px;
+}
+  
+#colorMode .slider.round:before {
+    border-radius: 50%;
+}
+
 /* End Settings Page */
+
+.dark-mode .modal-content {
+    background-color: #37434F;
+}
