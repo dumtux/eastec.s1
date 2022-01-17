@@ -474,6 +474,7 @@ $(document).ready(function(){
   console.log("okok");
   if(getCookie("_ColorMode") == 1) {
     $("body").addClass("dark-mode");
+    $("#switchColorMode").attr("checked", true);
   } else {
     $("body").removeClass("dark-mode");
   }
