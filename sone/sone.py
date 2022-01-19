@@ -3,6 +3,9 @@ try:
 except:
     # for Python 3.7 of Raspberry OS
     from concurrent.futures._base import TimeoutError
+import datetime
+import dateutil.parser
+import pytz
 import time
 from typing import Callable, List
 
@@ -38,6 +41,7 @@ from .utils import (
 logger = Logger.instance()
 uptime = time.time()
 
+
 class SOne(Singleton):
     VALID_STATES = ['standby', 'heating', 'ready', 'insession', 'paused']
 
@@ -65,6 +69,14 @@ class SOne(Singleton):
             await self.set_state('ready')
         if self.status.state == 'heating':
             await self._kfive_update(self.status, set_time=True)
+        if self.status.state == 'standby':
+            for schedule in self.schedules:
+                firetime = dateutil.parser.parse(schedule.first_fire_time)
+                now = pytz.UTC.localize(datetime.datetime.now())
+                if firetime <= now:
+                    await self.set_program(schedule.program)
+                    await self.set_state('heating')
+                    break
 
     async def set_state(self, state: str) -> Status:
         if state not in self.VALID_STATES:
