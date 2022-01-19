@@ -61,9 +61,6 @@ class SOne(Singleton):
     async def _check_heating(self) -> Status:
         if self.status.state == 'heating' and abs(self.status.target_temperature - self.status.current_temperature) <= TEMP_DELTA:
             await self.set_state('ready')
-        logger.log("check heating tick")
-        print('self.status.state, self.status.current_temperature, self.status.target_temperature')
-        print(self.status.state, self.status.current_temperature, self.status.target_temperature)
 
     async def set_state(self, state: str) -> Status:
         if state not in self.VALID_STATES:
