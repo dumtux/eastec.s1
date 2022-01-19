@@ -65,10 +65,15 @@ class SOne(Singleton):
         return self.status
 
     async def _manage_status(self):
+        # transite to 'ready' state if the current temperature reaches to target temperature
         if self.status.state == 'heating' and self.status.current_temperature >= self.status.target_temperature - TEMP_DELTA:
             await self.set_state('ready')
+
+        # hold timer value during 'heating' state
         if self.status.state == 'heating':
             await self._kfive_update(self.status, set_time=True)
+
+        # check schedule and activate if now iw over first-fire-time
         if self.status.state == 'standby':
             for i in range(len(self.schedules)):
                 schedule = self.schedules[i]
