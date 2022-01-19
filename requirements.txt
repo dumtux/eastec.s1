@@ -16,6 +16,7 @@ pytest-mock
 python-dateutil
 pytz
 pywifi
+pytz
 qrcode[pil]
 requests
 tinydb
