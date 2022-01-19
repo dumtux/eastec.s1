@@ -14,6 +14,8 @@ UART_EN_PIN = 12
 UART_PORT = '/dev/serial0'
 UART_BAUDRATE = 4800
 
+TEMP_DELTA = 3
+
 REED_IN = 27
 LED_R_1 = 6
 LED_G_1 = 5

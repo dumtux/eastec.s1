@@ -13,7 +13,9 @@ import typer
 import uvicorn
 import websockets
 
+from .conf import TEMP_DELTA
 from .kfive import KFive
+from .sone import SOne
 from .utils import Logger, get_sauna_id
 
 
@@ -64,6 +66,15 @@ async def loop_ws_client(cloud_url: str, local_url: str):
                 logger.warn("Connect call failed, check if the port is open on server side.")
             await asyncio.sleep(5)
 
+async def stateupdater(sone: SOne):
+    while True:
+        await asyncio.sleep(1)
+        if sone.status.state == 'heating' and sone.status.current_temperature > sone.status.target_temperature - TEMP_DELTA:
+            sone.set_state('ready')
+            logger.log("changing state from 'heating' to 'ready'")
+        else:
+            logger.log("state tick")
+
 
 @typer_app.command()
 def device(cloud_url=None, host: str=LOCAL_HOST, port: int=LOCAL_PORT):
@@ -85,12 +96,21 @@ def device(cloud_url=None, host: str=LOCAL_HOST, port: int=LOCAL_PORT):
         except KeyboardInterrupt:
             logger.log("Stopping by the user.")
 
+    def run_stateupdater():
+        try:
+            asyncio.run(stateupdater(api_local.sone))
+        except KeyboardInterrupt:
+            logger.log("Stopping by the user.")
+
     app_proc = Process(target = run_app)
     ws_proc = Process(target = run_ws)
+    stateupdater_proc = Process(target = run_stateupdater)
     app_proc.start()
     ws_proc.start()
+    stateupdater_proc.start()
     app_proc.join()
     ws_proc.join()
+    stateupdater_proc.join()
 
 
 @typer_app.command()
