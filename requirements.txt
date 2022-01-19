@@ -15,6 +15,7 @@ pytest-asyncio
 pytest-mock
 python-dateutil
 pywifi
+pytz
 qrcode[pil]
 requests
 tinydb
