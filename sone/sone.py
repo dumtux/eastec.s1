@@ -20,6 +20,7 @@ from .conf import (
     LED_R_2,
     LED_G_2,
     LED_B_2,
+    TEMP_DELTA,
 )
 from .models import Heater, Light, Status, Schedule, Program
 from .singletone import Singleton
@@ -57,6 +58,13 @@ class SOne(Singleton):
         await self._kfive_update(self.status)
         self._update_sysinfo()
         return self.status
+
+    async def check_heating(self) -> Status:
+        if self.status.state == 'heating' and self.status.current_temperature > self.status.target_temperature - TEMP_DELTA:
+            await self.set_state('ready')
+        logger.log("check heating tick")
+        print('self.status.state, self.status.current_temperature, self.status.target_temperature - TEMP_DELTA')
+        print(self.status.state, self.status.current_temperature, self.status.target_temperature - TEMP_DELTA)
 
     async def set_state(self, state: str) -> Status:
         if state not in self.VALID_STATES:

@@ -69,13 +69,7 @@ async def loop_ws_client(cloud_url: str, local_url: str):
 async def stateupdater(sone: SOne):
     while True:
         await asyncio.sleep(1)
-        print('sone.status.state, sone.status.current_temperature, sone.status.target_temperature - TEMP_DELTA')
-        print(sone.status.state, sone.status.current_temperature, sone.status.target_temperature - TEMP_DELTA)
-        if sone.status.state == 'heating' and sone.status.current_temperature > sone.status.target_temperature - TEMP_DELTA:
-            sone.set_state('ready')
-            logger.log("changing state from 'heating' to 'ready'")
-        else:
-            logger.log("state tick")
+        await sone.check_heating()
 
 
 @typer_app.command()
