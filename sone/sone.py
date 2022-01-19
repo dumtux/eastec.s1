@@ -70,12 +70,16 @@ class SOne(Singleton):
         if self.status.state == 'heating':
             await self._kfive_update(self.status, set_time=True)
         if self.status.state == 'standby':
-            for schedule in self.schedules:
+            for i in range(len(self.schedules)):
+                schedule = self.schedules[i]
                 firetime = dateutil.parser.parse(schedule.first_fire_time)
                 now = pytz.UTC.localize(datetime.datetime.now())
                 if firetime <= now:
+                    logger.log("starting a scheduled program.")
                     await self.set_program(schedule.program)
                     await self.set_state('heating')
+                    self.schedules.pop(i)
+                    logger.log(f"Schdule <{schedule.id}> has removed after starting.")
                     break
 
     async def set_state(self, state: str) -> Status:
