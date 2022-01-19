@@ -66,12 +66,6 @@ async def loop_ws_client(cloud_url: str, local_url: str):
                 logger.warn("Connect call failed, check if the port is open on server side.")
             await asyncio.sleep(5)
 
-async def stateupdater(local_url: str):
-    async with httpx.AsyncClient() as client:
-        while True:
-            await asyncio.sleep(1)
-            await client.get(f"{local_url}/sauna/check-heating")
-
 
 @typer_app.command()
 def device(cloud_url=None, host: str=LOCAL_HOST, port: int=LOCAL_PORT):
@@ -94,21 +88,12 @@ def device(cloud_url=None, host: str=LOCAL_HOST, port: int=LOCAL_PORT):
         except KeyboardInterrupt:
             logger.log("Stopping by the user.")
 
-    def run_stateupdater():
-        try:
-            asyncio.run(stateupdater(local_url))
-        except KeyboardInterrupt:
-            logger.log("Stopping by the user.")
-
     app_proc = Process(target = run_app)
     ws_proc = Process(target = run_ws)
-    stateupdater_proc = Process(target = run_stateupdater)
     app_proc.start()
     ws_proc.start()
-    stateupdater_proc.start()
     app_proc.join()
     ws_proc.join()
-    stateupdater_proc.join()
 
 
 @typer_app.command()
