@@ -13,6 +13,7 @@ pyserial
 pytest
 pytest-asyncio
 pytest-mock
+python-dateutil
 pywifi
 qrcode[pil]
 requests
