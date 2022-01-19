@@ -56,6 +56,8 @@ class SOne(Singleton):
         await self._kfive_update(self.status)
         self._update_sysinfo()
         await self._check_heating()
+        if self.status.state == 'heating':
+            await self._kfive_update(self.status, set_time=True)
         return self.status
 
     async def _check_heating(self) -> Status:
