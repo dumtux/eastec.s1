@@ -90,6 +90,11 @@ async def get_wifi_ip():
     return wifi_ip_addr()
 
 
+@meta_router.get("/check-heating")
+async def check_heating():
+    await sone.check_heating()
+
+
 @meta_router.get("/{sauna_id}/restart")
 async def restart(sauna_id: str):
     '''Restart the SOne systemd service'''

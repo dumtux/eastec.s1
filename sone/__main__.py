@@ -66,10 +66,11 @@ async def loop_ws_client(cloud_url: str, local_url: str):
                 logger.warn("Connect call failed, check if the port is open on server side.")
             await asyncio.sleep(5)
 
-async def stateupdater(sone: SOne):
-    while True:
-        await asyncio.sleep(1)
-        await sone.check_heating()
+async def stateupdater(local_url: str):
+    async with httpx.AsyncClient() as client:
+        while True:
+            await asyncio.sleep(1)
+            await client.get(f"{local_url}/sauna/check-heating")
 
 
 @typer_app.command()
@@ -79,6 +80,7 @@ def device(cloud_url=None, host: str=LOCAL_HOST, port: int=LOCAL_PORT):
 
     if cloud_url is None:
         cloud_url = f"http://{CLOUD_HOST}:{CLOUD_PORT}"
+    local_url=f"http://{host}:{port}"
 
     def run_app():
         KFive.instance().init_uart()
@@ -88,13 +90,13 @@ def device(cloud_url=None, host: str=LOCAL_HOST, port: int=LOCAL_PORT):
 
     def run_ws():
         try:
-            asyncio.run(loop_ws_client(cloud_url, local_url=f"http://{host}:{port}"))
+            asyncio.run(loop_ws_client(cloud_url, local_url=local_url))
         except KeyboardInterrupt:
             logger.log("Stopping by the user.")
 
     def run_stateupdater():
         try:
-            asyncio.run(stateupdater(api_local.sone))
+            asyncio.run(stateupdater(local_url))
         except KeyboardInterrupt:
             logger.log("Stopping by the user.")
 
