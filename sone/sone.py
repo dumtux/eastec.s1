@@ -102,7 +102,7 @@ class SOne(Singleton):
                 raise HTTPException(
                     status_code=422,
                     detail="'paused' state can be set only from 'insession' state.")
-            self.status.state = 'insession'
+            self.status.state = 'paused'
 
         await self._kfive_update(self.status)
         self._update_sysinfo()
