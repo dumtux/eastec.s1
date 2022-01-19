@@ -81,9 +81,9 @@ class SOne(Singleton):
                     status_code=422,
                     detail="'heating' state can be set only from 'standby' state.")
             if self.status.current_temperature >= self.status.target_temperature - TEMP_DELTA:
-                self.status.state = 'heating'
-            else:
                 self.status.state = 'ready'
+            else:
+                self.status.state = 'heating'
         elif state == 'ready':
             if self.status.current_temperature >= self.status.target_temperature - TEMP_DELTA:
                 self.status.state = 'ready'
