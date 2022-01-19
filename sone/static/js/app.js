@@ -324,7 +324,7 @@ function setupSettings() {
         fetch(BaseUrl + '/reboot').then(console.log).catch(console.error)
     }
     document.getElementById("updateFirmware").onclick =() => {
-        fetch(BaseUrl + '/update').then(console.log).catch(console.error)
+        fetch(BaseUrl + '/upgrade').then(console.log).catch(console.error)
     }
 }
 
