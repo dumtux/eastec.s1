@@ -85,11 +85,11 @@ def device(cloud_url=None, host: str=LOCAL_HOST, port: int=LOCAL_PORT):
         except KeyboardInterrupt:
             logger.log("Stopping by the user.")
 
-    ws_app = Process(target = run_app)
+    app_proc = Process(target = run_app)
     ws_proc = Process(target = run_ws)
-    ws_app.start()
+    app_proc.start()
     ws_proc.start()
-    ws_app.join()
+    app_proc.join()
     ws_proc.join()
 
 
