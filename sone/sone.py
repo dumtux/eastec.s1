@@ -48,6 +48,8 @@ class SOne(Singleton):
     db: TinyDB = TinyDB(DB_FILE_PATH)
     schedules: List[Schedule] = []
 
+    initial_timer: int = 0
+
     kfive_update: Callable = lambda x: x
 
     pwm_dict: dict = None
@@ -72,6 +74,7 @@ class SOne(Singleton):
 
         if state == 'standby':
             self.status.state = state
+            await self.set_timer(self.initial_timer)
         elif state == 'heating':
             if self.status.state != 'standby':
                 raise HTTPException(
@@ -113,6 +116,9 @@ class SOne(Singleton):
         self.status.timer = timer
         await self._kfive_update(self.status, set_time=True)
         self._update_sysinfo()
+
+        self.initial_timer = timer
+
         return self.status
 
     async def set_target_temperature(self, temperature: int) -> Status:
