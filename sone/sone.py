@@ -35,8 +35,6 @@ from .utils import (
 )
 
 
-TEMPERATURE_DELTA = 2  # terperature delta between target and current
-
 logger = Logger.instance()
 uptime = time.time()
 
@@ -61,11 +59,11 @@ class SOne(Singleton):
         return self.status
 
     async def _check_heating(self) -> Status:
-        if self.status.state == 'heating' and self.status.current_temperature > self.status.target_temperature - TEMP_DELTA:
+        if self.status.state == 'heating' and abs(self.status.target_temperature - self.status.current_temperature) <= TEMP_DELTA:
             await self.set_state('ready')
         logger.log("check heating tick")
-        print('self.status.state, self.status.current_temperature, self.status.target_temperature - TEMP_DELTA')
-        print(self.status.state, self.status.current_temperature, self.status.target_temperature - TEMP_DELTA)
+        print('self.status.state, self.status.current_temperature, self.status.target_temperature')
+        print(self.status.state, self.status.current_temperature, self.status.target_temperature)
 
     async def set_state(self, state: str) -> Status:
         if state not in self.VALID_STATES:
@@ -80,14 +78,17 @@ class SOne(Singleton):
                 raise HTTPException(
                     status_code=422,
                     detail="'heating' state can be set only from 'standby' state.")
-            if abs(self.status.target_temperature - self.status.current_temperature) > TEMPERATURE_DELTA:
+            if abs(self.status.target_temperature - self.status.current_temperature) > TEMP_DELTA:
                 self.status.state = 'heating'
             else:
                 self.status.state = 'ready'
         elif state == 'ready':
-            raise HTTPException(
-                status_code=422,
-                detail="'ready' state can not be set manually.")
+            if abs(self.status.target_temperature - self.status.current_temperature) <= TEMP_DELTA:
+                self.status.state = 'ready'
+            else:
+                raise HTTPException(
+                    status_code=422,
+                    detail="'ready' state can not be set manually.")
         elif state == 'insession':
             if self.status.state != 'ready':
                 raise HTTPException(
