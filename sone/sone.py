@@ -63,7 +63,7 @@ class SOne(Singleton):
         return self.status
 
     async def _check_heating(self) -> Status:
-        if self.status.state == 'heating' and abs(self.status.target_temperature - self.status.current_temperature) <= TEMP_DELTA:
+        if self.status.state == 'heating' and self.status.current_temperature >= self.status.target_temperature - TEMP_DELTA:
             await self.set_state('ready')
 
     async def set_state(self, state: str) -> Status:
@@ -80,12 +80,12 @@ class SOne(Singleton):
                 raise HTTPException(
                     status_code=422,
                     detail="'heating' state can be set only from 'standby' state.")
-            if abs(self.status.target_temperature - self.status.current_temperature) > TEMP_DELTA:
+            if self.status.current_temperature >= self.status.target_temperature - TEMP_DELTA:
                 self.status.state = 'heating'
             else:
                 self.status.state = 'ready'
         elif state == 'ready':
-            if abs(self.status.target_temperature - self.status.current_temperature) <= TEMP_DELTA:
+            if self.status.current_temperature >= self.status.target_temperature - TEMP_DELTA:
                 self.status.state = 'ready'
             else:
                 raise HTTPException(
