@@ -111,7 +111,7 @@ class SOne(Singleton):
                     status_code=422,
                     detail="'ready' state can not be set manually.")
         elif state == 'insession':
-            if self.status.state != 'ready':
+            if self.status.state not in ['ready', 'paused']:
                 raise HTTPException(
                     status_code=422,
                     detail="'insession' state can be set only from 'ready' state.")
