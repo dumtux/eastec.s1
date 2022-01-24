@@ -24,97 +24,7 @@
         </div><!--/.container-->
     </nav><!--/.navbar-->
 
-    <div class="container">
-
-{% if sauna_id_list == [] %}
-        <div class="device-tab ">
-            <div id="device-content">
-                <div class="device-content message">
-                    <div class="device-info">
-                        <span class="device-name">No SOne device connected. Reload the page for refreshing.</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-{% endif %}
-{% for device_id in sauna_id_list %}
-        <div class="device-tab ">
-            <input id="device-{{ device_id }}" type="checkbox" class="device-input" name="device">
-            <label for="device-{{ device_id }}" class="device-label"></label>
-            <div class="device-content">
-                <div class="device-info">
-                    <div class="chart-pie normal-temp">
-                        <span class="chart-pie-count">{{ status_dict[device_id]['current_temperature'] }}</span>
-                        <div>
-                            <div class="first-fill"></div>
-                            <div class="second-fill" style="transform: rotate(% status_dict[device_id]['current_temperature'] / 100 * 360 %}deg)"></div>
-                        </div>
-                    </div>
-                    <span class="device-name">SOne {{ device_id }}</span>
-                </div>
-                <div class="device-stat">
-                    <div>
-                        <span class="state state-{{ status_dict[device_id]['state'] }}">{{ status_dict[device_id]['state'] }}</span>
-                    </div>
-                </div>
-            </div>
-            <div class="device-tab-content">
-                <div class="sentiment-wrapper">
-                    <div class="row">
-                        <div class="col-7">
-                            <div class="card">
-                                <div class="card-header">
-                                    Status in detail
-                                </div>
-                                <div class="card-body">
-                                    <!--p>Sauna ID: {{ status_dict[device_id] }}</p-->
-                                    <div>
-                                        Device ID: {{ device_id }}
-                                    </div>
-                                    <div>
-                                        Current Temperature: {{ status_dict[device_id]['current_temperature'] }} °C
-                                    </div>
-                                    <div>
-                                        Target Temperature: {{ status_dict[device_id]['target_temperature'] }} °C
-                                    </div>
-                                    <div>
-                                        Timer: {{ status_dict[device_id]['timer'] }}
-                                    </div>
-                                    <div>
-                                        Program Name: {{ status_dict[device_id]['program']['name'] }}
-                                    </div>
-                                    <div>
-                                        <br />
-                                    </div>
-                                    <div>
-                                        App Uptime: {{ status_dict[device_id]['sysinfo']['time_since_app_start'] }}
-                                    </div>
-                                    <div>
-                                        Device Uptime: {{ status_dict[device_id]['sysinfo']['time_since_sys_boot'] }}
-                                    </div>
-                                    <div>
-                                        Firmware Version: {{ status_dict[device_id]['sysinfo']['firmware_version'] }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-5">
-                            <div class="card">
-                                <div class="card-header">
-                                    Actions
-                                </div>
-                                <div class="card-body">
-                                    <button type="button" class="btn btn-primary btn-block" onclick="restartApp('{{device_id}}')">Restart Device App</button>
-                                    <button type="button" class="btn btn-primary btn-block" onclick="rebootOS('{{device_id}}')">Reboot Device Hardware</button>
-                                    <button type="button" class="btn btn-warning btn-block" onclick="updateFirmware('{{device_id}}')">Update Frimware</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-{% endfor %}
+    <div class="container" id="secured-container">
 
     </div><!--/.container-->
 
@@ -128,7 +38,22 @@ function rebootOS(device_id) {
 function updateFirmware(device_id) {
     fetch('/sauna/' + device_id + '/update').then(console.log).catch(console.error)
 }
-    </script>
+window.onload = () => {
+    let password = prompt("Dashboard access password")
+    fetch("/_login/" + password).then(res => {
+        return res.json()
+    }).then(data => {
+        if (data.authorized)
+            fetch("/_container").then(res => {
+                return res.text()
+            }).then(data => {
+                document.getElementById("secured-container").innerHTML = data
+            })
+        else
+            alert("Incorrect password, reload page to try again.")
+    })
+}
+</script>
 
 </body>
 </html>

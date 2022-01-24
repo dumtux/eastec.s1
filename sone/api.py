@@ -12,6 +12,7 @@ from httpx import AsyncClient
 from starlette.endpoints import WebSocketEndpoint
 
 from . import __title__, __version__
+from .conf import DASHBOARD_PASSWORD
 from .models import Schedule, Status, HTTPError, StateUpdate, TemperatureUpdate, TimerUpdate, Program
 from .auth import verify_token
 
@@ -29,8 +30,8 @@ app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 templates = Jinja2Templates(directory=str(STATIC_DIR / "template"))
 
 
-@app.get("/", response_class=HTMLResponse)
-async def home(request: Request):
+@app.get("/_container", response_class=HTMLResponse)
+async def home_container(request: Request):
     sauna_id_list = list(connections.keys())
     valid_sauna_id_list = []
     status_dict = dict()
@@ -41,8 +42,21 @@ async def home(request: Request):
                 valid_sauna_id_list.append(sauna_id)
                 status_dict[sauna_id] = res.json()
     return templates.TemplateResponse(
-        "index_cloud.html",
+        "container_cloud.html",
         {"request": request, "sauna_id_list": valid_sauna_id_list, "status_dict": status_dict})
+
+
+@app.get("/_login/{password}")
+async def login(password: str):
+    if password == DASHBOARD_PASSWORD:
+        return {"authorized": True}
+    else:
+        return {"authorized": False}
+
+
+@app.get("/", response_class=HTMLResponse)
+async def home(request: Request):
+    return templates.TemplateResponse("index_cloud.html", {"request": request})
 
 
 @app.websocket_route("/ws/{sauna_id}", name="ws")
