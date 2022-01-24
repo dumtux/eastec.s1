@@ -125,7 +125,7 @@ async def get_protected():
 
 
 @meta_router.get("/{sauna_id}/restart", dependencies=[Depends(verify_token)])
-async def restart(sauna_id: str, request: Request, dependencies=[Depends(verify_token)]):
+async def restart(sauna_id: str, request: Request):
     '''
     After this endpoint is called, the SOne systemd service is restarted.
     Thus, network connection is lost, and it returns error code 400 and message about the device network connection is lost.
@@ -163,7 +163,7 @@ async def upgrade(sauna_id: str, request: Request):
     return await tick_ws(sauna_id, request)
 
 
-@status_router.get("/{sauna_id}/status", response_model=Status, dependencies=[Depends(verify_token)])
+@status_router.get("/{sauna_id}/status", response_model=Status)  #  need protection, but used for dashboard info.
 async def get_status(sauna_id: str, request: Request):
     return await tick_ws(sauna_id, request)
 

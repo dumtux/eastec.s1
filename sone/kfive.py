@@ -2,7 +2,7 @@ import serial
 from serial.serialutil import SerialException
 
 from .utils import async_wrap
-from .conf import UART_EN_PIN, UART_BAUDRATE, UART_PORT
+from .conf import UART_EN_PIN, UART_BAUDRATE, UART_PORT, TEMP_DELTA
 from .models import Status
 from .singletone import Singleton
 from .utils import Logger, is_raspberry
@@ -84,7 +84,7 @@ class KFive(Singleton):
                 self.endbyte = 0x42
             elif status.state == 'heating' or status.state == 'insession':
                 self.pwr = True
-                self.heater = self.target_temperature > self.read_temperature
+                self.heater = self.target_temperature > self.read_temperature - TEMP_DELTA
                 self.endbyte = 0xC2 if self.heater else 0x02
 
         await self.write_uart(set_time=set_time, set_temp=set_temp)
