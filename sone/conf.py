@@ -9,7 +9,7 @@ if not os.path.exists(_CONF_PATH):
     os.mkdir(_CONF_PATH)
 
 TOKEN_FILE_PATH = _CONF_PATH / 'token'
-DB_FILE_PATH = _CONF_PATH / 'db.json'
+KV_FILE_PATH = str(_CONF_PATH / 'kv.vedis')
 UART_EN_PIN = 12
 UART_PORT = '/dev/serial0'
 UART_BAUDRATE = 4800

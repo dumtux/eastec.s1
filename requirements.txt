@@ -19,7 +19,7 @@ pywifi
 pytz
 qrcode
 requests
-tinydb
 typer
 uvicorn
+vedis
 websockets

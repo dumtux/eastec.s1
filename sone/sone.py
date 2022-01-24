@@ -11,12 +11,11 @@ from typing import Callable, List
 
 from async_timeout import timeout
 from fastapi import HTTPException
-from tinydb import TinyDB
 
-from sone.kfive import KFive
+from .kfive import KFive
 
 from .conf import (
-    DB_FILE_PATH,
+    KV_FILE_PATH,
     LED_R_1,
     LED_G_1,
     LED_B_1,
@@ -35,6 +34,7 @@ from .utils import (
     time_since_last_boot,
     sec_to_readable,
 )
+from .kvstore import KVStore, Vedis
 
 
 logger = Logger.instance()
@@ -47,7 +47,7 @@ class SOne(Singleton):
     sauna_id: str = get_sauna_id()
     model_name: str = get_sauna_name()
     status: Status = get_default_status()
-    db: TinyDB = TinyDB(DB_FILE_PATH)
+    db: KVStore = Vedis(KV_FILE_PATH)
     schedules: List[Schedule] = []
 
     initial_timer: int = 0

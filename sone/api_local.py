@@ -81,7 +81,10 @@ def get_wifi_networks():
 
 
 @meta_router.post("/wifi/connect")
-async def get_wifi_networks(wifi_profile: WiFiProfile):
+async def setup_wifi(wifi_profile: WiFiProfile):
+    sone.db.set("wifi-ssid", wifi_profile.ssid)
+    sone.db.set("wifi-key", wifi_profile.key)
+    sone.db.commit()
     return await connect_wifi(wifi_profile.ssid, wifi_profile.key)
 
 
