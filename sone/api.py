@@ -182,6 +182,16 @@ async def update_timer(sauna_id: str, update: TimerUpdate, request: Request):
     return await tick_ws(sauna_id, request)
 
 
+@control_router.put("/{sauna_id}/heaters", response_model=Status, dependencies=[Depends(verify_token)])
+async def update_heaters(sauna_id: str, update: TimerUpdate, request: Request):
+    return await tick_ws(sauna_id, request)
+
+
+@control_router.put("/{sauna_id}/lights", response_model=Status, dependencies=[Depends(verify_token)])
+async def update_lights(sauna_id: str, update: TimerUpdate, request: Request):
+    return await tick_ws(sauna_id, request)
+
+
 @scheduling_router.get(
     "/{sauna_id}/schedules",
     response_model=List[Schedule],
