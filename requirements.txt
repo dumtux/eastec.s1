@@ -17,7 +17,7 @@ python-dateutil
 pytz
 pywifi
 pytz
-qrcode[pil]
+qrcode
 requests
 tinydb
 typer
