@@ -65,12 +65,9 @@ def _img_to_base64(img) -> str:
 
 
 def get_sauna_id_qr() -> str:
-    try:
-        code = '%s-%s-%s' % (__name__, __version__, get_sauna_id())
-        img = qrcode.make(code)
-        return _img_to_base64(img)
-    except:
-        pass
+    code = '%s-%s-%s' % (__name__, __version__, get_sauna_id())
+    img = qrcode.make(code)
+    return _img_to_base64(img)
 
 
 def is_raspberry() -> bool:
