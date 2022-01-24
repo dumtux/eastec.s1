@@ -21,5 +21,8 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Install additional dependencies
+        run: pip install pillow
+
       - name: Run Test
         run: pytest
