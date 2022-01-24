@@ -23,7 +23,7 @@ from .models import (
     WiFiProfile
 )
 from .wifi import list_networks, connect_wifi, wifi_ip_addr
-from .utils import Logger, restart_app, reboot_os, upgrade_firmware
+from .utils import Logger, restart_app, reboot_os, upgrade_firmware, get_sauna_id_qr
 
 
 STATIC_DIR = pathlib.Path(__file__).parent / "static"
@@ -50,7 +50,7 @@ templates = Jinja2Templates(directory=str(STATIC_DIR / "template"))
 async def home(request: Request):
     return templates.TemplateResponse(
         "index_device.html",
-        {"request": request, "device_id": sone.sauna_id, "device_id_qr": sone.sauna_id_qr})
+        {"request": request, "device_id": sone.sauna_id, "device_id_qr": get_sauna_id_qr()})
 
 
 root_router = APIRouter(prefix="/sauna")
@@ -72,7 +72,7 @@ async def get_id():
 
 @meta_router.get("/qrcode")
 async def get_id_qrcode():
-    return sone.sauna_id_qr
+    return get_sauna_id_qr()
 
 
 @meta_router.get("/wifi/networks")

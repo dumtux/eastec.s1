@@ -30,7 +30,6 @@ from .singletone import Singleton
 from .utils import (
     Logger,
     get_sauna_id,
-    get_sauna_id_qr,
     get_sauna_name,
     get_default_status,
     time_since_last_boot,
@@ -46,7 +45,6 @@ class SOne(Singleton):
     VALID_STATES = ['standby', 'heating', 'ready', 'insession', 'paused']
 
     sauna_id: str = get_sauna_id()
-    sauna_id_qr: str = None
     model_name: str = get_sauna_name()
     status: Status = get_default_status()
     db: TinyDB = TinyDB(DB_FILE_PATH)
@@ -62,8 +60,6 @@ class SOne(Singleton):
         await self._kfive_update(self.status)
         self._update_sysinfo()
         await self._manage_status()
-        if self.sauna_id_qr is None:
-            self.sauna_id_qr = get_sauna_id_qr()
         return self.status
 
     async def _manage_status(self):
