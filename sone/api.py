@@ -37,7 +37,9 @@ async def home_container(request: Request):
     status_dict = dict()
     async with AsyncClient() as client:
         for sauna_id in sauna_id_list:
-            res = await client.get(f"{request.url}sauna/{sauna_id}/status")
+            _url = f"{request.url}sauna/{sauna_id}/status"
+            _url = _url.replace("_container", "")
+            res = await client.get(_url)
             if res.status_code < 300:
                 valid_sauna_id_list.append(sauna_id)
                 status_dict[sauna_id] = res.json()
