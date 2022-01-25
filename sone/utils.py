@@ -7,11 +7,6 @@ import time
 import uuid
 
 import psutil
-import qrcode
-try:
-    from qrcode.image.pil import PilImage
-except:
-    PilImage = None
 
 from . import __name__, __version__
 from .conf import DEFAULT_STATUS, TOKEN_FILE_PATH
@@ -55,21 +50,6 @@ def get_default_status() -> Status:
     return status
 
 
-def _img_to_base64(img) -> str:
-    buffered = BytesIO()
-    img.save(buffered, format="PNG")
-    buffered.seek(0)
-    img_byte = buffered.getvalue()
-    img_str = "data:image/png;base64," + base64.b64encode(img_byte).decode()
-    return img_str
-
-
-def get_sauna_id_qr() -> str:
-    code = '%s-%s-%s' % (__name__, __version__, get_sauna_id())
-    img = qrcode.make(code)
-    return _img_to_base64(img)
-
-
 def is_raspberry() -> bool:
     uname_result = os.uname()
     if uname_result.sysname != 'Linux':
@@ -92,9 +72,6 @@ def reboot_os():
 
 
 def upgrade_firmware():
-    # with open(TOKEN_FILE_PATH) as f:
-    #     token = f.read().strip()
-    # os.system(f"pip3 install --upgrade git+https://{token}@github.com/hotteshen/eastec.s1.git@release/1.0")
     os.system(f"pip3 install --upgrade git+https://gitlab.com/eastec/sone.git@release/1.0")
 
 

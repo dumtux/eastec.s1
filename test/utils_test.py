@@ -9,7 +9,6 @@ from sone.utils import (
     get_sauna_id,
     get_sauna_name,
     get_default_status,
-    get_sauna_id_qr,
     is_raspberry,
     time_since_last_boot,
     sec_to_readable
@@ -40,12 +39,6 @@ def test_get_default_status():
     status = get_default_status()
     assert isinstance(status, Status)
     assert status.sauna_id == get_sauna_id()
-
-
-def test_get_sauna_id_qr():
-    qr = get_sauna_id_qr()
-    assert type(qr) == str
-    assert 'base64' in qr
 
 
 def test_is_raspberry():

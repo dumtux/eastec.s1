@@ -4,7 +4,7 @@ from sone.api_local import app
 from sone.conf import DEFAULT_SCHEDULE, DEFAULT_STATUS
 from sone.models import Schedule
 from sone.sone import SOne
-from sone.utils import is_raspberry, get_sauna_id_qr
+from sone.utils import is_raspberry
 from sone.wifi import list_networks
 
 
@@ -21,12 +21,6 @@ def test_ping():
     assert response.status_code == 200
     assert 'sauna_id' in response.json().keys()
     assert 'model_name' in response.json().keys()
-
-
-def test_get_qrcode():
-    response = client.get("/sauna/qrcode")
-    assert response.status_code == 200
-    assert response.json() == get_sauna_id_qr()
 
 
 def test_get_wifi_list():

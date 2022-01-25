@@ -108,11 +108,4 @@ def device(cloud_url=None, host: str=LOCAL_HOST, port: int=LOCAL_PORT):
     ws_proc.join()
 
 
-@typer_app.command()
-def cloud(host: str=CLOUD_HOST, port: int=CLOUD_PORT):
-    'run cloud API server'
-    from . import api
-    uvicorn.run(api.app, host=host, port=port)
-
-
 typer_app()
