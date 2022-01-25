@@ -1,3 +1,4 @@
+import abc
 import asyncio
 import base64
 from functools import wraps, partial
@@ -5,14 +6,40 @@ from io import BytesIO
 import os
 import time
 import uuid
-
 import psutil
+import typer
+import vedis
 
 from . import __name__, __version__
 from .conf import DEFAULT_STATUS, TOKEN_FILE_PATH
 from .models import Status
 from .singletone import Singleton
-import typer
+
+
+class KVStore():
+
+    '''For Vedis embedded key-value store'''
+
+    def __init__(self, fpath):
+        self._engine = vedis.Vedis(fpath)
+
+    def exists(self, key: str) -> bool:
+        return self._engine.exists(key)
+
+    def get(self, key: str) -> str:
+        return self._engine.get(key).decode()
+
+    def set(self, key: str, value: str) -> str:
+        self._engine.set(key, value)
+        return value
+
+    def pop(self, key: str) -> str:
+        value = self.get(key)
+        self._engine.delete(key)
+        return value
+
+    def commit(self):
+        self._engine.commit()
 
 
 class Logger(Singleton):

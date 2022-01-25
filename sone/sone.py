@@ -27,6 +27,7 @@ from .conf import (
 from .models import Heater, Light, Status, Schedule, Program
 from .singletone import Singleton
 from .utils import (
+    KVStore,
     Logger,
     get_sauna_id,
     get_sauna_name,
@@ -34,7 +35,6 @@ from .utils import (
     time_since_last_boot,
     sec_to_readable,
 )
-from .kvstore import KVStore, Vedis
 
 
 logger = Logger.instance()
@@ -47,7 +47,7 @@ class SOne(Singleton):
     sauna_id: str = get_sauna_id()
     model_name: str = get_sauna_name()
     status: Status = get_default_status()
-    db: KVStore = Vedis(KV_FILE_PATH)
+    db: KVStore = KVStore(KV_FILE_PATH)
     schedules: List[Schedule] = []
 
     initial_timer: int = 0
