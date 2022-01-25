@@ -1,6 +1,6 @@
 from fastapi.testclient import TestClient
 
-from sone.api_local import app
+from sone.app import app
 from sone.conf import DEFAULT_SCHEDULE, DEFAULT_STATUS
 from sone.models import Schedule
 from sone.sone import SOne

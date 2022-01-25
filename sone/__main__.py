@@ -72,7 +72,7 @@ async def loop_ws_client(cloud_url: str, local_url: str):
 @typer_app.command()
 def device(cloud_url=None, host: str=LOCAL_HOST, port: int=LOCAL_PORT):
     'run local API server'
-    from . import api_local
+    from . import app
 
     if cloud_url is None:
         cloud_url = f"http://{CLOUD_HOST}:{CLOUD_PORT}"
