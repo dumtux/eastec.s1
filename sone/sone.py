@@ -3,6 +3,9 @@ try:
 except:
     # for Python 3.7 of Raspberry OS
     from concurrent.futures._base import TimeoutError
+import datetime
+import dateutil.parser
+import pytz
 import time
 from typing import Callable, List
 
@@ -20,6 +23,7 @@ from .conf import (
     LED_R_2,
     LED_G_2,
     LED_B_2,
+    TEMP_DELTA,
 )
 from .models import Heater, Light, Status, Schedule, Program
 from .singletone import Singleton
@@ -34,10 +38,9 @@ from .utils import (
 )
 
 
-TEMPERATURE_DELTA = 2  # terperature delta between target and current
-
 logger = Logger.instance()
 uptime = time.time()
+
 
 class SOne(Singleton):
     VALID_STATES = ['standby', 'heating', 'ready', 'insession', 'paused']
@@ -49,6 +52,8 @@ class SOne(Singleton):
     db: TinyDB = TinyDB(DB_FILE_PATH)
     schedules: List[Schedule] = []
 
+    initial_timer: int = 0
+
     kfive_update: Callable = lambda x: x
 
     pwm_dict: dict = None
@@ -56,7 +61,31 @@ class SOne(Singleton):
     async def get_status(self) -> Status:
         await self._kfive_update(self.status)
         self._update_sysinfo()
+        await self._manage_status()
         return self.status
+
+    async def _manage_status(self):
+        # transite to 'ready' state if the current temperature reaches to target temperature
+        if self.status.state == 'heating' and self.status.current_temperature >= self.status.target_temperature - TEMP_DELTA:
+            await self.set_state('ready')
+
+        # hold timer value during 'heating' state
+        if self.status.state == 'heating':
+            await self._kfive_update(self.status, set_time=True)
+
+        # check schedule and activate if now iw over first-fire-time
+        if self.status.state == 'standby':
+            for i in range(len(self.schedules)):
+                schedule = self.schedules[i]
+                firetime = dateutil.parser.parse(schedule.first_fire_time)
+                now = pytz.UTC.localize(datetime.datetime.now())
+                if firetime <= now:
+                    logger.log("starting a scheduled program.")
+                    await self.set_program(schedule.program)
+                    await self.set_state('heating')
+                    self.schedules.pop(i)
+                    logger.log(f"Schdule <{schedule.id}> has removed after starting.")
+                    break
 
     async def set_state(self, state: str) -> Status:
         if state not in self.VALID_STATES:
@@ -66,19 +95,23 @@ class SOne(Singleton):
 
         if state == 'standby':
             self.status.state = state
+            await self.set_timer(self.initial_timer)
         elif state == 'heating':
             if self.status.state != 'standby':
                 raise HTTPException(
                     status_code=422,
                     detail="'heating' state can be set only from 'standby' state.")
-            if abs(self.status.target_temperature - self.status.current_temperature) > TEMPERATURE_DELTA:
-                self.status.state = 'heating'
-            else:
+            if self.status.current_temperature >= self.status.target_temperature - TEMP_DELTA:
                 self.status.state = 'ready'
+            else:
+                self.status.state = 'heating'
         elif state == 'ready':
-            raise HTTPException(
-                status_code=422,
-                detail="'ready' state can not be set manually.")
+            if self.status.current_temperature >= self.status.target_temperature - TEMP_DELTA:
+                self.status.state = 'ready'
+            else:
+                raise HTTPException(
+                    status_code=422,
+                    detail="'ready' state can not be set manually.")
         elif state == 'insession':
             if self.status.state != 'ready':
                 raise HTTPException(
@@ -90,7 +123,7 @@ class SOne(Singleton):
                 raise HTTPException(
                     status_code=422,
                     detail="'paused' state can be set only from 'insession' state.")
-            self.status.state = 'insession'
+            self.status.state = 'paused'
 
         await self._kfive_update(self.status)
         self._update_sysinfo()
@@ -104,6 +137,9 @@ class SOne(Singleton):
         self.status.timer = timer
         await self._kfive_update(self.status, set_time=True)
         self._update_sysinfo()
+
+        self.initial_timer = timer
+
         return self.status
 
     async def set_target_temperature(self, temperature: int) -> Status:

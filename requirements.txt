@@ -13,7 +13,10 @@ pyserial
 pytest
 pytest-asyncio
 pytest-mock
+python-dateutil
+pytz
 pywifi
+pytz
 qrcode[pil]
 requests
 tinydb
