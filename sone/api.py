@@ -13,7 +13,7 @@ from starlette.endpoints import WebSocketEndpoint
 
 from . import __title__, __version__
 from .conf import DASHBOARD_PASSWORD
-from .models import Schedule, Status, HTTPError, StateUpdate, TemperatureUpdate, TimerUpdate, Program
+from .models import Schedule, Status, HTTPError, StateUpdate, TemperatureUpdate, TimerUpdate, Program, APNModel
 from .auth import verify_token
 
 
@@ -179,9 +179,20 @@ async def upgrade(sauna_id: str, request: Request):
     return await tick_ws(sauna_id, request)
 
 
+@meta_router.get("/{sauna_id}/apn", response_model=APNModel)
+async def get(sauna_id: str, request: Request):
+    return await tick_ws(sauna_id, request)
+
+
+@meta_router.post("/{sauna_id}/apn", response_model=APNModel)
+async def post_apn(sauna_id: str, apn: APNModel, request: Request):
+    return await tick_ws(sauna_id, request)
+
+
 @status_router.get("/{sauna_id}/status", response_model=Status)  #  need protection, but used for dashboard info.
 async def get_status(sauna_id: str, request: Request):
     return await tick_ws(sauna_id, request)
+
 
 @control_router.put("/{sauna_id}/state", response_model=Status, dependencies=[Depends(verify_token)])
 async def update_state(sauna_id: str, update: StateUpdate, request: Request):

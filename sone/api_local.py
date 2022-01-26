@@ -20,7 +20,8 @@ from .models import (
     TemperatureUpdate,
     TimerUpdate,
     Program,
-    WiFiProfile
+    WiFiProfile,
+    APNModel
 )
 from .wifi import list_networks, connect_wifi, wifi_ip_addr
 from .utils import Logger, restart_app, reboot_os, upgrade_firmware, get_sauna_id_qr
@@ -113,6 +114,21 @@ async def upgrade(sauna_id: str):
     return {
         "detail": f"Firmware of {sauna_id} upgraded, reboot the device to run the upgraded firmware."
     }
+
+
+@meta_router.get("/{sauna_id}/apn", response_model=APNModel)
+async def get(sauna_id: str):
+    if sone.db.exists("apn"):
+        return APNModel(apn=sone.db.get("apn"))
+    else:
+        raise HTTPException(status_code=404, detail="APN not resistered")
+
+
+@meta_router.post("/{sauna_id}/apn", response_model=APNModel)
+async def post_apn(sauna_id: str, apn: APNModel):
+    sone.db.set("apn", apn.apn)
+    sone.db.commit()
+    return apn
 
 
 @status_router.get("/{sauna_id}/status", response_model=Status)

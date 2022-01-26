@@ -38,6 +38,25 @@ def test_get_wifi_list():
         assert response.status_code == 422
 
 
+def test_get_apn():
+    response = client.get("/sauna/ping")
+    sauna_id = response.json().get("sauna_id")
+
+    response = client.get("/sauna/%s/apn" % sauna_id)
+    if SOne.instance().db.exists("apn"):
+        assert response.status_code == 200
+    else:
+        assert response.status_code == 404
+
+    response = client.post("/sauna/%s/apn" % sauna_id, json={"apn": "APNSTRING"})
+    assert response.status_code == 200
+    assert response.json() == {"apn": "APNSTRING"}
+
+    response = client.get("/sauna/%s/apn" % sauna_id)
+    assert response.status_code == 200
+    assert response.json() == {"apn": "APNSTRING"}
+
+
 def test_get_status():
     response = client.get("/sauna/fake_sauna_id/status")
     assert response.status_code == 404
