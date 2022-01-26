@@ -791,3 +791,7 @@ to { transform: rotate(360deg); }
 .dark-mode .modal-content {
     background-color: #37434F;
 }
+
+.dark-mode .list-group-item {
+    background-color: #37434F;
+}
