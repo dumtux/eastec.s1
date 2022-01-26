@@ -12,7 +12,8 @@ from httpx import AsyncClient
 from starlette.endpoints import WebSocketEndpoint
 
 from . import __title__, __version__
-from .models import Schedule, Status, HTTPError, StateUpdate, TemperatureUpdate, TimerUpdate, Program
+from .conf import DASHBOARD_PASSWORD
+from .models import Schedule, Status, HTTPError, StateUpdate, TemperatureUpdate, TimerUpdate, Program, APNModel
 from .auth import verify_token
 
 
@@ -29,20 +30,35 @@ app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 templates = Jinja2Templates(directory=str(STATIC_DIR / "template"))
 
 
-@app.get("/", response_class=HTMLResponse)
-async def home(request: Request):
+@app.get("/_container", response_class=HTMLResponse)
+async def home_container(request: Request):
     sauna_id_list = list(connections.keys())
     valid_sauna_id_list = []
     status_dict = dict()
     async with AsyncClient() as client:
         for sauna_id in sauna_id_list:
-            res = await client.get(f"{request.url}sauna/{sauna_id}/status")
+            _url = f"{request.url}sauna/{sauna_id}/status"
+            _url = _url.replace("_container", "")
+            res = await client.get(_url)
             if res.status_code < 300:
                 valid_sauna_id_list.append(sauna_id)
                 status_dict[sauna_id] = res.json()
     return templates.TemplateResponse(
-        "index_cloud.html",
+        "container_cloud.html",
         {"request": request, "sauna_id_list": valid_sauna_id_list, "status_dict": status_dict})
+
+
+@app.get("/_login/{password}")
+async def login(password: str):
+    if password == DASHBOARD_PASSWORD:
+        return {"authorized": True}
+    else:
+        return {"authorized": False}
+
+
+@app.get("/", response_class=HTMLResponse)
+async def home(request: Request):
+    return templates.TemplateResponse("index_cloud.html", {"request": request})
 
 
 @app.websocket_route("/ws/{sauna_id}", name="ws")
@@ -163,9 +179,20 @@ async def upgrade(sauna_id: str, request: Request):
     return await tick_ws(sauna_id, request)
 
 
+@meta_router.get("/{sauna_id}/apn", response_model=APNModel)
+async def get(sauna_id: str, request: Request):
+    return await tick_ws(sauna_id, request)
+
+
+@meta_router.post("/{sauna_id}/apn", response_model=APNModel)
+async def post_apn(sauna_id: str, apn: APNModel, request: Request):
+    return await tick_ws(sauna_id, request)
+
+
 @status_router.get("/{sauna_id}/status", response_model=Status)  #  need protection, but used for dashboard info.
 async def get_status(sauna_id: str, request: Request):
     return await tick_ws(sauna_id, request)
+
 
 @control_router.put("/{sauna_id}/state", response_model=Status, dependencies=[Depends(verify_token)])
 async def update_state(sauna_id: str, update: StateUpdate, request: Request):
@@ -179,6 +206,16 @@ async def update_target_temperature(sauna_id: str, update: TemperatureUpdate, re
 
 @control_router.put("/{sauna_id}/timer", response_model=Status, dependencies=[Depends(verify_token)])
 async def update_timer(sauna_id: str, update: TimerUpdate, request: Request):
+    return await tick_ws(sauna_id, request)
+
+
+@control_router.put("/{sauna_id}/heaters", response_model=Status, dependencies=[Depends(verify_token)])
+async def update_heaters(sauna_id: str, update: TimerUpdate, request: Request):
+    return await tick_ws(sauna_id, request)
+
+
+@control_router.put("/{sauna_id}/lights", response_model=Status, dependencies=[Depends(verify_token)])
+async def update_lights(sauna_id: str, update: TimerUpdate, request: Request):
     return await tick_ws(sauna_id, request)
 
 

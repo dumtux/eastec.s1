@@ -7,6 +7,7 @@ gunicorn
 httpx
 jinja2
 netifaces
+pillow
 psutil
 pyjwt
 pyserial
@@ -19,7 +20,7 @@ pywifi
 pytz
 qrcode[pil]
 requests
-tinydb
 typer
 uvicorn
+vedis
 websockets

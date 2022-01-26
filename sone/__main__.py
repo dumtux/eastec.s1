@@ -8,6 +8,7 @@ except:
     # for Python 3.7 of Raspberry OS
     from concurrent.futures._base import TimeoutError
 
+from fastapi import HTTPException
 import httpx
 import typer
 import uvicorn
@@ -17,6 +18,7 @@ from .conf import TEMP_DELTA
 from .kfive import KFive
 from .sone import SOne
 from .utils import Logger, get_sauna_id
+from .wifi import connect_wifi
 
 
 LOCAL_HOST = '0.0.0.0'
@@ -80,6 +82,16 @@ def device(cloud_url=None, host: str=LOCAL_HOST, port: int=LOCAL_PORT):
         KFive.instance().init_uart()
         from .io import init_gpio
         init_gpio()
+
+        if SOne.instance().db.exists("wifi-ssid"):
+            ssid = SOne.instance().db.get("wifi-ssid")
+            key = SOne.instance().db.get("wifi-key")
+            logger.log(f"Found wifi credentials for [{ssid}]")
+            try:
+                asyncio.run(connect_wifi(ssid, key))
+            except:
+                pass
+
         uvicorn.run(api_local.app, host=host, port=port)
 
     def run_ws():

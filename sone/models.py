@@ -145,3 +145,7 @@ class SaunaID(BaseModel):
 class WiFiProfile(BaseModel):
     ssid: str
     key: str
+
+
+class APNModel(BaseModel):
+    apn: str

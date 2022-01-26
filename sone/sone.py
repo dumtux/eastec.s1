@@ -11,12 +11,11 @@ from typing import Callable, List
 
 from async_timeout import timeout
 from fastapi import HTTPException
-from tinydb import TinyDB
 
-from sone.kfive import KFive
+from .kfive import KFive
 
 from .conf import (
-    DB_FILE_PATH,
+    KV_FILE_PATH,
     LED_R_1,
     LED_G_1,
     LED_B_1,
@@ -30,12 +29,12 @@ from .singletone import Singleton
 from .utils import (
     Logger,
     get_sauna_id,
-    get_sauna_id_qr,
     get_sauna_name,
     get_default_status,
     time_since_last_boot,
     sec_to_readable,
 )
+from .kvstore import KVStore, Vedis
 
 
 logger = Logger.instance()
@@ -46,10 +45,9 @@ class SOne(Singleton):
     VALID_STATES = ['standby', 'heating', 'ready', 'insession', 'paused']
 
     sauna_id: str = get_sauna_id()
-    sauna_id_qr: str = get_sauna_id_qr()
     model_name: str = get_sauna_name()
     status: Status = get_default_status()
-    db: TinyDB = TinyDB(DB_FILE_PATH)
+    db: KVStore = Vedis(KV_FILE_PATH)
     schedules: List[Schedule] = []
 
     initial_timer: int = 0
@@ -113,7 +111,7 @@ class SOne(Singleton):
                     status_code=422,
                     detail="'ready' state can not be set manually.")
         elif state == 'insession':
-            if self.status.state != 'ready':
+            if self.status.state not in ['ready', 'paused']:
                 raise HTTPException(
                     status_code=422,
                     detail="'insession' state can be set only from 'ready' state.")

@@ -4,7 +4,7 @@ from sone.api_local import app
 from sone.conf import DEFAULT_SCHEDULE, DEFAULT_STATUS
 from sone.models import Schedule
 from sone.sone import SOne
-from sone.utils import is_raspberry
+from sone.utils import is_raspberry, get_sauna_id_qr
 from sone.wifi import list_networks
 
 
@@ -26,7 +26,7 @@ def test_ping():
 def test_get_qrcode():
     response = client.get("/sauna/qrcode")
     assert response.status_code == 200
-    assert SOne.instance().sauna_id_qr == response.json()
+    assert response.json() == get_sauna_id_qr()
 
 
 def test_get_wifi_list():
@@ -36,6 +36,25 @@ def test_get_wifi_list():
         assert list_networks() == response.json()
     else:
         assert response.status_code == 422
+
+
+def test_get_apn():
+    response = client.get("/sauna/ping")
+    sauna_id = response.json().get("sauna_id")
+
+    response = client.get("/sauna/%s/apn" % sauna_id)
+    if SOne.instance().db.exists("apn"):
+        assert response.status_code == 200
+    else:
+        assert response.status_code == 404
+
+    response = client.post("/sauna/%s/apn" % sauna_id, json={"apn": "APNSTRING"})
+    assert response.status_code == 200
+    assert response.json() == {"apn": "APNSTRING"}
+
+    response = client.get("/sauna/%s/apn" % sauna_id)
+    assert response.status_code == 200
+    assert response.json() == {"apn": "APNSTRING"}
 
 
 def test_get_status():
