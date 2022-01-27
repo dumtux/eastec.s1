@@ -795,3 +795,19 @@ to { transform: rotate(360deg); }
 .dark-mode .list-group-item {
     background-color: #37434F;
 }
+
+
+/* keyboard css */
+.ui-keyboard {
+    font-size: 22px !important;
+}
+
+.dark-mode .ui-keyboard {
+    background-color: #37434F !important;
+    border-color: #37434F !important;
+}
+
+.dark-mode .ui-keyboard .ui-keyboard-button {
+    color: white !important;
+    background-image: linear-gradient(-90deg, #151515 0%, #1c1e23 100%) !important;
+}
