@@ -19,10 +19,12 @@ async def test_set_state(mocker):
     assert so.status.state == 'standby'
 
     spy = mocker.spy(so, 'kfive_update')
+    spy2 = mocker.spy(so, '_push_state')
 
     await so.set_state('heating')
     assert so.status.state =='heating'
     spy.assert_called_once()
+    spy2.assert_called_once()
 
     await so.set_state('standby')
     assert so.status.state =='standby'

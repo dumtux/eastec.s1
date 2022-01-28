@@ -125,11 +125,14 @@ class SOne(Singleton):
 
         await self._kfive_update(self.status)
         self._update_sysinfo()
+
+        self._push_state()
+
         return self.status
 
     def _push_state(self):
-        if sone.db.exists("apn"):
-            apn=sone.db.get("apn")
+        if self.db.exists("apn"):
+            apn=self.db.get("apn")
         else:
             logger.warn("APN Token not found, skipped pushing notification for state change.")
             return
