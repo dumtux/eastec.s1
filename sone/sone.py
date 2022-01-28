@@ -12,8 +12,6 @@ from typing import Callable, List
 from async_timeout import timeout
 from fastapi import HTTPException
 
-from .kfive import KFive
-
 from .conf import (
     KV_FILE_PATH,
     LED_R_1,
@@ -24,7 +22,9 @@ from .conf import (
     LED_B_2,
     TEMP_DELTA,
 )
+from .kfive import KFive
 from .models import Heater, Light, Status, Schedule, Program
+from .push import push
 from .singletone import Singleton
 from .utils import (
     Logger,
@@ -126,6 +126,15 @@ class SOne(Singleton):
         await self._kfive_update(self.status)
         self._update_sysinfo()
         return self.status
+
+    def _push_state(self):
+        if sone.db.exists("apn"):
+            apn=sone.db.get("apn")
+        else:
+            logger.warn("APN Token not found, skipped pushing notification for state change.")
+            return
+        data = { "aps" : { "alert" : { "title" : "Found–Space Sauna", "body" : f"Your sauna session is {self.status.state}", }, "badge" : 0 } }
+        push(apn, data)
 
     async def set_timer(self, timer: int) -> Status:
         if timer > 90 or timer < 0:

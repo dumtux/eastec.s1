@@ -16,6 +16,23 @@ UART_BAUDRATE = 4800
 
 DASHBOARD_PASSWORD = "PASSWORD"
 
+PUSH_TEAMID="6KUC472N2V"
+PUSH_KEYID="2YVY9SX98C"
+PUSH_BUNDLEID="com.healtech.foundspace"
+PUSH_ENDPOINT_DEV="https://api.sandbox.push.apple.com:443"
+PUSH_ENDPOINT_PROD="https://api.push.apple.com:443"
+PUSH_URLPATH="/3/device/"
+try:
+    with open(_CONF_PATH / 'found-space-push-key.p8') as fp:
+        PUSH_SECRET_KEY = fp.read()
+except FileNotFoundError:
+    PUSH_SECRET_KEY = """-----BEGIN PRIVATE KEY-----
+................................................................
+................................................................
+................................................................
+........
+-----END PRIVATE KEY-----"""
+
 TEMP_DELTA = 3
 
 REED_IN = 27
