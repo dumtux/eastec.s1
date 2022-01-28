@@ -41,11 +41,11 @@ def push(token: str, data: dict) -> None:
     jwt = f"{header}.{claims}.{sign}"
 
     headers = dict()
-    headers["Authorization"] = "Bearer {jwt}"
-    headers["apns-topic"] = BUNDLEID
+    headers["Authorization"] = f"Bearer {jwt}"
+    headers["apns-topic"] = PUSH_BUNDLEID
     headers["Content-Type"] = "application/x-www-form-urlencoded"
 
     payload = data.replace('"', '\\"')
-    cmd = f'curl -v --http2 --header "authorization: bearer {jwt}" --header "apns-topic: {BUNDLEID}" --data "{payload}" {url}'
+    cmd = f'curl -v --http2 --header "authorization: bearer {jwt}" --header "apns-topic: {PUSH_BUNDLEID}" --data "{payload}" {url_dev}'
     Logger.instance().log(cmd)
     os.system(cmd)
