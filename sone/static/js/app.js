@@ -453,11 +453,11 @@ $("#connect").on("click", function(){
   .then(response => response.json())
   .then(data => {
     console.log(data)
-    alert(data);
+    alert("Connection Success");
     $("#wifiModal").modal("hide");
   })
   .catch((error) => {
-    alert(data);
+    alert("Connection Fail");
     console.error('Error:', error);
     $("#wifiModal").modal("hide");
   });
@@ -467,6 +467,9 @@ $("#connect").on("click", function(){
 $(function(){
     $('.wifi-key').keyboard({
     // options here
+      usePreview: false,
+      // useCombos: false,
+      autoAccept: true,
   });
 });
 
