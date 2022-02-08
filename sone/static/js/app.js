@@ -440,6 +440,8 @@ $(document).on("click", "#wifiList .wifi-item", function(){
 $("#connect").on("click", function(){
   var ssid = $("#wifiModal .wifi-name").text();
   var key = $("#wifiModal .wifi-key").val();
+  sessionStorage.setItem('ssid', ssid);
+  sessionStorage.setItem('key', key);
   var post_data = {};
   post_data['ssid'] = ssid;
   post_data['key'] = key;
@@ -453,11 +455,11 @@ $("#connect").on("click", function(){
   .then(response => response.json())
   .then(data => {
     console.log(data)
-    alert("Connection Success");
+    alert("Connection Succcess");
     $("#wifiModal").modal("hide");
   })
   .catch((error) => {
-    alert("Connection Fail");
+    alert("Connection Failed");
     console.error('Error:', error);
     $("#wifiModal").modal("hide");
   });
@@ -467,9 +469,9 @@ $("#connect").on("click", function(){
 $(function(){
     $('.wifi-key').keyboard({
     // options here
-      usePreview: false,
-      // useCombos: false,
-      autoAccept: true,
+    usePreview: false,
+    // useCombos: false,
+    autoAccept: true,
   });
 });
 
@@ -481,6 +483,41 @@ $(document).ready(function(){
   } else {
     $("body").removeClass("dark-mode");
   }
+  setInterval(function () {  
+    fetch('/sauna/wifi/status', {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if(data){
+        console.log(data)
+        $("#connected").show()
+        $('#disconnected').hide()
+      }
+      else {
+        $("#connected").hide()
+        $('#disconnected').show()
+        var post_data = {};
+        post_data['ssid'] = sessionStorage.getItem('ssid');;
+        post_data['key'] = sessionStorage.getItem('key');;
+        if (post_data['ssid'] != null && post_data['key'] != null){
+          fetch('/sauna/wifi/connect', {
+            method: "POST",
+            body: JSON.stringify(post_data),
+            headers: {
+              "Content-type": "application/json; charset=UTF-8"
+            }
+          })
+          .catch((error) => {
+          console.error('Error:', error);
+          });
+        }
+      }
+    })
+  }, 5000);
 });
 
 $("#switchColorMode").on("change", function(){

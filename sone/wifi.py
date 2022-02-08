@@ -73,3 +73,13 @@ def wifi_ip_addr() -> str:
         raise HTTPException(status_code=422, detail=NO_WIFI_DEVICE_DESC)
     except KeyError:
         raise HTTPException(status_code=400, detail=f"No IP address allocated to 'wlan0'.")
+
+
+async def connect_status() -> bool:
+    if interface == None:
+        raise HTTPException(status_code=422, detail=NO_WIFI_DEVICE_DESC)
+
+    if interface.status() == const.IFACE_CONNECTED:
+        return True
+    else:
+        return False

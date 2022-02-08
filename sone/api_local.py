@@ -23,7 +23,7 @@ from .models import (
     WiFiProfile,
     APNModel
 )
-from .wifi import list_networks, connect_wifi, wifi_ip_addr
+from .wifi import list_networks, connect_wifi, wifi_ip_addr, connect_status
 from .utils import Logger, restart_app, reboot_os, upgrade_firmware, get_sauna_id_qr
 
 
@@ -88,6 +88,9 @@ async def setup_wifi(wifi_profile: WiFiProfile):
     sone.db.commit()
     return await connect_wifi(wifi_profile.ssid, wifi_profile.key)
 
+@meta_router.get("/wifi/status")
+async def status_wifi():
+    return await connect_status()
 
 @meta_router.get("/wifi/ip")
 async def get_wifi_ip():
