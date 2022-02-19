@@ -811,3 +811,36 @@ to { transform: rotate(360deg); }
     color: white !important;
     background-image: linear-gradient(-90deg, #151515 0%, #1c1e23 100%) !important;
 }
+
+#firmware_loading {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: 0.6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+}
+
+#firmware_loading div {
+    width: 10rem;
+    height: 10rem;
+    border: 7px solid #f3f3f3;
+    border-top: 6px solid #9c41f2;
+    border-radius: 100%;
+    margin: auto;
+    animation: spin 1s infinite linear;
+}
+#firmware_loading.display {
+    visibility: visible;
+}
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

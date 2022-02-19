@@ -316,6 +316,20 @@ function RGBToHex(r,g,b) {
   return "#" + r + g + b;
 }
 
+
+
+
+// showing loading
+function displayLoading() {
+  const loader = document.querySelector("#firmware_loading");
+  loader.classList.add("display");
+}
+
+function hideLoading() {
+  const loader = document.querySelector("#firmware_loading");
+  loader.classList.remove("display");
+}
+
 function setupSettings() {
     document.getElementById("restartApp").onclick =() => {
         fetch(BaseUrl + '/restart').then(console.log).catch(console.error)
@@ -324,7 +338,24 @@ function setupSettings() {
         fetch(BaseUrl + '/reboot').then(console.log).catch(console.error)
     }
     document.getElementById("updateFirmware").onclick =() => {
-        fetch(BaseUrl + '/upgrade').then(console.log).catch(console.error)
+        //fetch(BaseUrl + '/upgrade').then(console.log).catch(console.error)
+        displayLoading()
+        fetch(BaseUrl + '/upgrade')
+        .then(result=>{
+          console.log(result)
+          hideLoading();
+          if (confirm('Firmware have upgraded to version 1.0. It require reboot device.')) {
+            displayLoading()
+            fetch(BaseUrl + '/reboot').then(result=>{
+              console.log
+              hideLoading();
+            }).catch(console.error)
+          };
+        }).catch(error=>{
+          console.log(error)
+          hideLoading();
+          alert('Firmware upgrading failed');
+        })
     }
 }
 
