@@ -77,6 +77,7 @@ def wifi_ip_addr() -> str:
 
 async def connect_status() -> bool:
     if interface == None:
+        return False
         raise HTTPException(status_code=422, detail=NO_WIFI_DEVICE_DESC)
 
     if interface.status() == const.IFACE_CONNECTED:

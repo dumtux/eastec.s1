@@ -359,9 +359,22 @@ function setupSettings() {
     }
 }
 
+
+$(function(){
+  // $(".page-title").editable("save.php")
+
+    $('.page-title').keyboard({
+    // options here
+    usePreview: false,
+    // useCombos: false,
+    autoAccept: true,
+  });
+});
+
 $(document).ready(function(){
   _getStatus();
   setupSettings();
+  //editable_title();
   setTimeout(function(){$("#loading").addClass("d-none");}, 1500);
   setInterval(() => {
     _getStatus();
