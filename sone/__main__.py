@@ -10,6 +10,7 @@ except:
 
 from fastapi import HTTPException
 import httpx
+import time
 import typer
 import uvicorn
 import websockets
@@ -20,6 +21,7 @@ from .kfive import KFive
 from .sone import SOne
 from .utils import Logger, get_sauna_id, is_raspberry
 from .wifi import connect_wifi
+from .wifi import _connect_status as connect_status
 
 
 LOCAL_HOST = '0.0.0.0'
@@ -84,15 +86,6 @@ def device(cloud_url=None, host: str=LOCAL_HOST, port: int=LOCAL_PORT):
         from .io import init_gpio
         init_gpio()
 
-        if SOne.instance().db.exists("wifi-ssid"):
-            ssid = SOne.instance().db.get("wifi-ssid")
-            key = SOne.instance().db.get("wifi-key")
-            logger.log(f"Found wifi credentials for [{ssid}]")
-            try:
-                asyncio.run(connect_wifi(ssid, key))
-            except:
-                pass
-
         uvicorn.run(api_local.app, host=host, port=port)
 
     def run_ws():
@@ -101,20 +94,46 @@ def device(cloud_url=None, host: str=LOCAL_HOST, port: int=LOCAL_PORT):
         except KeyboardInterrupt:
             logger.log("Stopping by the user.")
 
+    def run_wificonnect() -> bool:
+        while True:
+            logger.log("Checking Wifi status ...")
+            if connect_status():
+                logger.log("Wifi is connected.")
+                time.sleep(300)
+            elif SOne.instance().db.exists("wifi-ssid"):
+                logger.warn("Wifi is not connected. Trying to connect with the saved credentials ...")
+                ssid = SOne.instance().db.get("wifi-ssid")
+                key = SOne.instance().db.get("wifi-key")
+                logger.log(f"Found wifi credentials for [{ssid}]")
+                try:
+                    result = asyncio.run(connect_wifi(ssid, key))
+                    if result:
+                        logger.log(f"Wifi is connected on <{ssid}>.")
+                    else:
+                        logger.error(f"Wifi failed to connect on <{ssid}>.")
+                except:
+                    logger.error(f"Wifi failed to connect on <{ssid}>.")
+            else:
+                logger.warn("Wifi is not connected. No saved credentials found. Connect on settings panel UI.")
+
+
     app_proc = Process(target = run_app)
     ws_proc = Process(target = run_ws)
     if is_raspberry():
         a2dp_proc = Process(target = a2dp_agent_mainloop)
+        wifi_proc = Process(target = run_wificonnect)
 
     app_proc.start()
     ws_proc.start()
     if is_raspberry():
         a2dp_proc.start()
+        wifi_proc.start()
 
     app_proc.join()
     ws_proc.join()
     if is_raspberry():
         a2dp_proc.join()
+        wifi_proc.join()
 
 
 @typer_app.command()
