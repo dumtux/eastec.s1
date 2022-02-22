@@ -1,8 +1,10 @@
 aiofiles
 async-timeout
 cryptography
+dbus-python
 fastapi
 flake8
+gobject
 gunicorn
 httpx
 jinja2

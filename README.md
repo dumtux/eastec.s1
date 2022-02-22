@@ -54,6 +54,7 @@ git clone https://github.com/hotteshen/eastec.s1 && cd eastec.s1
 
 Create a vertual environment and install dependencies.
 ```sh
+sudo apt install libdbus-1-dev libglib2.0-dev
 python3 -m venv env
 source env/bin/activate
 pip install -r requirements.txt
