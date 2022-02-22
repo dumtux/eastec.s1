@@ -2,6 +2,14 @@ var SaunaID = $("#deviceId").val();
 
 var BaseUrl = '/sauna/' + SaunaID;
 
+var haloColorPicker = new iro.ColorPicker('#halo-colorpicker', {
+    wheelLightness: false,
+    width: 280,
+});
+var overheadColorPicker = new iro.ColorPicker('#overhead-colorpicker', {
+    wheelLightness: false,
+    width: 280,
+});
 
 function _getStatus() {
 
@@ -113,7 +121,7 @@ function _setLights(lightName, state, RGB) {
     /**
      * @param {String} lightName Name of the light device to be controlled (RGB_1 or RGB_2)
      * @param {Boolean} state State of light device (true == ON / false == OFF)
-     * @param {Array} Contains the RGB values at the indexes 0,1,2 respectively
+     * @param {Object} Contains the RGB values at the indexes 0,1,2 respectively
      *
      * Sends API request to the local API to set light conditions for either Halo or Overhead lights.
      */
@@ -122,9 +130,9 @@ function _setLights(lightName, state, RGB) {
         "name": lightName,
         "state": state,
         "color": {
-            "r": RGB[0],
-            "g": RGB[1],
-            "b": RGB[2],
+            "r": RGB.r,
+            "g": RGB.g,
+            "b": RGB.b,
         },
     }];
     fetch(BaseUrl + '/lights', {
@@ -148,7 +156,7 @@ function goHaloLight(state) {
      * @param {Boolean} state State of Halo light device (true == ON / false == OFF)
      * Control for halo light.
      */
-    _setLights('RGB_1', state, HexToRGB($('#halo-colorpicker').val()));
+    _setLights('RGB_1', state, haloColorPicker.color.rgb);
     _getStatus(); // Get Status retrieves all status values including lights
 }
 
@@ -157,8 +165,26 @@ function goOverheadLight(state) {
      * @param {Boolean} state State of Overhead light device (true == ON / false == OFF)
      * Control for overhead light.
      */
-    _setLights('RGB_2', state, HexToRGB($('#overhead-colorpicker').val()));
+    _setLights('RGB_2', state, overheadColorPicker.color.rgb);
     _getStatus(); // Get Status retrieves all status values including lights
+}
+
+function setHaloColor(ele) {
+    if ((ele).css("display") == "none") {
+        (ele).show()
+    } else {
+        goHaloLight(true);
+        (ele).hide()
+    }
+}
+
+function setOverheadColor(ele) {
+    if ((ele).css("display") == "none") {
+        (ele).show()
+    } else {
+        goHaloLight(true);
+        (ele).hide()
+    }
 }
 
 function drawDial(eleId) {

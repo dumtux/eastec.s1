@@ -142,8 +142,11 @@
                                 <img class="off-button" onclick="goHaloLight(false)" src="/static/image/icons/off.png">
                             </div>
                             <div class="color-picker mt-20">
-                                <input id="halo-colorpicker" type="color" class="colorpicker" name="color"
-                                       pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" value="#ffffff">
+                                <div id="halo-colorpicker" class="mx-auto py-4"
+                                     style="display: none; border-radius: 30px;"></div>
+                                <button type="button" class="button button-primary w-50"
+                                        onclick="setHaloColor($('#halo-colorpicker'))">Set Colour
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -170,9 +173,13 @@
                                 <img class="off-button" onclick="goOverheadLight(false)"
                                      src="/static/image/icons/off.png">
                             </div>
+                            <div id="picker"></div>
                             <div class="color-picker mt-20">
-                                <input id="overhead-colorpicker" type="color" class="colorpicker" name="color"
-                                       pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" value="#bada55">
+                                <div id="overhead-colorpicker" class="py-4"
+                                     style="display: none; border-radius: 30px;"></div>
+                                <button type="button" class="button button-primary w-50"
+                                        onclick="setOverheadColor($('#overhead-colorpicker'))">Set Colour
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -341,15 +348,15 @@
 <div class="simple-keyboard"></div>
 
 <!-- <script src="/static/js/jquery-3.2.1.slim.min.js"></script> -->
-<script src="https://code.jquery.com/jquery-3.2.1.min.js">
-    <
-    script
-    src = "/static/js/popper.min.js" ></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="/static/js/popper.min.js"></script>
 <script src="/static/js/bootstrap.min.js"></script>
 <script src="/static/js/jquery.jeditable.min.js"></script>
 <script src="/static/keyboard/jquery.keyboard.js"></script>
 <script src="/static/keyboard/jquery.keyboard.extension-all.js"></script>
-<script src="/static/js/app.js"></script>
+<! -- https://github.com/jaames/iro.js/blob/master/LICENSE.txt -->
+<script src="/static/js/iro.min.js"></script>
 
+<script src="/static/js/app.js"></script>
 </body>
 </html>
