@@ -94,25 +94,26 @@ def device(cloud_url=None, host: str=LOCAL_HOST, port: int=LOCAL_PORT):
             logger.log("Stopping by the user.")
 
     def run_wificonnect() -> bool:
-        logger.log("Checking Wifi status ...")
-        if is_wifi_connected():
-            logger.log("Wifi is connected.")
-            time.sleep(300)
-        elif SOne.instance().db.exists("wifi-ssid"):
-            logger.warn("Wifi is not connected. Trying to connect with the saved credentials ...")
-            ssid = SOne.instance().db.get("wifi-ssid")
-            key = SOne.instance().db.get("wifi-key")
-            logger.log(f"Found wifi credentials for [{ssid}]")
-            try:
-                result = asyncio.run(connect_wifi(ssid, key))
-                if result:
-                    logger.log(f"Wifi is connected on <{ssid}>.")
-                else:
+        while True:
+            logger.log("Checking Wifi status ...")
+            if is_wifi_connected():
+                logger.log("Wifi is connected.")
+                time.sleep(300)
+            elif SOne.instance().db.exists("wifi-ssid"):
+                logger.warn("Wifi is not connected. Trying to connect with the saved credentials ...")
+                ssid = SOne.instance().db.get("wifi-ssid")
+                key = SOne.instance().db.get("wifi-key")
+                logger.log(f"Found wifi credentials for [{ssid}]")
+                try:
+                    result = asyncio.run(connect_wifi(ssid, key))
+                    if result:
+                        logger.log(f"Wifi is connected on <{ssid}>.")
+                    else:
+                        logger.error(f"Wifi failed to connect on <{ssid}>.")
+                except:
                     logger.error(f"Wifi failed to connect on <{ssid}>.")
-            except:
-                logger.error(f"Wifi failed to connect on <{ssid}>.")
-        else:
-            logger.warn("Wifi is not connected. No saved credentials found. Connect on settings panel UI.")
+            else:
+                logger.warn("Wifi is not connected. No saved credentials found. Connect on settings panel UI.")
 
 
     app_proc = Process(target = run_app)
