@@ -20,7 +20,8 @@ from .conf import TEMP_DELTA
 from .kfive import KFive
 from .sone import SOne
 from .utils import Logger, get_sauna_id, is_raspberry
-from .wifi import connect_wifi, connect_status
+from .wifi import connect_wifi
+from .wifi import _connect_status as connect_status
 
 
 LOCAL_HOST = '0.0.0.0'
