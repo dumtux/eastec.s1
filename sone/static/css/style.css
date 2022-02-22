@@ -382,6 +382,21 @@ div, p, a, h1, h2, h3, h4, h5 {
     color: #7E7E7E;
 }
 
+.content-page input.page-title {
+    color: #7E7E7E;
+    background: transparent;
+    border: none;
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+    box-shadow: none !important;
+}
+
+.content-page input.page-title:focus {
+    outline: none;
+}
+
 .dark-mode .content-page h2.page-title  {
     color: #fff;
 }
@@ -843,4 +858,15 @@ to { transform: rotate(360deg); }
     to {
         transform: rotate(360deg);
     }
+}
+
+.page-title {
+    color: #7E7E7E;
+    background: transparent;
+    border: none;
+
+}
+
+.page-title:focus {
+    outline: none;
 }

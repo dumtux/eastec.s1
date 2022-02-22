@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
     <title>Sauna</title>
@@ -44,7 +44,8 @@
     <div id="mainContainer">
         <div id="saunaControlPage" class="content-page is-active">
             <div style="display: flex;">
-                <h2 class="page-title">iHealth 1 Person Deluxe</h2>
+                <!-- <h2 class="page-title">iHealth 1 Person Deluxe</h2> -->
+                <input class="page-title" type="text" value="iHealth 1 Person Deluxe" />
                 <img id="connected" src="/static/image/icons/connect.png" width="40" style="display:none;">
                 <img id="disconnected" src="/static/image/icons/disconnect.png" width="40" style="display:none;">
             </div>
@@ -329,11 +330,14 @@
 
     <div class="simple-keyboard"></div>
 
-    <script src="/static/js/jquery-3.2.1.slim.min.js"></script>
+    <!-- <script src="/static/js/jquery-3.2.1.slim.min.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js">
     <script src="/static/js/popper.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/jquery.jeditable.min.js"></script>
     <script src="/static/keyboard/jquery.keyboard.js"></script>
-    <script src="/static/keyboard/jquery.keyboard.extension-all.js"></script>
+    <script src="/static/keyboard/jquery.keyboard.extension-all.js"></script>    
     <script src="/static/js/app.js"></script>
+
 </body>
 </html>
