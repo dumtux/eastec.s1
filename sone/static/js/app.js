@@ -170,7 +170,7 @@ function goOverheadLight(state) {
 }
 
 function setHaloColor(ele) {
-    if ((ele).css("display") == "none") {
+    if ((ele).css("display") === "none") {
         (ele).show()
     } else {
         goHaloLight(true);
@@ -179,7 +179,7 @@ function setHaloColor(ele) {
 }
 
 function setOverheadColor(ele) {
-    if ((ele).css("display") == "none") {
+    if ((ele).css("display") === "none") {
         (ele).show()
     } else {
         goHaloLight(true);
@@ -504,16 +504,16 @@ $('#timer .block-card-expand').on('click', function () {
     closeCard($("#timer"));
 });
 
-
-$("#halo_light .block-card-collapsed").on("click", function () {
-    // _setStatus('light', 'on');
-    openCard($("#halo_light"));
-});
-
-$("#overhead_light .block-card-collapsed").on("click", function () {
-    // _setStatus('light', 'on');
-    openCard($("#overhead_light"));
-});
+//
+// $("#halo_light .block-card-collapsed").on("click", function () {
+//     // _setStatus('light', 'on');
+//     openCard($("#halo_light"));
+// });
+//
+// $("#overhead_light .block-card-collapsed").on("click", function () {
+//     // _setStatus('light', 'on');
+//     openCard($("#overhead_light"));
+// });
 
 $("#halo_light .off-button").on("click", function () {
     // _setStatus('light', 'off');
