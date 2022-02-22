@@ -110,7 +110,13 @@ function goPause() {
 }
 
 function _setLights(lightName, state, RGB) {
-    console.log("Lights");
+    /**
+     * @param {String} lightName Name of the light device to be controlled (RGB_1 or RGB_2)
+     * @param {Boolean} state State of light device (true == ON / false == OFF)
+     * @param {Array} Contains the RGB values at the indexes 0,1,2 respectively
+     *
+     * Sends API request to the local API to set light conditions for either Halo or Overhead lights.
+     */
     var post_data = {};
     post_data = [{
         "name": lightName,
@@ -138,15 +144,23 @@ function _setLights(lightName, state, RGB) {
 }
 
 function goHaloLight(state) {
+    /**
+     * @param {Boolean} state State of Halo light device (true == ON / false == OFF)
+     * Control for halo light.
+     */
     _setLights('RGB_1', state, HexToRGB($('#halo-colorpicker').val()));
     _getStatus(); // Get Status retrieves all status values including lights
 }
 
-function goOverheadLight(state){
+function goOverheadLight(state) {
+    /**
+     * @param {Boolean} state State of Overhead light device (true == ON / false == OFF)
+     * Control for overhead light.
+     */
     _setLights('RGB_2', state, HexToRGB($('#overhead-colorpicker').val()));
     _getStatus(); // Get Status retrieves all status values including lights
-
 }
+
 function drawDial(eleId) {
     let type = $(eleId + '.gauge').data('type'); //temperature, time
     let points = 43;
