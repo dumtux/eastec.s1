@@ -125,8 +125,7 @@ function _setLights(lightName, state, RGB) {
      *
      * Sends API request to the local API to set light conditions for either Halo or Overhead lights.
      */
-    var post_data = {};
-    post_data = [{
+    var post_data = [{
         "name": lightName,
         "state": state,
         "color": {
@@ -185,6 +184,73 @@ function setOverheadColor(ele) {
         goHaloLight(true);
         (ele).hide()
     }
+}
+
+function gaugeSelect(ele, type) {
+    /**
+     * @param {$ElementType} ele Is the gauge marker that has been selected.
+     * @param {String} type Is the type of gauge (temperature or time)
+     *
+     * Function determines if the selected value was for temperature or timer and routes the value as required.
+     */
+    if (type === 'temperature') {
+        _setTargetTemperature(ele.data().count)
+    } else if (type === 'time') {
+        _setTimer(ele.data().count)
+    }
+}
+
+function _setTimer(value) {
+    /**
+     * @param {number} value is the bar selected on the gauge, this needs to be converted to minutes.
+     *
+     * Converts selected value from fraction to minutes and sends API request for setting the timer.
+     */
+    var timeMin = Math.round((80.0 / 42.0) * value);
+    var post_data = {
+        "timer": timeMin,
+    };
+    fetch(BaseUrl + '/timer', {
+        method: "PUT",
+        body: JSON.stringify(post_data),
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}
+
+function _setTargetTemperature(value) {
+    /**
+     * @param {number} value is the bar selected on the gauge, this needs to be converted to degrees C.
+     *
+     * Converts selected value from fraction to degrees C and sends API request for setting the temperature.
+     */
+    var tempC = Math.round((100.0 / 42.0) * value);
+    console.log(tempC);
+    var post_data = {
+        "target_temperature": tempC,
+    };
+    fetch(BaseUrl + '/temperature', {
+        method: "PUT",
+        body: JSON.stringify(post_data),
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
 }
 
 function drawDial(eleId) {
@@ -252,7 +318,7 @@ function drawDial(eleId) {
         }
 
 
-        $(eleId + ' .gauge-outer').append(`<i class="bar" style="${outer_styles}"></i>`);
+        $(eleId + ' .gauge-outer').append(`<i id="bar-${i}" class="bar" style="${outer_styles}" data-count="${i}" onclick="gaugeSelect($('#bar-${i}'), '${type}')"></i>`);
         let gaugeInner = $(eleId + ' .gauge-inner').append(`<i class="bar${isPeak ? ' peak' : ''}" style="${inner_styles}"></i>`);
 
         if (isPeak) {
@@ -415,19 +481,19 @@ function hideLoading() {
 function setupSettings() {
     document.getElementById("restartApp").onclick = () => {
         fetch(BaseUrl + '/restart').then(console.log).catch(console.error)
-    }
+    };
     document.getElementById("rebootOS").onclick = () => {
         fetch(BaseUrl + '/reboot').then(console.log).catch(console.error)
-    }
+    };
     document.getElementById("updateFirmware").onclick = () => {
         //fetch(BaseUrl + '/upgrade').then(console.log).catch(console.error)
-        displayLoading()
+        displayLoading();
         fetch(BaseUrl + '/upgrade')
             .then(result => {
-                console.log(result)
+                console.log(result);
                 hideLoading();
                 if (confirm('Firmware have upgraded to version 1.0. It require reboot device.')) {
-                    displayLoading()
+                    displayLoading();
                     fetch(BaseUrl + '/reboot').then(result => {
                         console.log
                         hideLoading();
@@ -483,26 +549,26 @@ $('.program-title').on('hide.bs.collapse', function () {
     $(this).removeClass('active');
 });
 
-$('.block-card .block-card-collapsed').on('click', function () {
-    openCard($(this).parent());
-});
+// $('.block-card .block-card-collapsed').on('click', function () {
+//     openCard($(this).parent());
+// });
 
-
+//
 $('#temperature .block-card-collapsed').on('click', function () {
     openCard($("#temperature"));
 });
-
-$('#temperature .block-card-expand').on('click', function () {
-    closeCard($("#temperature"));
-});
+//
+// $('#temperature .block-card-expand').on('click', function () {
+//     closeCard($("#temperature"));
+// });
 
 $('#timer .block-card-collapsed').on('click', function () {
     openCard($("#timer"));
 });
-
-$('#timer .block-card-expand').on('click', function () {
-    closeCard($("#timer"));
-});
+//
+// $('#timer .block-card-expand').on('click', function () {
+//     closeCard($("#timer"));
+// });
 
 //
 // $("#halo_light .block-card-collapsed").on("click", function () {
@@ -514,16 +580,16 @@ $('#timer .block-card-expand').on('click', function () {
 //     // _setStatus('light', 'on');
 //     openCard($("#overhead_light"));
 // });
-
-$("#halo_light .off-button").on("click", function () {
-    // _setStatus('light', 'off');
-    closeCard($("#halo_light"));
-});
-
-$("#overhead_light .off-button").on("click", function () {
-    // _setStatus('light', 'off');
-    closeCard($("#overhead_light"));
-});
+//
+// $("#halo_light .off-button").on("click", function () {
+//     // _setStatus('light', 'off');
+//     closeCard($("#halo_light"));
+// });
+//
+// $("#overhead_light .off-button").on("click", function () {
+//     // _setStatus('light', 'off');
+//     closeCard($("#overhead_light"));
+// });
 
 
 $("#searchWifi").on("click", function () {
