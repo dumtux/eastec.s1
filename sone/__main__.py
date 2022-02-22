@@ -20,7 +20,7 @@ from .conf import TEMP_DELTA
 from .kfive import KFive
 from .sone import SOne
 from .utils import Logger, get_sauna_id, is_raspberry
-from .wifi import connect_wifi, is_wifi_connected
+from .wifi import connect_wifi, connect_status
 
 
 LOCAL_HOST = '0.0.0.0'
@@ -96,7 +96,7 @@ def device(cloud_url=None, host: str=LOCAL_HOST, port: int=LOCAL_PORT):
     def run_wificonnect() -> bool:
         while True:
             logger.log("Checking Wifi status ...")
-            if is_wifi_connected():
+            if connect_status():
                 logger.log("Wifi is connected.")
                 time.sleep(300)
             elif SOne.instance().db.exists("wifi-ssid"):
