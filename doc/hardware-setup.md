@@ -261,6 +261,10 @@ default-agent
 agent NoInputNoOutput
 ```
 
+> This function is overwritten by `sone.a2dp_agent` for fixing autoconnecting issue.
+> Need to figure out if we can skip this step in the future builds.
+
+
 
 ## Clone OS Image and Shrink
 

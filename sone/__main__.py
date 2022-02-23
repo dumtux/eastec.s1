@@ -14,10 +14,11 @@ import typer
 import uvicorn
 import websockets
 
+from .a2dp_agent import main as a2dp_agent_mainloop
 from .conf import TEMP_DELTA
 from .kfive import KFive
 from .sone import SOne
-from .utils import Logger, get_sauna_id
+from .utils import Logger, get_sauna_id, is_raspberry
 from .wifi import connect_wifi
 
 
@@ -102,10 +103,18 @@ def device(cloud_url=None, host: str=LOCAL_HOST, port: int=LOCAL_PORT):
 
     app_proc = Process(target = run_app)
     ws_proc = Process(target = run_ws)
+    if is_raspberry():
+        a2dp_proc = Process(target = a2dp_agent_mainloop)
+
     app_proc.start()
     ws_proc.start()
+    if is_raspberry():
+        a2dp_proc.start()
+
     app_proc.join()
     ws_proc.join()
+    if is_raspberry():
+        a2dp_proc.join()
 
 
 @typer_app.command()
