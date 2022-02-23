@@ -6,3 +6,4 @@ env/
 venv_linux/
 venv_windows/
 build/
+.idea/
