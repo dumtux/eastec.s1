@@ -329,7 +329,6 @@ function drawDial(eleId) {
 
     let step = (max + 1) / points;
     let realPeaks = peaks.map(peak => Math.floor(peak * (1 / step)));
-    console.log(realPeaks);
     let hueStep = 120 / points;
 
     let gaugeDigits = $(eleId + ' .gauge-digits');
@@ -372,8 +371,7 @@ function drawDial(eleId) {
         if (isPeak) {
             let digit = $(`<span class="digit">${peaks[realPeaks.indexOf(i)] + offset}</span>`);
             let peakOffset = gaugeInner.find('.peak').last().offset();
-            console.log(`Peak Offset: ${peakOffset} - Point ${points}`);
-            console.log(peakOffset);
+
             gaugeDigits.append(digit);
             if (degree > -5 && degree < 5) {
                 digit.offset({left: peakOffset.left - 5, top: peakOffset});
