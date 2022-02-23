@@ -157,6 +157,10 @@ function goHaloLight(state) {
      */
     _setLights('RGB_1', state, haloColorPicker.color.rgb);
     _getStatus(); // Get Status retrieves all status values including lights
+    if (!state) {
+        // Hide the color picker if we are turning OFF
+        $('#halo-colorpicker').hide()
+    }
 }
 
 function goOverheadLight(state) {
@@ -166,6 +170,10 @@ function goOverheadLight(state) {
      */
     _setLights('RGB_2', state, overheadColorPicker.color.rgb);
     _getStatus(); // Get Status retrieves all status values including lights
+    if (!state) {
+        // Hide the color picker if we are turning OFF
+        $('#overhead-colorpicker').hide()
+    }
 }
 
 function setHaloColor(ele) {
@@ -266,6 +274,12 @@ function _setTargetTemperature(value) {
 
 
 function _setTimerDial(barIndex, timeMin) {
+    /**
+     * @param {number} barIndex The dial bar that was clicked
+     * @param {number} timeMin The time in minutes that corresponds to the dial selection
+     *
+     * Applies the visual feedback to the timer dial to reflect user selection.
+     */
     for (let i = 0; i <= barIndex; i++) {
         $(`#time-dial #bar-${i}`).css('background-color', '#7CB7B7');
         $(`#time-dial #bar-inner-${i}`).css('background-color', '#7CB7B7');
@@ -278,6 +292,12 @@ function _setTimerDial(barIndex, timeMin) {
 }
 
 function _setTemperatureDial(barIndex, tempC) {
+    /**
+     * @param {number} barIndex The dial bar that was clicked
+     * @param {number} timeMin The time in minutes that corresponds to the dial selection
+     *
+     * Applies the visual feedback to the temperature dial to reflect user selection.
+     */
     for (let i = 0; i <= barIndex; i++) {
         $(`#temperature-dial #bar-${i}`).css('background-color', '#EFAB46');
         $(`#temperature-dial #bar-inner-${i}`).css('background-color', '#EFAB46');
