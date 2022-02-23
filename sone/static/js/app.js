@@ -169,6 +169,10 @@ function goOverheadLight(state) {
 }
 
 function setHaloColor(ele) {
+    /**
+     * @param {Element} ele Halo Color picker element.
+     * Function either displays color picker or confirms choice if color picker is open.
+     */
     if ((ele).css("display") === "none") {
         (ele).show()
     } else {
@@ -178,6 +182,10 @@ function setHaloColor(ele) {
 }
 
 function setOverheadColor(ele) {
+    /**
+     * @param {Element} ele Overhead Color picker element.
+     * Function either displays color picker or confirms choice if color picker is open.
+     */
     if ((ele).css("display") === "none") {
         (ele).show()
     } else {
@@ -207,6 +215,8 @@ function _setTimer(value) {
      * Converts selected value from fraction to minutes and sends API request for setting the timer.
      */
     var timeMin = Math.round((80.0 / 42.0) * value);
+    // Update Dial with new timer selection.
+    _setTimerDial(value, timeMin);
     var post_data = {
         "timer": timeMin,
     };
@@ -233,7 +243,8 @@ function _setTargetTemperature(value) {
      * Converts selected value from fraction to degrees C and sends API request for setting the temperature.
      */
     var tempC = Math.round((100.0 / 42.0) * value);
-    console.log(tempC);
+    // Update the Dial with the selection and new target temperature.
+    _setTemperatureDial(value, tempC);
     var post_data = {
         "target_temperature": tempC,
     };
@@ -251,6 +262,31 @@ function _setTargetTemperature(value) {
         .catch((error) => {
             console.error('Error:', error);
         });
+}
+
+
+function _setTimerDial(barIndex, timeMin) {
+    for (let i = 0; i <= barIndex; i++) {
+        $(`#time-dial #bar-${i}`).css('background-color', '#7CB7B7');
+        $(`#time-dial #bar-inner-${i}`).css('background-color', '#7CB7B7');
+    }
+    for (let i = 43; i > barIndex; i--) {
+        $(`#time-dial #bar-${i}`).css('background-color', '#DDDDDD');
+        $(`#time-dial #bar-inner-${i}`).css('background-color', '#DDDDDD');
+    }
+    $('#time-dial .current-digit').text(`${timeMin}m`)
+}
+
+function _setTemperatureDial(barIndex, tempC) {
+    for (let i = 0; i <= barIndex; i++) {
+        $(`#temperature-dial #bar-${i}`).css('background-color', '#EFAB46');
+        $(`#temperature-dial #bar-inner-${i}`).css('background-color', '#EFAB46');
+    }
+    for (let i = 43; i > barIndex; i--) {
+        $(`#temperature-dial #bar-${i}`).css('background-color', '#DDDDDD');
+        $(`#temperature-dial #bar-inner-${i}`).css('background-color', '#DDDDDD');
+    }
+    $('.target_temperature').text(`${tempC}°C`)
 }
 
 function drawDial(eleId) {
@@ -319,7 +355,7 @@ function drawDial(eleId) {
 
 
         $(eleId + ' .gauge-outer').append(`<i id="bar-${i}" class="bar" style="${outer_styles}" data-count="${i}" onclick="gaugeSelect($('#bar-${i}'), '${type}')"></i>`);
-        let gaugeInner = $(eleId + ' .gauge-inner').append(`<i class="bar${isPeak ? ' peak' : ''}" style="${inner_styles}"></i>`);
+        let gaugeInner = $(eleId + ' .gauge-inner').append(`<i id="bar-inner-${i}" class="bar${isPeak ? ' peak' : ''}" style="${inner_styles}"></i>`);
 
         if (isPeak) {
             let digit = $(`<span class="digit">${peaks[realPeaks.indexOf(i)]}</span>`);

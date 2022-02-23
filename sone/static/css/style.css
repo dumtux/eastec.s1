@@ -609,8 +609,9 @@ div, p, a, h1, h2, h3, h4, h5 {
     height: 100%;
 }
 .gauge-outer .bar {
+    border-radius: 7px;
     position: absolute;
-    width: 0.05em;
+    width: 0.2em;
     height: 0.5em;
     left: 50%;
     transform-origin: 0 3.43em;
