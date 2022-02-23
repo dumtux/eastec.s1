@@ -214,7 +214,7 @@ function _setTimer(value) {
      *
      * Converts selected value from fraction to minutes and sends API request for setting the timer.
      */
-    var timeMin = Math.round((80.0 / 42.0) * value);
+    var timeMin = Math.round((90.0 / 42.0) * value);
     // Update Dial with new timer selection.
     _setTimerDial(value, timeMin);
     var post_data = {
@@ -242,7 +242,7 @@ function _setTargetTemperature(value) {
      *
      * Converts selected value from fraction to degrees C and sends API request for setting the temperature.
      */
-    var tempC = Math.round((100.0 / 42.0) * value);
+    var tempC = Math.round(((50.0 / 42.0) * value) + 20);
     // Update the Dial with the selection and new target temperature.
     _setTemperatureDial(value, tempC);
     var post_data = {
@@ -295,17 +295,21 @@ function drawDial(eleId) {
     let radius = 257;
     let max = 0;
     let peaks = [0];
+    let offset = 0;
 
     if (type == "temperature") {
-        max = 100;
-        peaks = [0, 25, 50, 75, 100];
+        offset = 20; // Minimum temperature is 20 degrees C
+        max = 50;
+        peaks = [0, 12.5, 25, 37.5, 50];
     } else if (type == "time") {
-        max = 80;
-        peaks = [0, 20, 40, 60, 80];
+        offset = 0;
+        max = 90;
+        peaks = [0, 22.5, 45, 67.5, 90];
     }
 
     let step = (max + 1) / points;
     let realPeaks = peaks.map(peak => Math.floor(peak * (1 / step)));
+    console.log(realPeaks);
     let hueStep = 120 / points;
 
     let gaugeDigits = $(eleId + ' .gauge-digits');
@@ -336,33 +340,21 @@ function drawDial(eleId) {
             }
         }
 
-        if (intStep > digit || (intStep <= digit && intNextStep <= digit)) {
-            outer_styles += `-webkit-transform: rotate(${degree}deg);
-      -moz-transform: rotate(${degree}deg);
-      -ms-transform: rotate(${degree}deg);
-      -o-transform: rotate(${degree}deg);
-      transform: rotate(${degree}deg);`;
-        } else {
-            if (intNextStep > digit)
-                outer_styles += `
-          -webkit-transform: rotate(${degree}deg) translateY(-.1em);
-          -moz-transform: rotate(${degree}deg) translateY(-.1em);
-          -ms-transform: rotate(${degree}deg) translateY(-.1em);
-          -o-transform: rotate(${degree}deg) translateY(-.1em);
-          transform: rotate(${degree}deg) translateY(-.1em);
-          height: 0.8em;`;
-        }
-
+        outer_styles += `-webkit-transform: rotate(${degree}deg);
+                          -moz-transform: rotate(${degree}deg);
+                          -ms-transform: rotate(${degree}deg);
+                          -o-transform: rotate(${degree}deg);
+                          transform: rotate(${degree}deg);`;
 
         $(eleId + ' .gauge-outer').append(`<i id="bar-${i}" class="bar" style="${outer_styles}" data-count="${i}" onclick="gaugeSelect($('#bar-${i}'), '${type}')"></i>`);
         let gaugeInner = $(eleId + ' .gauge-inner').append(`<i id="bar-inner-${i}" class="bar${isPeak ? ' peak' : ''}" style="${inner_styles}"></i>`);
 
         if (isPeak) {
-            let digit = $(`<span class="digit">${peaks[realPeaks.indexOf(i)]}</span>`);
+            let digit = $(`<span class="digit">${peaks[realPeaks.indexOf(i)] + offset}</span>`);
             let peakOffset = gaugeInner.find('.peak').last().offset();
-
+            console.log(`Peak Offset: ${peakOffset} - Point ${points}`);
+            console.log(peakOffset);
             gaugeDigits.append(digit);
-
             if (degree > -5 && degree < 5) {
                 digit.offset({left: peakOffset.left - 5, top: peakOffset});
             } else {
