@@ -4,11 +4,11 @@ var BaseUrl = '/sauna/' + SaunaID;
 
 var haloColorPicker = new iro.ColorPicker('#halo-colorpicker', {
     wheelLightness: false,
-    width: 280,
+    width: 400,
 });
 var overheadColorPicker = new iro.ColorPicker('#overhead-colorpicker', {
     wheelLightness: false,
-    width: 280,
+    width: 400,
 });
 
 function _getStatus() {

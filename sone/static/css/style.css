@@ -268,7 +268,7 @@ div, p, a, h1, h2, h3, h4, h5 {
 }
 
 .block-card-expand .blue-label {
-    font-size: 16pt;
+    font-size: 35pt;
 }
 
 .icon-button {
@@ -348,7 +348,7 @@ div, p, a, h1, h2, h3, h4, h5 {
 }
 
 .block-card-expand .block-card-footer p {
-    font-size: 12px;
+    font-size: 30px;
 }
 
 .off-button {
@@ -575,8 +575,8 @@ div, p, a, h1, h2, h3, h4, h5 {
     width: 7em;
     height: 5.8em;
     */
-    width: 250px;
-    height: 209px;
+    width: 500px;
+    height: 400px;
     margin: 0.6em auto;
     font-size: 36px;
     direction: ltr;
@@ -584,15 +584,16 @@ div, p, a, h1, h2, h3, h4, h5 {
 
 .gauge-inner {
     position: relative;
-    top: -5.1em;
+    top: -10em;
     transition: opacity 0.5s;
 }
 .gauge-inner .bar {
+    border-radius: 3px;
     left: 50%;
     position: absolute;
-    transform-origin: 0 2.74em;
-    width: 0.05em;
-    height: 0.08em;
+    transform-origin: 0 4.7em;
+    width: 0.2em;
+    height: 0.2em;
     background-color: #DDDDDD;
 }
 
@@ -601,7 +602,7 @@ div, p, a, h1, h2, h3, h4, h5 {
 }
 
 .gauge-inner .bar.peak {
-    height: 0.08em;
+    height: 0.2em;
 }
 
 .gauge-outer {
@@ -611,10 +612,11 @@ div, p, a, h1, h2, h3, h4, h5 {
 .gauge-outer .bar {
     border-radius: 7px;
     position: absolute;
-    width: 0.2em;
-    height: 0.5em;
+    width: 0.45em;
+    height: 0.8em;
     left: 50%;
-    transform-origin: 0 3.43em;
+    /*transform-origin: 0 3.43em;*/
+    transform-origin: 0 6em;
     background-color: #DDDDDD;
     opacity: 1;
     transition: opacity 0.5s;
@@ -641,7 +643,7 @@ div, p, a, h1, h2, h3, h4, h5 {
 
 .gauge-digits .digit {
     position: absolute;
-    font-size: 0.4em;
+    font-size: 0.7em;
     line-height: 0.2;
     color: #BDBDBD;
 }
@@ -649,7 +651,7 @@ div, p, a, h1, h2, h3, h4, h5 {
     left: 50%;
     top: 65%;
     transform: translate(-50%, -50%);
-    font-size: 35pt;
+    font-size: 60pt;
     font-weight: bold;
 }
 
