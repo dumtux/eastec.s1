@@ -85,7 +85,7 @@ div, p, a, h1, h2, h3, h4, h5 {
 #bottomMenubar {
     position: fixed;
     bottom: 0;
-    height: 80px;
+    height: 160px;
     display: grid;
     width: 100vw;
     padding: 15px 150px;
@@ -105,8 +105,8 @@ div, p, a, h1, h2, h3, h4, h5 {
     flex: 1;
     text-align: center;
     text-transform: capitalize;
-    font-size: 16pt;
-    padding-top: 11px;
+    font-size: 32pt;
+    padding-top: 30px;
 }
 
 #bottomMenubar .bottomMenuItem img {
@@ -222,7 +222,7 @@ div, p, a, h1, h2, h3, h4, h5 {
 .block-card {
     display: inline-block;
     background-color: white;
-    width: 280px;
+    width: 600px;
     margin-right: 15px;
     border: 1px solid #FFFFFF;
     box-sizing: border-box;
@@ -239,12 +239,12 @@ div, p, a, h1, h2, h3, h4, h5 {
 }
 
 .block-card .block-card-expand {
-    padding: 20px 0px;
+    padding: 20px 0 20px 0;
 }
 
 .block-card .black-label {
     font-weight: bold;
-    font-size: 18px;
+    font-size: 40px;
     color: #5F5F5F;
 }
 
@@ -253,14 +253,14 @@ div, p, a, h1, h2, h3, h4, h5 {
 }
 
 .block-card .color-img {
-    width: 35px;
-    height: 35px;
+    width: 70px;
+    height: 70px;
 }
 
 
 .blue-label {
     color: #619595;
-    font-size: 30pt;
+    font-size: 60pt;
 }
 
 .dark-mode .blue-label {
@@ -272,8 +272,8 @@ div, p, a, h1, h2, h3, h4, h5 {
 }
 
 .icon-button {
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
     border: 2px solid #EDEDED;
     border-radius: 10px;
     margin-bottom: 10px;
@@ -339,7 +339,7 @@ div, p, a, h1, h2, h3, h4, h5 {
 .block-card-footer p {
     color: #7E7E7E;
     margin-bottom: 0px;
-    font-size: 18px;
+    font-size: 40px;
 }
 
 .dark-mode .block-card-footer p {
@@ -352,8 +352,8 @@ div, p, a, h1, h2, h3, h4, h5 {
 }
 
 .off-button {
-    width: 35px;
-    height: 35px;
+    width: 70px;
+    height: 70px;
     box-shadow: 0px 4px 6px rgb(103 103 103 / 8%), 0px 0px 1px rgb(51 51 51 / 8%), 0px 8px 6px rgb(53 53 53 / 16%);
     border-radius: 30px;
 }
@@ -386,7 +386,7 @@ div, p, a, h1, h2, h3, h4, h5 {
     color: #7E7E7E;
     background: transparent;
     border: none;
-    font-size: 2rem;
+    font-size: 3rem;
     font-weight: 500;
     line-height: 1.2;
     margin-bottom: 0.5rem;
@@ -870,4 +870,13 @@ to { transform: rotate(360deg); }
 
 .page-title:focus {
     outline: none;
+}
+
+.state-btns label{
+    font-size: 35px;
+}
+
+.state-btns button{
+    width: 1225px;
+    font-size: 40px;
 }
