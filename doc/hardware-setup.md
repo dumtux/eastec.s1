@@ -305,4 +305,4 @@ sudo pishrink.sh pi.img
 
 ---
 
-* Last modified on 16 Nov 2021
+* Last modified on 22 Feb 2022
