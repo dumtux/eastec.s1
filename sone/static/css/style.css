@@ -208,9 +208,9 @@ div, p, a, h1, h2, h3, h4, h5 {
 
 .card-section .card-section-title {
     font-weight: bold;
-    font-size: 35px;
+    font-size: 45px;
     color: #7E7E7E;
-    width: 300px;
+    width: 400px;
     margin-top: 30px;
     margin-right: 20px;
 }
@@ -511,7 +511,7 @@ div, p, a, h1, h2, h3, h4, h5 {
 
 .program-card .program-card-header span {
     font-weight: 500;
-    font-size: 35pt;
+    font-size: 40pt;
     color: #5F5F5F;
     margin-top: 3px;
     margin-left: 5px
@@ -532,8 +532,8 @@ div, p, a, h1, h2, h3, h4, h5 {
 
 .program-card .program-card-body .program-title {
     font-weight: bold;
-    font-size: 35px;
-    line-height: 30px;
+    font-size: 40px;
+    line-height: 50px;
     color: #5F5F5F;
 }
 
@@ -552,8 +552,8 @@ div, p, a, h1, h2, h3, h4, h5 {
 }
 
 .program-card .program-card-body .program-detail {
-    font-size: 22px;
-    line-height: 30px;
+    font-size: 26px;
+    line-height: 40px;
     letter-spacing: -0.01em;
     color: #9E9E9E;
 }
@@ -702,10 +702,10 @@ div, p, a, h1, h2, h3, h4, h5 {
 }
 
 .settings-actions {
-    width: 35%;
+    width: 40%;
     margin-top: 10%;
     margin-left: 5%;
-    margin-right: 10%;
+    margin-right: 5%;
     float: left;
 }
 
