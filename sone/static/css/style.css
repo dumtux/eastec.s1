@@ -882,6 +882,9 @@ to { transform: rotate(360deg); }
     font-size: 40px;
 }
 
+.state-btns .state-btns-duo{
+    width: 600px;
+}
 .settings-btn{
     font-size: 2rem;
 }
