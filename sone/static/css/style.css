@@ -28,7 +28,9 @@ div, p, a, h1, h2, h3, h4, h5 {
 .mt-40 {
     margin-top: 40px;
 }
-
+.mt-30 {
+    margin-top: 30px;
+}
 .mt-20 {
     margin-top: 20px;
 }
@@ -85,7 +87,7 @@ div, p, a, h1, h2, h3, h4, h5 {
 #bottomMenubar {
     position: fixed;
     bottom: 0;
-    height: 80px;
+    height: 100px;
     display: grid;
     width: 100vw;
     padding: 15px 150px;
@@ -105,8 +107,7 @@ div, p, a, h1, h2, h3, h4, h5 {
     flex: 1;
     text-align: center;
     text-transform: capitalize;
-    font-size: 16pt;
-    padding-top: 11px;
+    font-size: 32pt;
 }
 
 #bottomMenubar .bottomMenuItem img {
@@ -188,7 +189,7 @@ div, p, a, h1, h2, h3, h4, h5 {
     background-position: center left;
     background-repeat: no-repeat;
     background-size: 35%;
-    padding: 5% 0 0 27%;
+    padding: 2% 0 0 27%;
     background-color: #caeaea;
     overflow-y: auto;
 }
@@ -208,9 +209,9 @@ div, p, a, h1, h2, h3, h4, h5 {
 
 .card-section .card-section-title {
     font-weight: bold;
-    font-size: 23px;
+    font-size: 45px;
     color: #7E7E7E;
-    width: 200px;
+    width: 400px;
     margin-top: 30px;
     margin-right: 20px;
 }
@@ -222,7 +223,7 @@ div, p, a, h1, h2, h3, h4, h5 {
 .block-card {
     display: inline-block;
     background-color: white;
-    width: 280px;
+    width: 600px;
     margin-right: 15px;
     border: 1px solid #FFFFFF;
     box-sizing: border-box;
@@ -239,12 +240,12 @@ div, p, a, h1, h2, h3, h4, h5 {
 }
 
 .block-card .block-card-expand {
-    padding: 20px 0px;
+    padding: 20px 0 20px 0;
 }
 
 .block-card .black-label {
     font-weight: bold;
-    font-size: 18px;
+    font-size: 40px;
     color: #5F5F5F;
 }
 
@@ -253,14 +254,14 @@ div, p, a, h1, h2, h3, h4, h5 {
 }
 
 .block-card .color-img {
-    width: 35px;
-    height: 35px;
+    width: 70px;
+    height: 70px;
 }
 
 
 .blue-label {
     color: #619595;
-    font-size: 30pt;
+    font-size: 60pt;
 }
 
 .dark-mode .blue-label {
@@ -268,12 +269,12 @@ div, p, a, h1, h2, h3, h4, h5 {
 }
 
 .block-card-expand .blue-label {
-    font-size: 16pt;
+    font-size: 35pt;
 }
 
 .icon-button {
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
     border: 2px solid #EDEDED;
     border-radius: 10px;
     margin-bottom: 10px;
@@ -339,7 +340,7 @@ div, p, a, h1, h2, h3, h4, h5 {
 .block-card-footer p {
     color: #7E7E7E;
     margin-bottom: 0px;
-    font-size: 18px;
+    font-size: 40px;
 }
 
 .dark-mode .block-card-footer p {
@@ -348,12 +349,12 @@ div, p, a, h1, h2, h3, h4, h5 {
 }
 
 .block-card-expand .block-card-footer p {
-    font-size: 12px;
+    font-size: 30px;
 }
 
 .off-button {
-    width: 35px;
-    height: 35px;
+    width: 70px;
+    height: 70px;
     box-shadow: 0px 4px 6px rgb(103 103 103 / 8%), 0px 0px 1px rgb(51 51 51 / 8%), 0px 8px 6px rgb(53 53 53 / 16%);
     border-radius: 30px;
 }
@@ -386,7 +387,7 @@ div, p, a, h1, h2, h3, h4, h5 {
     color: #7E7E7E;
     background: transparent;
     border: none;
-    font-size: 2rem;
+    font-size: 3rem;
     font-weight: 500;
     line-height: 1.2;
     margin-bottom: 0.5rem;
@@ -471,7 +472,7 @@ div, p, a, h1, h2, h3, h4, h5 {
 .program-card {
     display: inline-block;
     background-color: white;
-    width: 300px;
+    width: 500px;
     margin-right: 15px;
     border: 1px solid #FFFFFF;
     box-sizing: border-box;
@@ -505,13 +506,13 @@ div, p, a, h1, h2, h3, h4, h5 {
 }
 
 .program-card .program-card-header img {
-    width: 30px;
-    height: 30px;
+    width: 45px;
+    height: 45px;
 }
 
 .program-card .program-card-header span {
     font-weight: 500;
-    font-size: 30px;
+    font-size: 40pt;
     color: #5F5F5F;
     margin-top: 3px;
     margin-left: 5px
@@ -532,8 +533,8 @@ div, p, a, h1, h2, h3, h4, h5 {
 
 .program-card .program-card-body .program-title {
     font-weight: bold;
-    font-size: 18px;
-    line-height: 30px;
+    font-size: 40px;
+    line-height: 50px;
     color: #5F5F5F;
 }
 
@@ -552,8 +553,8 @@ div, p, a, h1, h2, h3, h4, h5 {
 }
 
 .program-card .program-card-body .program-detail {
-    font-size: 14px;
-    line-height: 26px;
+    font-size: 26px;
+    line-height: 40px;
     letter-spacing: -0.01em;
     color: #9E9E9E;
 }
@@ -575,8 +576,8 @@ div, p, a, h1, h2, h3, h4, h5 {
     width: 7em;
     height: 5.8em;
     */
-    width: 250px;
-    height: 209px;
+    width: 500px;
+    height: 400px;
     margin: 0.6em auto;
     font-size: 36px;
     direction: ltr;
@@ -584,15 +585,16 @@ div, p, a, h1, h2, h3, h4, h5 {
 
 .gauge-inner {
     position: relative;
-    top: -5.1em;
+    top: -10em;
     transition: opacity 0.5s;
 }
 .gauge-inner .bar {
+    border-radius: 3px;
     left: 50%;
     position: absolute;
-    transform-origin: 0 2.74em;
-    width: 0.05em;
-    height: 0.08em;
+    transform-origin: 0 4.7em;
+    width: 0.2em;
+    height: 0.2em;
     background-color: #DDDDDD;
 }
 
@@ -601,7 +603,7 @@ div, p, a, h1, h2, h3, h4, h5 {
 }
 
 .gauge-inner .bar.peak {
-    height: 0.08em;
+    height: 0.2em;
 }
 
 .gauge-outer {
@@ -611,10 +613,11 @@ div, p, a, h1, h2, h3, h4, h5 {
 .gauge-outer .bar {
     border-radius: 7px;
     position: absolute;
-    width: 0.2em;
-    height: 0.5em;
+    width: 0.45em;
+    height: 0.8em;
     left: 50%;
-    transform-origin: 0 3.43em;
+    /*transform-origin: 0 3.43em;*/
+    transform-origin: 0 6em;
     background-color: #DDDDDD;
     opacity: 1;
     transition: opacity 0.5s;
@@ -641,7 +644,7 @@ div, p, a, h1, h2, h3, h4, h5 {
 
 .gauge-digits .digit {
     position: absolute;
-    font-size: 0.4em;
+    font-size: 0.7em;
     line-height: 0.2;
     color: #BDBDBD;
 }
@@ -649,7 +652,7 @@ div, p, a, h1, h2, h3, h4, h5 {
     left: 50%;
     top: 65%;
     transform: translate(-50%, -50%);
-    font-size: 35pt;
+    font-size: 60pt;
     font-weight: bold;
 }
 
@@ -672,7 +675,7 @@ div, p, a, h1, h2, h3, h4, h5 {
     bottom: 0;
     transform: translateX(-50%);
     left: 50%;
-    font-size: 8pt;
+    font-size: 18pt;
     color: white;
     border-radius: 18px;
     padding: 3px 10px 4px 10px;
@@ -700,10 +703,10 @@ div, p, a, h1, h2, h3, h4, h5 {
 }
 
 .settings-actions {
-    width: 35%;
+    width: 40%;
     margin-top: 10%;
     margin-left: 5%;
-    margin-right: 10%;
+    margin-right: 5%;
     float: left;
 }
 
@@ -870,4 +873,28 @@ to { transform: rotate(360deg); }
 
 .page-title:focus {
     outline: none;
+}
+
+.state-btns label{
+    font-size: 35px;
+}
+
+.state-btns button{
+    width: 1225px;
+    font-size: 40px;
+}
+
+.state-btns .state-btns-duo{
+    width: 600px;
+}
+.settings-btn{
+    font-size: 2rem;
+}
+
+.color-picker button{
+    font-size: 35px;
+}
+
+#colorMode label{
+    font-size: 25px;
 }
