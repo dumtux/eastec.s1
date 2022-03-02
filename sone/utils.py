@@ -102,7 +102,7 @@ def upgrade_firmware():
     #NOTE: This requires ssh-add to be running and the key to be added.
     #os.system(f"pip3 install --no-cache-dir -U git+ssh://git@github.com/ksuaning-au/eastec.s1.git@release/1.0")
     #os.system(f"pip3 install --no-cache-dir --upgrade git+https://gitlab.com/eastec/sone.git@release/1.0")
-    os.system('source /home/pi/update.sh')
+    os.system('/bin/bash -c "source /home/pi/update.sh"')
 
 
 def async_wrap(func):
