@@ -28,7 +28,9 @@ div, p, a, h1, h2, h3, h4, h5 {
 .mt-40 {
     margin-top: 40px;
 }
-
+.mt-30 {
+    margin-top: 30px;
+}
 .mt-20 {
     margin-top: 20px;
 }
