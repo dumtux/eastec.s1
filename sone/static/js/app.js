@@ -202,6 +202,11 @@ function setOverheadColor(ele) {
     }
 }
 
+function hideColorPickers(){
+    $('#overhead-colorpicker-wrap').hide();
+    $('#halo-colorpicker-wrap').hide();
+}
+
 function gaugeSelect(ele, type) {
     /**
      * @param {$ElementType} ele Is the gauge marker that has been selected.
