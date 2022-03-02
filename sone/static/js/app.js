@@ -4,11 +4,11 @@ var BaseUrl = '/sauna/' + SaunaID;
 
 var haloColorPicker = new iro.ColorPicker('#halo-colorpicker', {
     wheelLightness: false,
-    width: 250,
+    width: 350,
 });
 var overheadColorPicker = new iro.ColorPicker('#overhead-colorpicker', {
     wheelLightness: false,
-    width: 250,
+    width: 350,
 });
 
 function _getStatus() {
@@ -197,7 +197,7 @@ function setOverheadColor(ele) {
     if ((ele).css("display") === "none") {
         (ele).show()
     } else {
-        goHaloLight(true);
+        goOverheadLight(true);
         (ele).hide()
     }
 }
