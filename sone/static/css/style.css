@@ -85,7 +85,7 @@ div, p, a, h1, h2, h3, h4, h5 {
 #bottomMenubar {
     position: fixed;
     bottom: 0;
-    height: 160px;
+    height: 100px;
     display: grid;
     width: 100vw;
     padding: 15px 150px;
@@ -106,7 +106,6 @@ div, p, a, h1, h2, h3, h4, h5 {
     text-align: center;
     text-transform: capitalize;
     font-size: 32pt;
-    padding-top: 30px;
 }
 
 #bottomMenubar .bottomMenuItem img {
@@ -188,7 +187,7 @@ div, p, a, h1, h2, h3, h4, h5 {
     background-position: center left;
     background-repeat: no-repeat;
     background-size: 35%;
-    padding: 5% 0 0 27%;
+    padding: 2% 0 0 27%;
     background-color: #caeaea;
     overflow-y: auto;
 }
@@ -885,4 +884,12 @@ to { transform: rotate(360deg); }
 
 .settings-btn{
     font-size: 2rem;
+}
+
+.color-picker button{
+    font-size: 35px;
+}
+
+#colorMode label{
+    font-size: 25px;
 }
