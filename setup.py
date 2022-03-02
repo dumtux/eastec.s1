@@ -9,7 +9,7 @@ with open('requirements.txt') as f:
 
 setuptools.setup(
     name="sone",
-    version="1.0.0",
+    version="1.0.1",
     author="Hotte Shen",
     author_email="hotteshen@gmail.com",
     description="iHealth Sauna Controller App",
