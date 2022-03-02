@@ -159,7 +159,7 @@ function goHaloLight(state) {
     _getStatus(); // Get Status retrieves all status values including lights
     if (!state) {
         // Hide the color picker if we are turning OFF
-        $('#halo-colorpicker').hide()
+        $('#halo-colorpicker-wrap').hide()
     }
 }
 
@@ -172,7 +172,7 @@ function goOverheadLight(state) {
     _getStatus(); // Get Status retrieves all status values including lights
     if (!state) {
         // Hide the color picker if we are turning OFF
-        $('#overhead-colorpicker').hide()
+        $('#overhead-colorpicker-wrap').hide()
     }
 }
 

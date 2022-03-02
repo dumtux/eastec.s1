@@ -151,12 +151,14 @@
                             <div>
                                 <img class="off-button" onclick="goHaloLight(false)" src="/static/image/icons/off.png">
                             </div>
-                            <div class="color-picker mt-20">
-                                <div id="halo-colorpicker" class="mx-auto py-4"
-                                     style="display: none; border-radius: 30px; width: 250px"></div>
-                                <button type="button" class="button button-primary w-50"
-                                        onclick="setHaloColor($('#halo-colorpicker'))">Set Colour
-                                </button>
+                            <button type="button" class="button button-primary set-color w-50 mt-40"
+                                    onclick="setHaloColor($('#halo-colorpicker-wrap'))">Set Colour
+                            </button>
+                            <div id="halo-colorpicker-wrap" class="color-picker-wrap"
+                                 onclick="setOverheadColor($('#halo-colorpicker-wrap'))">
+                                <div id="halo-colorpicker" class="mx-auto p-4 color-picker">
+                                    <label>Halo Color</label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -183,13 +185,14 @@
                                 <img class="off-button" onclick="goOverheadLight(false)"
                                      src="/static/image/icons/off.png">
                             </div>
-                            <div id="picker"></div>
-                            <div class="color-picker mt-20">
-                                <div id="overhead-colorpicker" class="py-4 mx-auto"
-                                     style="display: none; border-radius: 30px; width: 250px"></div>
-                                <button type="button" class="button button-primary w-50"
-                                        onclick="setOverheadColor($('#overhead-colorpicker'))">Set Colour
-                                </button>
+                            <button type="button" class="button button-primary set-color w-50 mt-40"
+                                    onclick="setOverheadColor($('#overhead-colorpicker-wrap'))">Set Colour
+                            </button>
+                            <div id="overhead-colorpicker-wrap" class="color-picker-wrap"
+                                 onclick="setOverheadColor($('#overhead-colorpicker-wrap'))">
+                                <div id="overhead-colorpicker" class="p-4 mx-auto color-picker">
+                                    <label>Overhead Color</label>
+                                </div>
                             </div>
                         </div>
                     </div>
