@@ -4,11 +4,11 @@ var BaseUrl = '/sauna/' + SaunaID;
 
 var haloColorPicker = new iro.ColorPicker('#halo-colorpicker', {
     wheelLightness: false,
-    width: 250,
+    width: $('.color-picker').width(),
 });
 var overheadColorPicker = new iro.ColorPicker('#overhead-colorpicker', {
     wheelLightness: false,
-    width: 250,
+    width: $('.color-picker').width(),
 });
 
 function _getStatus() {
@@ -159,7 +159,7 @@ function goHaloLight(state) {
     _getStatus(); // Get Status retrieves all status values including lights
     if (!state) {
         // Hide the color picker if we are turning OFF
-        $('#halo-colorpicker').hide()
+        $('#halo-colorpicker-wrap').hide()
     }
 }
 
@@ -172,7 +172,7 @@ function goOverheadLight(state) {
     _getStatus(); // Get Status retrieves all status values including lights
     if (!state) {
         // Hide the color picker if we are turning OFF
-        $('#overhead-colorpicker').hide()
+        $('#overhead-colorpicker-wrap').hide()
     }
 }
 
@@ -197,9 +197,14 @@ function setOverheadColor(ele) {
     if ((ele).css("display") === "none") {
         (ele).show()
     } else {
-        goHaloLight(true);
+        goOverheadLight(true);
         (ele).hide()
     }
+}
+
+function hideColorPickers(){
+    $('#overhead-colorpicker-wrap').hide();
+    $('#halo-colorpicker-wrap').hide();
 }
 
 function gaugeSelect(ele, type) {

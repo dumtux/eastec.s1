@@ -81,6 +81,7 @@ def device(cloud_url=None, host: str=LOCAL_HOST, port: int=LOCAL_PORT):
         cloud_url = f"http://{CLOUD_HOST}:{CLOUD_PORT}"
     local_url=f"http://{host}:{port}"
 
+
     def run_app():
         KFive.instance().init_uart()
         from .io import init_gpio
@@ -116,16 +117,22 @@ def device(cloud_url=None, host: str=LOCAL_HOST, port: int=LOCAL_PORT):
             else:
                 logger.warn("Wifi is not connected. No saved credentials found. Connect on settings panel UI.")
 
-
+    logger.log('Creating local API process..')
     app_proc = Process(target = run_app)
+    logger.log('Creating Web Socket process..')
     ws_proc = Process(target = run_ws)
+    logger.log('Checking if RPi..')
     if is_raspberry():
+        logger.log('Is Raspberry Pi! - Creating Bluetooth and Wifi processes...')
         a2dp_proc = Process(target = a2dp_agent_mainloop)
         wifi_proc = Process(target = run_wificonnect)
 
+    logger.log('Starting local API process.')
     app_proc.start()
+    logger.log('Starting local Web Socket process.')
     ws_proc.start()
     if is_raspberry():
+        logger.log('Is Raspberry Pi! - Starting Bluetooth and Wifi processes...')
         a2dp_proc.start()
         wifi_proc.start()
 

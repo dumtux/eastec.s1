@@ -1,0 +1,152 @@
+@media screen and (max-width: 1024px) {
+    .content-page input.page-title {
+        font-size: 1.5rem;
+    }
+
+    .blue-label {
+        font-size: 30pt;
+    }
+
+    .block-card-footer p {
+        font-size: 20px;
+    }
+
+    .gauge-outer .bar {
+        transform-origin: 0 3.7em;
+        width: 0.3em;
+        height: 0.5em;
+    }
+
+    .gauge-inner .bar {
+        margin-top: 140px;
+        transform-origin: 0 2.9em;
+        width: 0.15em;
+        height: 0.15em;
+    }
+
+    .gauge {
+        width: 300px;
+        height: 250px;
+    }
+
+    .gauge-digits .digit {
+        font-size: 0.5em;
+    }
+
+    .gauge-digits .current-digit {
+        font-size: 30pt !important;
+    }
+
+    .block-card .color-img {
+        width: 45px;
+        height: 45px;
+    }
+
+    .block-card .black-label {
+        font-size: 20px;
+    }
+
+    .block-card {
+        width: 300px;
+    }
+
+    .block-card-expand .fa-2 {
+        font-size: 1rem !important;
+    }
+
+    .block-card .block-card-expand {
+        padding: 10px 0 20px 0;
+    }
+
+    .block-card-expand .block-card-footer p {
+        font-size: 15px;
+    }
+
+    .block-card-expand .blue-label {
+        font-size: 17pt;
+    }
+
+    #control-page-header img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .off-button {
+        width: 45px;
+        height: 45px;
+    }
+
+    .set-color {
+        font-size: 17px;
+        margin-top: 15px;
+    }
+
+    .state-btns label {
+        font-size: 17px;
+    }
+
+    .state-btns button {
+        width: 75%;
+        font-size: 20px;
+    }
+
+    .color-picker {
+        width: 300px;
+        margin-top: 20vh;
+    }
+
+    .icon-button {
+        width: 45px;
+        height: 45px;
+    }
+
+    .color-picker label {
+        font-size: 17px;
+    }
+
+    .gauge-label {
+        font-size: 10pt;
+    }
+
+    #bottomMenubar .bottomMenuItem {
+        font-size: 18pt;
+    }
+
+    .card-section .card-section-title {
+        font-size: 1.5rem;
+        width: auto;
+    }
+
+    .program-card .program-card-header span {
+        font-size: 20pt;
+    }
+
+    .program-card .program-card-body {
+        padding: 20px 15px;
+    }
+
+    .program-card .program-card-body .program-title {
+        font-size: 25px;
+    }
+
+    .program-card .program-card-body .program-detail {
+        font-size: 18px;
+        line-height: 25px;
+    }
+
+    #calendarPage {
+        padding: 50px 20px 30px 35px
+    }
+
+    .program-card {
+        width: 350px;
+    }
+
+    .settings-btn {
+        font-size: 1.5rem;
+    }
+
+    .state-btns .state-btns-duo {
+        width: 35%;
+    }
+}

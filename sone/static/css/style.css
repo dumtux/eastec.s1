@@ -28,9 +28,11 @@ div, p, a, h1, h2, h3, h4, h5 {
 .mt-40 {
     margin-top: 40px;
 }
+
 .mt-30 {
     margin-top: 30px;
 }
+
 .mt-20 {
     margin-top: 20px;
 }
@@ -156,7 +158,7 @@ div, p, a, h1, h2, h3, h4, h5 {
     height: 100%;
     opacity: 0;
     -webkit-transform: translateX(100%);
-            transform: translateX(100%);
+    transform: translateX(100%);
     background-color: #caeaea;
 }
 
@@ -168,13 +170,13 @@ div, p, a, h1, h2, h3, h4, h5 {
     position: relative;
     opacity: 1;
     -webkit-transform: translateX(0%);
-            transform: translateX(0%);
+    transform: translateX(0%);
 }
 
 .content-page.is-exiting {
     opacity: 0;
     -webkit-transform: translateX(-100%);
-            transform: translateX(-100%);
+    transform: translateX(-100%);
 }
 
 .content-page.is-animating {
@@ -301,7 +303,7 @@ div, p, a, h1, h2, h3, h4, h5 {
     line-height: 1.5;
     border-radius: 30px;
     box-shadow: 0px 0px 1px rgba(58, 141, 222, 0.12), 0px 2px 6px rgba(58, 141, 222, 0.14), 0px 16px 24px rgba(58, 141, 222, 0.06);
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
 .button-primary {
@@ -398,7 +400,7 @@ div, p, a, h1, h2, h3, h4, h5 {
     outline: none;
 }
 
-.dark-mode .content-page h2.page-title  {
+.dark-mode .content-page h2.page-title {
     color: #fff;
 }
 
@@ -499,7 +501,7 @@ div, p, a, h1, h2, h3, h4, h5 {
     border-color: #37434F;
 }
 
-.program-card .program-card-header>div {
+.program-card .program-card-header > div {
     display: flex;
     align-items: center;
     margin-right: 30px;
@@ -522,7 +524,7 @@ div, p, a, h1, h2, h3, h4, h5 {
     color: #fff;
 }
 
-.program-card .program-card-header span>small {
+.program-card .program-card-header span > small {
     font-size: 17px;
     font-weight: 500;
 }
@@ -588,6 +590,7 @@ div, p, a, h1, h2, h3, h4, h5 {
     top: -10em;
     transition: opacity 0.5s;
 }
+
 .gauge-inner .bar {
     border-radius: 3px;
     left: 50%;
@@ -610,6 +613,7 @@ div, p, a, h1, h2, h3, h4, h5 {
     position: relative;
     height: 100%;
 }
+
 .gauge-outer .bar {
     border-radius: 7px;
     position: absolute;
@@ -648,6 +652,7 @@ div, p, a, h1, h2, h3, h4, h5 {
     line-height: 0.2;
     color: #BDBDBD;
 }
+
 .gauge-digits .current-digit {
     left: 50%;
     top: 65%;
@@ -662,11 +667,11 @@ div, p, a, h1, h2, h3, h4, h5 {
 }
 */
 
-#temperature-dial .gauge-digits .current-digit{
+#temperature-dial .gauge-digits .current-digit {
     color: #EFAB46;
 }
 
-#time-dial .gauge-digits .current-digit{
+#time-dial .gauge-digits .current-digit {
     color: #7CB7B7;
 }
 
@@ -725,7 +730,9 @@ div, p, a, h1, h2, h3, h4, h5 {
 }
 
 @keyframes spinner-border {
-to { transform: rotate(360deg); }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .spinner-border {
@@ -747,15 +754,15 @@ to { transform: rotate(360deg); }
     width: 60px;
     height: 34px;
 }
-  
+
 /* Hide default HTML checkbox */
 #colorMode .switch input {
     opacity: 0;
     width: 0;
     height: 0;
 }
-  
-  /* The slider */
+
+/* The slider */
 #colorMode .slider {
     position: absolute;
     cursor: pointer;
@@ -768,7 +775,7 @@ to { transform: rotate(360deg); }
     transition: .4s;
     border-radius: 5px;
 }
-  
+
 #colorMode .slider:before {
     position: absolute;
     content: "";
@@ -781,26 +788,26 @@ to { transform: rotate(360deg); }
     transition: .4s;
     border-radius: 2px;
 }
-  
+
 #colorMode input:checked + .slider {
     background-color: #007bff;
 }
-  
+
 #colorMode input:focus + .slider {
     box-shadow: 0 0 1px #007bff;
 }
-  
+
 #colorMode input:checked + .slider:before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
     transform: translateX(26px);
 }
-  
+
 /* Rounded sliders */
 #colorMode .slider.round {
     border-radius: 34px;
 }
-  
+
 #colorMode .slider.round:before {
     border-radius: 50%;
 }
@@ -852,9 +859,11 @@ to { transform: rotate(360deg); }
     margin: auto;
     animation: spin 1s infinite linear;
 }
+
 #firmware_loading.display {
     visibility: visible;
 }
+
 @keyframes spin {
     from {
         transform: rotate(0deg);
@@ -875,26 +884,59 @@ to { transform: rotate(360deg); }
     outline: none;
 }
 
-.state-btns label{
+.state-btns label {
     font-size: 35px;
 }
 
-.state-btns button{
+.state-btns button {
     width: 1225px;
     font-size: 40px;
 }
 
-.state-btns .state-btns-duo{
+.state-btns .state-btns-duo {
     width: 600px;
 }
-.settings-btn{
+
+.settings-btn {
     font-size: 2rem;
 }
 
-.color-picker button{
-    font-size: 35px;
+.color-picker button {
 }
 
-#colorMode label{
+.set-color {
+    font-size: 35px;
+    margin-top: 40px;
+}
+
+#colorMode label {
     font-size: 25px;
 }
+
+.color-picker-wrap {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.color-picker {
+    margin-top: 25vh;
+    border-radius: 30px;
+    width: 500px;
+    background-color: white;
+}
+
+.color-picker label {
+    font-size: 35px;
+    font-weight: bold;
+}
+
+#control-page-header img{
+    width: 80px;
+    height: 80px;
+}
+
