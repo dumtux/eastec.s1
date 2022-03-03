@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
 
     <title>Sauna</title>
@@ -23,15 +23,6 @@
 </head>
 
 <body>
-<script>
-    element.addEventListener('wheel', event => {
-        const {ctrlKey} = event;
-        if (ctrlKey) {
-            event.preventDefault();
-            return
-        }
-    }, {passive: false})
-</script>
 <input type="hidden" name="deviceId" id="deviceId" value="{{ device_id }}">
 <div id="loading">
     <div class="progress">
