@@ -1,4 +1,3 @@
-
 {% if sauna_id_list == [] %}
 <div class="device-tab ">
     <div id="device-content">
@@ -20,7 +19,8 @@
                 <span class="chart-pie-count">{{ status_dict[device_id]['current_temperature'] }}</span>
                 <div>
                     <div class="first-fill"></div>
-                    <div class="second-fill" style="transform: rotate(% status_dict[device_id]['current_temperature'] / 100 * 360 %}deg)"></div>
+                    <div class="second-fill"
+                         style="transform: rotate(% status_dict[device_id]['current_temperature'] / 100 * 360 %}deg)"></div>
                 </div>
             </div>
             <span class="device-name">SOne {{ device_id }}</span>
@@ -45,6 +45,9 @@
                                 Device ID: {{ device_id }}
                             </div>
                             <div>
+                                Model: {{ status_dict[device_id]['model_name'] }}
+                            </div>
+                            <div>
                                 Current Temperature: {{ status_dict[device_id]['current_temperature'] }} °C
                             </div>
                             <div>
@@ -57,7 +60,7 @@
                                 Program Name: {{ status_dict[device_id]['program']['name'] }}
                             </div>
                             <div>
-                                <br />
+                                <br/>
                             </div>
                             <div>
                                 App Uptime: {{ status_dict[device_id]['sysinfo']['time_since_app_start'] }}
@@ -77,9 +80,27 @@
                             Actions
                         </div>
                         <div class="card-body">
-                            <button type="button" class="btn btn-primary btn-block" onclick="restartApp('{{device_id}}')">Restart Device App</button>
-                            <button type="button" class="btn btn-primary btn-block" onclick="rebootOS('{{device_id}}')">Reboot Device Hardware</button>
-                            <button type="button" class="btn btn-warning btn-block" onclick="updateFirmware('{{device_id}}')">Update Frimware</button>
+                            <button type="button" class="btn btn-primary btn-block"
+                                    onclick="restartApp('{{device_id}}')">Restart Device App
+                            </button>
+                            <button type="button" class="btn btn-primary btn-block" onclick="rebootOS('{{device_id}}')">
+                                Reboot Device Hardware
+                            </button>
+                            <button type="button" class="btn btn-warning btn-block"
+                                    onclick="updateFirmware('{{device_id}}')">Update Frimware
+                            </button>
+                            <form class="py-3">
+                                <select id="model-select" class="custom-select">
+                                    <option selected value="default">Update Model Selection</option>
+                                    <option value="1 Person Deluxe">1 Person Deluxe</option>
+                                    <option value="2 Person Full Spectrum">2 Person Full Spectrum</option>
+                                    <option value="3 Person Full Spectrum">3 Person Full Spectrum</option>
+                                </select>
+                                <button type="button" class="btn btn-primary mt-2 btn-block"
+                                        onclick="setModel('{{device_id}}', $('#model-select :selected').val())">Set
+                                    Model
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>

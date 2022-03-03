@@ -1,7 +1,6 @@
 import abc
 import vedis
 
-
 class KVStore(abc.ABC):
 
     '''Interface for normal key-value store operations'''

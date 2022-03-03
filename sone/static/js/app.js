@@ -11,6 +11,7 @@ var overheadColorPicker = new iro.ColorPicker('#overhead-colorpicker', {
     width: $('.color-picker').width(),
 });
 
+
 function _getStatus() {
 
     fetch(BaseUrl + '/status')
@@ -33,7 +34,6 @@ function _getStatus() {
 }
 
 function _setStatus(field, value) {
-    console.log("here");
     var post_data = {};
     post_data[field] = value;
     fetch(BaseUrl + '/state', {
@@ -202,7 +202,7 @@ function setOverheadColor(ele) {
     }
 }
 
-function hideColorPickers(){
+function hideColorPickers() {
     $('#overhead-colorpicker-wrap').hide();
     $('#halo-colorpicker-wrap').hide();
 }
@@ -277,6 +277,30 @@ function _setTargetTemperature(value) {
         });
 }
 
+function setSaunaType() {
+    var img_url_base = '/static/image';
+    var heading_ele = $('#sauna-heading');
+    var background_ele = $('#saunaControlPage');
+    fetch(BaseUrl + '/model').then(response => response.json()).then(data => {
+        switch (data['model_name']) {
+            case '1 Person Deluxe':
+                heading_ele.text('One Person Deluxe');
+                background_ele.css('background-image', "url(" + img_url_base + '/sauna-room.png' + ")");
+                break;
+            case '2 Person Full Spectrum':
+                heading_ele.text('Two Person Full Spectrum');
+                background_ele.css('background-image', "url(" + img_url_base + '/sauna-room-2p.png' + ")");
+                break;
+            case '3 Person Full Spectrum':
+                heading_ele.text('Three Person Full Spectrum');
+                background_ele.css('background-image', "url(" + img_url_base + '/sauna-room-3p.png' + ")");
+                break;
+            default:
+                heading_ele.text('One Person Deluxe');
+                background_ele.css('background-image', "url(" + img_url_base + '/sauna-room.png' + ")");
+        }
+    })
+}
 
 function _setTimerDial(barIndex, timeMin) {
     /**
@@ -475,6 +499,7 @@ function configureSchedule(status) {
     $("#program_lists").html(content)
 }
 
+
 function configureApp() {
 
     // drawDial("#temperature-dial", 100, [0, 25, 50, 75, 100]);
@@ -561,8 +586,6 @@ function setupSettings() {
 
 
 $(function () {
-    // $(".page-title").editable("save.php")
-
     $('.page-title').keyboard({
         // options here
         usePreview: false,
@@ -600,47 +623,13 @@ $('.program-title').on('hide.bs.collapse', function () {
     $(this).removeClass('active');
 });
 
-// $('.block-card .block-card-collapsed').on('click', function () {
-//     openCard($(this).parent());
-// });
-
-//
 $('#temperature .block-card-collapsed').on('click', function () {
     openCard($("#temperature"));
 });
-//
-// $('#temperature .block-card-expand').on('click', function () {
-//     closeCard($("#temperature"));
-// });
 
 $('#timer .block-card-collapsed').on('click', function () {
     openCard($("#timer"));
 });
-//
-// $('#timer .block-card-expand').on('click', function () {
-//     closeCard($("#timer"));
-// });
-
-//
-// $("#halo_light .block-card-collapsed").on("click", function () {
-//     // _setStatus('light', 'on');
-//     openCard($("#halo_light"));
-// });
-//
-// $("#overhead_light .block-card-collapsed").on("click", function () {
-//     // _setStatus('light', 'on');
-//     openCard($("#overhead_light"));
-// });
-//
-// $("#halo_light .off-button").on("click", function () {
-//     // _setStatus('light', 'off');
-//     closeCard($("#halo_light"));
-// });
-//
-// $("#overhead_light .off-button").on("click", function () {
-//     // _setStatus('light', 'off');
-//     closeCard($("#overhead_light"));
-// });
 
 
 $("#searchWifi").on("click", function () {
@@ -710,7 +699,6 @@ $("#connect").on("click", function () {
         });
 });
 
-
 $(function () {
     $('.wifi-key').keyboard({
         // options here
@@ -721,6 +709,7 @@ $(function () {
 });
 
 $(document).ready(function () {
+    setSaunaType();
     console.log("okok");
     if (getCookie("_ColorMode") == 1) {
         $("body").addClass("dark-mode");
