@@ -125,7 +125,7 @@ async def upgrade(sauna_id: str):
 @meta_router.get("/{sauna_id}/model", response_model=SaunaID)
 async def get_model(sauna_id: str):
 	if sone.db.exists("model_name"):
-		return SaunaID(sauna_id=sone.sauna_id, model_name=sone.db.get('model_name')).serialize()
+		return SaunaID(sauna_id=sone.sauna_id, model_name=sone.db.get('model_name'))
 	else:
 		raise HTTPException(status_code=404, detail="Model name not resistered")
 
@@ -134,7 +134,7 @@ async def get_model(sauna_id: str):
 async def post_model(sauna_id: str, sauna_model: SaunaID):
 	sone.db.set("model_name", sauna_model.model_name)
 	sone.db.commit()
-	return sauna_model.serialize()
+	return sauna_model
 
 
 @meta_router.get("/{sauna_id}/apn", response_model=APNModel)
