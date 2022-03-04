@@ -186,11 +186,11 @@ div, p, a, h1, h2, h3, h4, h5 {
 }
 
 #saunaControlPage {
-    background-image: url(../image/sauna-room.png);
+    background-image: url(../image/sauna-room-2p-cut.png);
     background-position: center left;
     background-repeat: no-repeat;
-    background-size: 35%;
-    padding: 2% 0 0 35%;
+    background-size: 30%;
+    padding: 2% 0 0 30%;
     background-color: #caeaea;
     overflow-y: auto;
 }
@@ -935,7 +935,7 @@ div, p, a, h1, h2, h3, h4, h5 {
 }
 
 #control-page-header img {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
 }
 

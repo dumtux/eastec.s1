@@ -285,15 +285,15 @@ function setSaunaType() {
         switch (data['model_name']) {
             case '2 Person Full Spectrum':
                 heading_ele.text('Two Person Full Spectrum');
-                background_ele.css('background-image', "url(" + img_url_base + '/sauna-room-2p.png' + ")");
+                background_ele.css('background-image', "url(" + img_url_base + '/sauna-room-2p-cut.png' + ")");
                 break;
             case '3 Person Full Spectrum':
                 heading_ele.text('Three Person Full Spectrum');
-                background_ele.css('background-image', "url(" + img_url_base + '/sauna-room-3p.png' + ")");
+                background_ele.css('background-image', "url(" + img_url_base + '/sauna-room-3p-cut.png' + ")");
                 break;
             default:
                 heading_ele.text('Two Person Full Spectrum');
-                background_ele.css('background-image', "url(" + img_url_base + '/sauna-room-2p.png' + ")");
+                background_ele.css('background-image', "url(" + img_url_base + '/sauna-room-2p-cut.png' + ")");
                 break;
         }
     })
