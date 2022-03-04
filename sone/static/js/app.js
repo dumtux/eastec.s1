@@ -283,10 +283,6 @@ function setSaunaType() {
     var background_ele = $('#saunaControlPage');
     fetch(BaseUrl + '/model').then(response => response.json()).then(data => {
         switch (data['model_name']) {
-            case '1 Person Deluxe':
-                heading_ele.text('One Person Deluxe');
-                background_ele.css('background-image', "url(" + img_url_base + '/sauna-room.png' + ")");
-                break;
             case '2 Person Full Spectrum':
                 heading_ele.text('Two Person Full Spectrum');
                 background_ele.css('background-image', "url(" + img_url_base + '/sauna-room-2p.png' + ")");
@@ -296,8 +292,9 @@ function setSaunaType() {
                 background_ele.css('background-image', "url(" + img_url_base + '/sauna-room-3p.png' + ")");
                 break;
             default:
-                heading_ele.text('One Person Deluxe');
-                background_ele.css('background-image', "url(" + img_url_base + '/sauna-room.png' + ")");
+                heading_ele.text('Two Person Full Spectrum');
+                background_ele.css('background-image', "url(" + img_url_base + '/sauna-room-2p.png' + ")");
+                break;
         }
     })
 }
