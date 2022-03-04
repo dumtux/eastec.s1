@@ -131,17 +131,11 @@ class SOne(Singleton):
 		return self.status
 
 	def _push_state(self):
-		with open_key_store(KV_FILE_PATH) as db:
-			if db.exists("apn"):
-				apn = db.get("apn")
-			else:
-				logger.warn("APN Token not found, skipped pushing notification for state change.")
-				return
-		# if self.db.exists("apn"):
-		# 	apn = self.db.get("apn")
-		# else:
-		# 	logger.warn("APN Token not found, skipped pushing notification for state change.")
-		# 	return
+		if self.db.exists("apn"):
+			apn = self.db.get("apn")
+		else:
+			logger.warn("APN Token not found, skipped pushing notification for state change.")
+			return
 		data = {"aps": {"alert": {"title": "Found–Space Sauna", "body": f"Your sauna session is {self.status.state}", },
 		                "badge": 0}}
 		push(apn, data)
