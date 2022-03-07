@@ -172,16 +172,6 @@ async def reboot(sauna_id: str, request: Request):
 			raise e
 
 
-@meta_router.post("/{sauna_id}/model", response_model=SaunaID)
-async def post_model(sauna_id: str, request: Request):
-	return await tick_ws(sauna_id, request)
-
-
-@meta_router.get("/{sauna_id}/model", response_model=SaunaID)
-async def get_model(sauna_id: str, request: Request):
-	return await tick_ws(sauna_id, request)
-
-
 @meta_router.get("/{sauna_id}/upgrade", dependencies=[Depends(verify_token)])
 async def upgrade(sauna_id: str, request: Request):
 	return await tick_ws(sauna_id, request)
@@ -194,6 +184,16 @@ async def get_apn(sauna_id: str, request: Request):
 
 @meta_router.post("/{sauna_id}/apn", response_model=APNModel)
 async def post_apn(sauna_id: str, apn: APNModel, request: Request):
+	return await tick_ws(sauna_id, request)
+
+
+@meta_router.post("/{sauna_id}/model", response_model=SaunaID)
+async def post_model(sauna_id: str, request: Request):
+	return await tick_ws(sauna_id, request)
+
+
+@meta_router.get("/{sauna_id}/model", response_model=SaunaID)
+async def get_model(sauna_id: str, request: Request):
 	return await tick_ws(sauna_id, request)
 
 
