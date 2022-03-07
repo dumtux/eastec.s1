@@ -136,7 +136,6 @@ class SOne(Singleton):
 
 	def set_model(self, model_name) -> str:
 		self.db.set("model_name", model_name)
-		self.db.commit()
 		self.model_name = model_name
 		return self.model_name
 
