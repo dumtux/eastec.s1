@@ -227,7 +227,7 @@ class SOne(Singleton):
 	def _update_sysinfo(self):
 		self.status.sysinfo.time_since_sys_boot = sec_to_readable(time_since_last_boot())
 		self.status.sysinfo.time_since_app_start = sec_to_readable(time.time() - uptime)
-		self.status.model_name = self.db.get('model_name') if  self.db.exists('model_name') else 'Placeholder'
+		self.status.model_name = self.db.get('model_name') if self.db.exists('model_name') else 'Placeholder'
 
 	def _light_rgb_1(self, r: int, g: int, b: int):
 		if (r not in range(256)) or (g not in range(256)) or (b not in range(256)):

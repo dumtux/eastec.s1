@@ -49,7 +49,7 @@ PWM_FREQ = 200
 DEFAULT_STATUS = {
 	"state": "standby",
 	"sauna_id": "string",
-	"model_name": "Placeholder",
+	"model_name": "unknown",
 	"sysinfo": {
 		"firmware_version": __version__,
 		"time_since_sys_boot": "unknown",
