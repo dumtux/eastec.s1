@@ -86,7 +86,6 @@ def get_wifi_networks():
 async def setup_wifi(wifi_profile: WiFiProfile):
 	sone.db.set("wifi-ssid", wifi_profile.ssid)
 	sone.db.set("wifi-key", wifi_profile.key)
-	sone.db.commit()
 	return await connect_wifi(wifi_profile.ssid, wifi_profile.key)
 
 
@@ -147,7 +146,6 @@ async def get_apn(sauna_id: str):
 @meta_router.post("/{sauna_id}/apn", response_model=APNModel)
 async def post_apn(sauna_id: str, apn: APNModel):
 	sone.db.set("apn", apn.apn)
-	sone.db.commit()
 	return apn
 
 
