@@ -46,7 +46,7 @@ class SOne(Singleton):
 	sauna_id: str = get_sauna_id()
 	status: Status = get_default_status()
 	db: KVStore = Vedis(KV_FILE_PATH)
-	model_name: str = 'Placeholder'
+	model_name: str = 'unknown'
 
 	schedules: List[Schedule] = []
 
@@ -129,6 +129,16 @@ class SOne(Singleton):
 		self._push_state()
 
 		return self.status
+
+	def get_model(self) -> str:
+		self.model_name = self.db.get('model_name') if self.db.exists('model_name') else 'unknown'
+		return self.model_name
+
+	def set_model(self, model_name) -> str:
+		self.db.set("model_name", model_name)
+		self.db.commit()
+		self.model_name = model_name
+		return self.model_name
 
 	def _push_state(self):
 		if self.db.exists("apn"):
@@ -227,7 +237,7 @@ class SOne(Singleton):
 	def _update_sysinfo(self):
 		self.status.sysinfo.time_since_sys_boot = sec_to_readable(time_since_last_boot())
 		self.status.sysinfo.time_since_app_start = sec_to_readable(time.time() - uptime)
-		self.status.model_name = self.db.get('model_name') if self.db.exists('model_name') else 'Placeholder'
+		self.status.sysinfo.model_name = self.get_model()
 
 	def _light_rgb_1(self, r: int, g: int, b: int):
 		if (r not in range(256)) or (g not in range(256)) or (b not in range(256)):

@@ -80,6 +80,7 @@ class Schedule(BaseModel):
 
 
 class Sysinfo(BaseModel):
+	model_name: str
 	firmware_version: str
 	time_since_sys_boot: str
 	time_since_app_start: str
@@ -88,7 +89,6 @@ class Sysinfo(BaseModel):
 class Status(BaseModel):
 	state: str
 	sauna_id: str
-	model_name: str
 	sysinfo: Sysinfo
 	target_temperature: int
 	current_temperature: int
