@@ -64,7 +64,7 @@
     }
 
     window.onload = () => {
-        let password = prompt("Dashboard access password")
+        let password = prompt("Dashboard access password");
         fetch("/_login/" + password).then(res => {
             return res.json()
         }).then(data => {
@@ -73,7 +73,7 @@
                     return res.text()
                 }).then(data => {
                     document.getElementById("secured-container").innerHTML = data
-                })
+                });
             else
                 alert("Incorrect password, reload page to try again.")
         })
