@@ -45,7 +45,7 @@
                                 Device ID: {{ device_id }}
                             </div>
                             <div>
-                                Model: {{ status_dict[device_id]['sysinfo']['model_name'] }}
+                                Model: {{ status_dict[device_id]['sysinfo'].get('model_name', '-- Outdated Device Firmware --') }}
                             </div>
                             <div>
                                 Current Temperature: {{ status_dict[device_id]['current_temperature'] }} °C
