@@ -27,23 +27,23 @@ class Vedis(KVStore):
 	'''For Vedis embedded key-value store'''
 
 	def __init__(self, fpath):
-		self._engine = vedis.Vedis(fpath)
+		self._fpath = fpath
 
 	def exists(self, key: str) -> bool:
-		return self._engine.exists(key)
+		with vedis.Vedis(self._fpath) as db:
+			return db.exists(key)
 
 	def get(self, key: str) -> str:
-		return self._engine.get(key).decode()
+		with vedis.Vedis(self._fpath) as db:
+			return db.get(key).decode()
 
 	def set(self, key: str, value: str) -> str:
-		with self._engine.transaction():
-			self._engine.set(key, value)
+		with vedis.Vedis(self._fpath) as db:
+			db.set(key, value)
 		return value
 
 	def pop(self, key: str) -> str:
-		value = self.get(key)
-		self._engine.delete(key)
+		with vedis.Vedis(self._fpath) as db:
+			value = db.get(key)
+			db.delete(key)
 		return value
-
-	def commit(self):
-		self._engine.commit()
