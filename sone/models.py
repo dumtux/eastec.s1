@@ -80,7 +80,7 @@ class Schedule(BaseModel):
 
 
 class Sysinfo(BaseModel):
-	model_name: str
+	model_name: str = 'unknown'
 	firmware_version: str
 	time_since_sys_boot: str
 	time_since_app_start: str
