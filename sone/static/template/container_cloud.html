@@ -90,13 +90,13 @@
                                     onclick="updateFirmware('{{device_id}}')">Update Frimware
                             </button>
                             <form class="py-3">
-                                <select id="model-select" class="custom-select">
+                                <select id="model-select-{{device_id}}" class="custom-select">
                                     <option selected value="default">Update Model Selection</option>
                                     <option value="2 Person Full Spectrum">2 Person Full Spectrum</option>
                                     <option value="3 Person Full Spectrum">3 Person Full Spectrum</option>
                                 </select>
                                 <button type="button" class="btn btn-primary mt-2 btn-block"
-                                        onclick="setModel('{{device_id}}', document.getElementById('model-select'))">Set
+                                        onclick="setModel('{{device_id}}', document.getElementById('model-select-{{device_id}}'))">Set
                                     Model
                                 </button>
                             </form>
