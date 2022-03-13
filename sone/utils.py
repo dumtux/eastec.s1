@@ -98,7 +98,7 @@ def upgrade_firmware():
     # with open(TOKEN_FILE_PATH) as f:
     #     token = f.read().strip()
     # os.system(f"pip3 install --upgrade git+https://{token}@github.com/hotteshen/eastec.s1.git@release/1.0")
-    os.system(f'pip3 install -U git+ssh://git@github-eastec.s1/ksuaning-au/eastec.s1@release/1.0')
+    os.system(f'pip3 install -U git+ssh://git@github-eastec.s1/ksuaning-au/eastec.s1@alt-update')
     #os.system(f"pip3 install --no-cache-dir --upgrade git+https://gitlab.com/eastec/sone.git@release/1.0")
 
 
