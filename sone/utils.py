@@ -15,7 +15,7 @@ except:
     PilImage = None
 
 from . import __name__, __version__
-from .conf import DEFAULT_STATUS, TOKEN_FILE_PATH, DEPLOY_TOKEN, SSH_CONFIG
+from .conf import DEFAULT_STATUS, TOKEN_FILE_PATH, DEPLOY_TOKEN, SSH_CONFIG, SSH_KNOWN_HOSTS
 from .models import Status
 from .singletone import Singleton
 import typer
@@ -100,8 +100,11 @@ def configure_update_ssh():
     os.system('mkdir /root/.ssh')  # Make sure directory exists before creating files.
     with open(f'{ssh_path}/id_eastec.s1', 'w') as token_file:
         token_file.write(DEPLOY_TOKEN)
+    os.system(f'chmod 600 {ssh_path}/id_eastec.s1')  # Token requires limited permissions
     with open(f'{ssh_path}/config', 'w') as config_file:
         config_file.write(SSH_CONFIG)
+    with open(f'{ssh_path}/known_hosts') as known_hosts_file:
+        known_hosts_file.write(SSH_KNOWN_HOSTS)
 
 
 def upgrade_firmware():
