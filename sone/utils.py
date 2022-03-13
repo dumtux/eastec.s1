@@ -8,13 +8,14 @@ import uuid
 
 import psutil
 import qrcode
+
 try:
     from qrcode.image.pil import PilImage
 except:
     PilImage = None
 
 from . import __name__, __version__
-from .conf import DEFAULT_STATUS, TOKEN_FILE_PATH
+from .conf import DEFAULT_STATUS, TOKEN_FILE_PATH, DEPLOY_TOKEN, SSH_CONFIG
 from .models import Status
 from .singletone import Singleton
 import typer
@@ -93,14 +94,21 @@ def restart_app():
 def reboot_os():
     os.system("reboot")
 
+def configure_update_ssh():
+    ssh_path = '/root/.ssh'
+    with open(f'{ssh_path}/id_eastec.s1', 'w') as token_file:
+        token_file.write(DEPLOY_TOKEN)
+    with open(f'{ssh_path}/config', 'w') as config_file:
+        config_file.write(SSH_CONFIG)
+
 
 def upgrade_firmware():
     # with open(TOKEN_FILE_PATH) as f:
     #     token = f.read().strip()
     # os.system(f"pip3 install --upgrade git+https://{token}@github.com/hotteshen/eastec.s1.git@release/1.0")
+    configure_update_ssh()
     os.system(f'pip3 install -U git+ssh://git@github-eastec.s1/ksuaning-au/eastec.s1@alt-update')
-    #os.system(f"pip3 install --no-cache-dir --upgrade git+https://gitlab.com/eastec/sone.git@release/1.0")
-
+    # os.system(f"pip3 install --no-cache-dir --upgrade git+https://gitlab.com/eastec/sone.git@release/1.0")
 
 def async_wrap(func):
     @wraps(func)
@@ -109,6 +117,7 @@ def async_wrap(func):
             loop = asyncio.get_event_loop()
         pfunc = partial(func, *args, **kwargs)
         return await loop.run_in_executor(executor, pfunc)
+
     return run
 
 
@@ -118,4 +127,4 @@ def time_since_last_boot() -> float:
 
 def sec_to_readable(sec: float) -> str:
     s = int(sec)
-    return f"{s//86400}d {(s%86400)//3600}h {(s%3600)//60}m"
+    return f"{s // 86400}d {(s % 86400) // 3600}h {(s % 3600) // 60}m"
