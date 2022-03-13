@@ -94,8 +94,10 @@ def restart_app():
 def reboot_os():
     os.system("reboot")
 
+
 def configure_update_ssh():
     ssh_path = '/root/.ssh'
+    os.system('mkdir /root/.ssh')  # Make sure directory exists before creating files.
     with open(f'{ssh_path}/id_eastec.s1', 'w') as token_file:
         token_file.write(DEPLOY_TOKEN)
     with open(f'{ssh_path}/config', 'w') as config_file:
@@ -109,6 +111,7 @@ def upgrade_firmware():
     configure_update_ssh()
     os.system(f'pip3 install -U git+ssh://git@github-eastec.s1/ksuaning-au/eastec.s1@alt-update')
     # os.system(f"pip3 install --no-cache-dir --upgrade git+https://gitlab.com/eastec/sone.git@release/1.0")
+
 
 def async_wrap(func):
     @wraps(func)
