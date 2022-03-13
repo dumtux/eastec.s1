@@ -103,8 +103,7 @@ def configure_update_ssh():
     os.system(f'chmod 600 {ssh_path}/id_eastec.s1')  # Token requires limited permissions
     with open(f'{ssh_path}/config', 'w') as config_file:
         config_file.write(SSH_CONFIG)
-    with open(f'{ssh_path}/known_hosts') as known_hosts_file:
-        known_hosts_file.write(SSH_KNOWN_HOSTS)
+    os.system('ssh-keyscan github.com >>/root/.ssh/known_hosts')  # Add github to known hosts
 
 
 def upgrade_firmware():
