@@ -103,7 +103,7 @@ def configure_update_ssh():
     os.system(f'chmod 600 {ssh_path}/id_eastec.s1')  # Token requires limited permissions
     with open(f'{ssh_path}/config', 'w') as config_file:
         config_file.write(SSH_CONFIG)
-    os.system('ssh-keyscan github.com >>/root/.ssh/known_hosts')  # Add github to known hosts
+    os.system('ssh-keyscan github.com >/root/.ssh/known_hosts')  # Add github to known hosts
 
 
 def upgrade_firmware():
@@ -111,7 +111,7 @@ def upgrade_firmware():
     #     token = f.read().strip()
     # os.system(f"pip3 install --upgrade git+https://{token}@github.com/hotteshen/eastec.s1.git@release/1.0")
     configure_update_ssh()
-    os.system(f'pip3 install -U git+ssh://git@github-eastec.s1/ksuaning-au/eastec.s1@alt-update')
+    os.system(f'pip3 install -U git+ssh://git@github-eastec.s1/ksuaning-au/eastec.s1@release/1.0')
     # os.system(f"pip3 install --no-cache-dir --upgrade git+https://gitlab.com/eastec/sone.git@release/1.0")
 
 
