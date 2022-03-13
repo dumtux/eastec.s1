@@ -15,7 +15,7 @@ except:
     PilImage = None
 
 from . import __name__, __version__
-from .conf import DEFAULT_STATUS, TOKEN_FILE_PATH, DEPLOY_TOKEN, SSH_CONFIG, SSH_KNOWN_HOSTS
+from .conf import DEFAULT_STATUS, TOKEN_FILE_PATH, DEPLOY_TOKEN, SSH_CONFIG
 from .models import Status
 from .singletone import Singleton
 import typer
