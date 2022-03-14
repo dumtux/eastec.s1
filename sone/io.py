@@ -31,7 +31,7 @@ def init_gpio():
 
     if SOne.instance().pwm_dict is None:
         pwm_dict = dict()
-        for pin in [LED_R_1, LED_G_1, LED_B_1, LED_R_2, LED_G_2, LED_B_2]:
+        for pin in [LED_R_1, LED_G_1, LED_B_1, LED_R_2, LED_G_2, LED_B_2, LED_MONO_1, LED_MONO_2]:
             GPIO.setup(pin, GPIO.OUT)
             pwm_dict[pin] = GPIO.PWM(pin, PWM_FREQ)
             pwm_dict[pin].start(0)

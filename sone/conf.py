@@ -76,6 +76,16 @@ DEFAULT_STATUS = {
                 "g": 255,
                 "b": 255
             },
+        },
+        {
+            "name": "LED_MONO_1",
+            "state": False,
+            "brightness": 100,
+        },
+        {
+            "name": "LED_MONO_2",
+            "state": False,
+            "brightness": 100,
         }
     ],
     "heaters": [

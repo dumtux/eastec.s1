@@ -111,6 +111,13 @@ def test_set_lights(mocker):
     with raises(HTTPException):
         status = so.set_lights(lights)
 
+    lights[0].color.r = 275
+    with raises(HTTPException):
+        status = so.set_lights(lights)
+
+    lights[2].brightness = 101
+    with raises(HTTPException):
+        status = so.set_lights(lights)
 
 def test_sauna_id():
     so = SOne.instance()
